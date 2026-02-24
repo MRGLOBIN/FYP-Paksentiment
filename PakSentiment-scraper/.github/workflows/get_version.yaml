@@ -1,0 +1,32 @@
+name: Get Package Version
+
+on:
+  workflow_call:
+    outputs:
+      package_version:
+        description: "The version number extracted from pyproject.toml"
+        value: ${{ jobs.extract_version.outputs.version }}
+
+jobs:
+  extract_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version_number.outputs.VERSION_NUMBER }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install toml
+
+      - name: Get Version Number
+        id: get_version_number
+        run: |
+          VERSION_NUMBER=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['version'])")
+          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_OUTPUT

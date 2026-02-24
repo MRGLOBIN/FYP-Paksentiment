@@ -1,0 +1,43 @@
+[project]
+name = "paksentiment-scraper"
+version = "1.0.0"
+description = "This package will contains all the modules related to the media scrapper we will use to power the PakSentiment social media and public data from the internet."
+authors = [
+    {name = "Muhammad Asim",email = "asimqwe2@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dynaconf (>=3.2.11,<4.0.0)",
+    "asyncpraw (>=7.8.1,<8.0.0)",
+    "aiohttp (>=3.12.15,<4.0.0)",
+    "tweepy[async]>=4.16.0",
+    "telethon>=1.42.0",
+    "google-api-python-client>=2.0.0",
+    "youtube-transcript-api>=0.6.0",
+    "warcio>=1.2.0",
+    "requests>=2.31.0",
+    "scrapling>=0.2.9",
+    "parsel>=1.8.1",
+    "curl_cffi>=0.5.10",
+    "playwright>=1.56.0",
+    "browserforge>=1.2.3",
+    "camoufox>=0.4.11",
+    "msgspec>=0.20.0",
+    "bs4>=0.0.2",
+    "trafilatura>=1.6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black >=25.9.0, <26.0.0",
+    "isort >=6.1.0, <7.0.0",
+    "flake8 >=7.3.0, <8.0.0",
+    "pytest-asyncio >=1.2.0, <2.0.0",
+    "pre-commit >=4.3.0, <5.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

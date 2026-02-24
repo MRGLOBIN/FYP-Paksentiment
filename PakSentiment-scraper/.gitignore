@@ -1,0 +1,12 @@
+# --- Package Build Artifacts ---
+dist/
+build/
+*.egg-info/
+.venv/
+
+# --- Local Configuration and Secrets ---
+src/paksentiment_scraper/config/.secrets.toml
+
+.DS_Store
+
+__pycache__
