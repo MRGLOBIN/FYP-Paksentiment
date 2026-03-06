@@ -96,7 +96,9 @@
   font-size: var(--font-size-md);
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 
   @media (max-width: 480px) {
     padding: 10px;

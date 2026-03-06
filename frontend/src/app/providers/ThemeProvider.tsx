@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   createContext,
@@ -7,122 +7,133 @@ import {
   useEffect,
   useMemo,
   ReactNode,
-} from 'react'
+} from "react";
 import {
   ThemeProvider as MuiThemeProvider,
   createTheme,
   CssBaseline,
-} from '@mui/material'
+} from "@mui/material";
 
-type ThemeMode = 'light' | 'dark'
+type ThemeMode = "light" | "dark";
 
 interface ThemeContextType {
-  mode: ThemeMode
-  toggleTheme: () => void
+  mode: ThemeMode;
+  toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function useTheme() {
-  const context = useContext(ThemeContext)
+  const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useTheme must be used within ThemeProvider')
+    throw new Error("useTheme must be used within ThemeProvider");
   }
-  return context
+  return context;
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Initialize theme from localStorage or default to 'light'
-  const [mode, setMode] = useState<ThemeMode>('light')
-  const [mounted, setMounted] = useState(false)
+  const [mode, setMode] = useState<ThemeMode>("light");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-    // Get saved theme from localStorage
-    const savedTheme = localStorage.getItem('theme') as ThemeMode
+    setMounted(true);
+    const savedTheme = localStorage.getItem("theme") as ThemeMode;
     if (savedTheme) {
-      setMode(savedTheme)
-      document.documentElement.setAttribute('data-theme', savedTheme)
+      setMode(savedTheme);
+      document.documentElement.setAttribute("data-theme", savedTheme);
     } else {
-      // Check system preference
       const prefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches
-      const initialMode = prefersDark ? 'dark' : 'light'
-      setMode(initialMode)
-      document.documentElement.setAttribute('data-theme', initialMode)
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      const initialMode = prefersDark ? "dark" : "light";
+      setMode(initialMode);
+      document.documentElement.setAttribute("data-theme", initialMode);
     }
-  }, [])
+  }, []);
 
   const toggleTheme = () => {
-    setMode(prevMode => {
-      const newMode = prevMode === 'light' ? 'dark' : 'light'
-      localStorage.setItem('theme', newMode)
-      document.documentElement.setAttribute('data-theme', newMode)
-      return newMode
-    })
-  }
+    setMode((prevMode) => {
+      const newMode = prevMode === "light" ? "dark" : "light";
+      localStorage.setItem("theme", newMode);
+      document.documentElement.setAttribute("data-theme", newMode);
+      return newMode;
+    });
+  };
 
   const theme = useMemo(() => {
-    // Only create theme on client side after mount
     if (!mounted) {
-      return createTheme({ palette: { mode } })
-    }
-
-    const getCSSVariable = (varName: string, fallback: string): string => {
-      try {
-        return (
-          getComputedStyle(document.documentElement)
-            .getPropertyValue(varName)
-            .trim() || fallback
-        )
-      } catch {
-        return fallback
-      }
+      return createTheme({ palette: { mode } });
     }
 
     return createTheme({
       palette: {
         mode,
-        ...(mode === 'light'
+        primary: {
+          main: "#10b981",
+          dark: "#059669",
+          light: "#34d399",
+        },
+        ...(mode === "light"
           ? {
-              // Light mode colors
-              primary: {
-                main: getCSSVariable('--primary', '#6aaf40'),
-              },
               background: {
-                default: getCSSVariable('--background', '#ffffff'),
-                paper: getCSSVariable('--card-bg', '#f5f5f5'),
+                default: "#fafbfc",
+                paper: "#ffffff",
               },
               text: {
-                primary: getCSSVariable('--text-primary', '#171717'),
-                secondary: getCSSVariable('--text-secondary', '#666666'),
+                primary: "#0f172a",
+                secondary: "#475569",
               },
             }
           : {
-              // Dark mode colors
-              primary: {
-                main: getCSSVariable('--primary', '#6aaf40'),
-              },
               background: {
-                default: getCSSVariable('--background', '#0a0a0a'),
-                paper: getCSSVariable('--card-bg', '#1a1a1a'),
+                default: "#0c0f17",
+                paper: "#161b2e",
               },
               text: {
-                primary: getCSSVariable('--text-primary', '#ededed'),
-                secondary: getCSSVariable('--text-secondary', '#a0a0a0'),
+                primary: "#e2e8f0",
+                secondary: "#94a3b8",
               },
             }),
       },
       typography: {
-        fontFamily: 'Arial, Helvetica, sans-serif',
+        fontFamily:
+          "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        h1: { fontWeight: 800, letterSpacing: "-0.025em" },
+        h2: { fontWeight: 700, letterSpacing: "-0.02em" },
+        h3: { fontWeight: 700, letterSpacing: "-0.015em" },
+        h4: { fontWeight: 600 },
+        h5: { fontWeight: 600 },
+        h6: { fontWeight: 600 },
+        button: { textTransform: "none", fontWeight: 600 },
       },
-    })
-  }, [mode, mounted])
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: 10,
+              padding: "10px 20px",
+              fontSize: "0.9375rem",
+            },
+          },
+        },
+        MuiTextField: {
+          styleOverrides: {
+            root: {
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 10,
+              },
+            },
+          },
+        },
+      },
+    });
+  }, [mode, mounted]);
 
-  // Prevent flash of wrong theme
   if (!mounted) {
-    return null
+    return null;
   }
 
   return (
@@ -132,5 +143,5 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         {children}
       </MuiThemeProvider>
     </ThemeContext.Provider>
-  )
+  );
 }
