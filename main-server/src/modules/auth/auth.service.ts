@@ -37,7 +37,7 @@ export class AuthService {
 
   /**
    * Register a new user with email and password.
-   * 
+   *
    * @param dto Registration data (email, password, name)
    * @returns AuthResponse with new access token and user info
    * @throws BadRequestException if email already exists
@@ -56,14 +56,16 @@ export class AuthService {
       passwordHash,
     });
 
-    await this.activityService.logActivity(user.id, 'REGISTER', { email: dto.email });
+    await this.activityService.logActivity(user.id, 'REGISTER', {
+      email: dto.email,
+    });
 
     return this.buildAuthResponse(user);
   }
 
   /**
    * Authenticate a user using email and password.
-   * 
+   *
    * @param loginDto Login credentials
    * @returns AuthResponse with access token
    * @throws UnauthorizedException if credentials are invalid or provider mismatch
@@ -78,7 +80,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    if (user.provider !== 'local' || !user.passwordHash) {
+    if (!user.passwordHash) {
       throw new UnauthorizedException('Please login using Google');
     }
 
@@ -87,14 +89,16 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    await this.activityService.logActivity(user.id, 'LOGIN', { method: 'email' });
+    await this.activityService.logActivity(user.id, 'LOGIN', {
+      method: 'email',
+    });
 
     return this.buildAuthResponse(user);
   }
 
   /**
    * Authenticate or Register a user using Google OAuth ID Token.
-   * 
+   *
    * @param dto Google Auth DTO containing idToken
    * @returns AuthResponse with access token
    * @throws InternalServerErrorException if Google Client ID is missing
@@ -127,7 +131,9 @@ export class AuthService {
       googleId: payload.sub ?? payload.email,
     });
 
-    await this.activityService.logActivity(user.id, 'LOGIN', { method: 'google' });
+    await this.activityService.logActivity(user.id, 'LOGIN', {
+      method: 'google',
+    });
 
     return this.buildAuthResponse(user);
   }
@@ -135,7 +141,7 @@ export class AuthService {
   /**
    * Initiate password reset flow.
    * Note: Currently returns a mock response for security.
-   * 
+   *
    * @param email User's email address
    * @returns Message indicating status
    */
@@ -161,7 +167,6 @@ export class AuthService {
     const payload = {
       sub: user.id,
       email: user.email,
-      provider: user.provider,
     };
     const accessToken = await this.jwtService.signAsync(payload);
 
