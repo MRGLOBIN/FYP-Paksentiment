@@ -1,0 +1,599 @@
+==========================================================
+  CLEAN CONTENT EXTRACTION TEST RESULTS
+  (Smart Selectors + JS Detection + Scrapling Fallback)
+  Date: 2026-02-21T19:42:01+05:00
+==========================================================
+
+SUMMARY
+-------
+JS-heavy pages detected:       0
+Pages scraped by Colly:         11 (478207 clean chars / 467.00 KB)
+Pages scraped by Scrapling:     0 (0 chars / 0.00 KB)
+Headlines extracted:            4
+Deep crawl pages:               11 (839803 chars / 820.12 KB)
+Total time:                     13.947600148s
+
+ALL PAGES
+---------
+URL                                                | Method          | Time       | Clean Text   | Links  | JS?   | Headlines
+----------------------------------------------------------------------------------------------------------------------------------
+https://news.google.com                            | css-selectors   | 1.524834152s | 1704     chr | 4      |       | 3
+https://news.google.com/search?q=Pakistan          | css-selectors   | 1.359534016s | 11406    chr | 2      |       | 1
+https://news.google.com/search?q=technology        | css-selectors   | 1.41956744s | 11152    chr | 2      |       | 0
+https://en.wikipedia.org/wiki/Main_Page            | css-selectors   | 566.327745ms | 5495     chr | 634    |       | 0
+https://en.wikipedia.org/wiki/Pakistan             | css-selectors   | 471.612503ms | 237259   chr | 5110   |       | 0
+https://en.wikipedia.org/w/index.php?search=sent   | css-selectors   | 775.82845ms | 49823    chr | 684    |       | 0
+https://en.wikipedia.org/wiki/Natural_language_p   | css-selectors   | 144.388573ms | 43327    chr | 883    |       | 0
+https://en.wikipedia.org/wiki/Web_scraping         | css-selectors   | 366.343136ms | 25261    chr | 358    |       | 0
+https://docs.python.org/3/whatsnew/3.12.html       | readability     | 632.933386ms | 89228    chr | 330    |       | 0
+https://news.ycombinator.com                       | readability     | 1.330271787s | 1886     chr | 34     |       | 0
+https://www.aljazeera.com/news                     | readability     | 1.380550691s | 1666     chr | 82     |       | 0
+
+==========================================================
+  DETAILED RESULTS (Clean Extracted Text)
+==========================================================
+
+--- Result 1 ---
+URL:         https://news.google.com
+Engine:      colly
+Title:       Google News
+Status:      200
+Clean Text:  1704 chars (1.66 KB)
+Links:       4
+Time:        1.524834152s
+Method:      css-selectors
+JS Heavy:    false
+
+--- HEADLINES (3) ---
+  1. Top stories
+  2. Local news
+  3. Picks for you
+
+--- CLEAN TEXT (first 5000 chars) ---
+briefingToday24°12°Sun24°12°Mon24°12°Tue25°13°Islamabad17°CGoogle Weather#i11 {color: #1867DC;}.dm7YTc #i11 {color: #8BB8F8;}Top storiesDawnMoreLieutenant colonel among two army personnel martyred in Bannu suicide attack: ISPR4 hours agoAl JazeeraMoreTwo soldiers killed during military operation in Pakistan’s northwest: Army1 hour agoReutersMoreTwo soldiers, five militants killed in Bannu, Pakistan army says4 hours agoThe Express TribuneMoreArmy says officer, soldier martyred, five terrorists killed in Bannu attack4 hours agoSee more headlines and perspectivesBusiness RecorderMoreAurangzeb, Lutnick hold high-level talks to boost Pakistan-US trade & investment4 hours agoDawnMorePakistan, US express desire to enhance economic cooperation2 hours agoThe Express TribuneMorePM Shehbaz seeks expanded US investment in meeting with DFC chiefYesterdayAaj NewsMoreTrends - United States International Development Finance CorporationYesterdaySee more headlines and perspectivesMinute MirrorMoreSindh govt to add new buses in Karachi, speeds up red line BRT project3 hours agoBy Seerat FatimaSee moreThe Express TribuneMoreBlocking CNIC to enforce court decree violates right to life, SC rules7 hours agoBy Jehanzeb AbbasiSee more#i30 {color: #00758C;}.dm7YTc #i30 {color: #75B8B1;}Local newsManage local news#i32 {background-color: #DAF1F6;}.dm7YTc #i32 {background-color: #293D3B;}#i32 {color: #00758C;}.dm7YTc #i32 {color: #BDDDDA;}#i32 {fill: #00758C;}.dm7YTc #i32 {fill: #BDDDDA;}#i33 {color: #592FD0;}.dm7YTc #i33 {color: #A596CF;}Picks for you#i34 {background-color: #592FD0;}.dm7YTc #i34 {background-color: #A596CF;}Sign in for personalised stories in your briefing and news feedSign in
+
+
+--- Result 2 ---
+URL:         https://news.google.com/search?q=Pakistan
+Engine:      colly
+Title:       Google News - Search
+Status:      200
+Clean Text:  11406 chars (11.14 KB)
+Links:       2
+Time:        1.359534016s
+Method:      css-selectors
+JS Heavy:    false
+
+--- HEADLINES (1) ---
+  1. New Zealand vs Pakistan T20 World Cup Super Eights match
+
+--- CLEAN TEXT (first 5000 chars) ---
+PCBMorePakistan to tour Bangladesh in MarchYesterdayDawnMorePakistan not among 5 nations announced to have committed troops for International Stabilisation Force in Gaza2 days agoAl JazeeraMoreTwo soldiers killed during military operation in Pakistan’s northwest: Army1 hour agoArab News PKMorePakistan plans digital wheat tracking system, steps up Ramadan price monitoring1 hour agoFrance 24MoreFocus - Pakistan becomes major drug hub as Afghanistan exports crisis2 days agoBy Shahzaib Wahlah and Ondine de GaulleThe Diplomat – Asia-Pacific Current Affairs MagazineMoreDead or Alive, Imran Khan Puts Pakistan’s General Munir in a Catch-22 Situation2 days agoBy Asif Ullah KhanNDTVMore"Whose Card Is This?" Pakistan Soldiers Cry In Baloch Custody As Deadline NearsYesterdayBy Aditya Raj Kaul and Sanstuti NathBloomberg.comMoreA Bollywood Spy Thriller Crosses the India-Pakistan DivideYesterdayBy Jeanette Rodrigues and Tooba KhanReutersMoreTwo soldiers, five militants killed in Bannu, Pakistan army says4 hours agoNew Zealand vs Pakistan T20 World Cup Super Eights matchESPNcricinfoMoreNew Zealand vs Pakistan LIVE cricket score, T20 World Cup 2026: Pakistan opt to bat in rainy Colombo1 hour agoBy Danyal RasoolAl JazeeraMoreLIVE: Pakistan vs New Zealand – T20 World Cup Super Eights30 minutes agoESPNcricinfoMoreFakhar in for Nafay as Pakistan bat in Colombo1 hour agoICCMoreLIVE: Pakistan v New Zealand delayed due to rain1 hour agoArab News PKMoreArmy officer among two soldiers killed in suicide attack in Pakistan’s northwest5 hours agoBy Naimat KhanESPNcricinfoMoreBall by Ball Commentary & Live Score - PAK vs NZ, 41st Match, Super Eights, Group 21 hour agoBBCMoreNew Zealand vs Pakistan LIVE: ICC T20 World Cup 2026 - cricket score, radio & video highlights1 hour agoGeo SuperMorePakistan vs New Zealand Live Score, T20 World Cup 2026, Super Eights, PAK vs NZ Match 412 hours agoPCBMorePakistan and South Africa women ODI series to begin on Sunday1 hour agoGeo NewsMoreWill rain disrupt Pakistan vs New Zealand match in Colombo?2 hours agoDawnMorePakistan, US express desire to enhance economic cooperation2 hours agoProfit by Pakistan TodayMoreSilver price in Pakistan for today, February 21, 20269 hours agoICCMoreNew Zealand vs. Pakistan2 hours agoArab News PKMorePakistan to hold US trade forum on March 31, invites American commerce secretary’s office1 hour agoBy Ismail DilawarICCMorePakistan set for Bangladesh ODI tour in March 202620 hours agoICCMoreNew Zealand v Pakistan | Feel The Thrill | T20WC 202619 hours agoArab News PKMorePakistan arrests woman suspected of planning suicide attack in northwest3 hours agoBy Naimat KhanICCMorePakistan elect to bat in Colombo | T20WC 20261 hour agoNDTV SportsMorePakistan vs New Zealand LIVE Score, T20 World Cup 2026: Rain Delays Start, Pak vs NZ To Lose Overs From This Time22 minutes agoArab News PKMorePakistan to face New Zealand today in T20 World Cup Super Eight encounter in Colombo6 hours agoBy Usama Iqbal and Usama Iqbal KhawajaAl JazeeraMoreNew Zealand vs Pakistan: T20 World Cup Super Eights – teams, start, lineupsYesterdayBy Kevin HandTapmadMorePak vs NZ Weather Update: Rain Threatens Super 8 Opener in Colombo3 hours agoAl JazeeraMoreMore than a dozen killed in bomb blasts, gunfire in Pakistan’s northwest4 days agoArab News PKMorePakistan weekly inflation rises 5.19% year on year as Ramadan begins8 hours agoBy Ismail DilawarThe Express TribuneMorePakistan opt to bat against New Zealand in Super Eight opener1 hour agoDeccan HeraldMorePakistan Punjab CM Maryam comes under fire over acquisition of luxury jet for PKR 11.7 billion1 hour agoArab News PKMorePakistan says UN liquidity crisis undermining peacekeeping, urges predictable financing8 hours agoBy Kashif ImranAl JazeeraMorePakistan’s Punjab police kill 900 people in eight months: What’s going on?3 days agoICCMorePakistan go through in commanding fashion | Match Highlights | T20WC 20263 days agoArab News PKMorePakistan to tour Bangladesh for ODI series in March as bilateral ties warm9 hours agoBy Naimat KhanOutlook IndiaMorePakistan Vs New Zealand LIVE Score, T20 World Cup 2026 Super 8: Covers Still On As Rain Persists In Colombo5 minutes agoBy Vikas PatwalFirstpostMorePakistan vs New Zealand: Start of Super 8s delayed due to rain in Colombo after PAK win toss40 minutes agoNDTV SportsMorePakistan Playing XI vs New Zealand For T20 World Cup Super 8 Mocked By Saqlain Mushtaq: "Hira, Nikku, Bala"4 hours agoBy Abhishek PaulCrictodayMorePakistan vs New Zealand Who Won the Toss Today? – Super 8 Group 2 ICC T20 World Cup 2026 Toss Update1 hour agoCrictodayMoreT20 World Cup 2026: Pakistan vs New Zealand Super 8 Match delayed due to rain1 hour agoHindustan TimesMoreWhat happens to Pakistan's semifinal chances if rain washes out New Zealand Super 8 tie? Does ICC have reserve day? | Cricket37 minutes agoBy Aratrick MondalOutlook IndiaMoreNew Zealand Vs Pakistan, ICC T20 World Cup 2026 Super 8: See Best Photos From R. Premadas
+
+
+--- Result 3 ---
+URL:         https://news.google.com/search?q=technology
+Engine:      colly
+Title:       Google News - Search
+Status:      200
+Clean Text:  11152 chars (10.89 KB)
+Links:       2
+Time:        1.41956744s
+Method:      css-selectors
+JS Heavy:    false
+
+--- CLEAN TEXT (first 5000 chars) ---
+BBCMoreUrgent research needed to tackle AI threats, says Google AI bossYesterdayBy Zoe KleinmanDaily SabahMoreTürkiye’s military leads world in drone technology, top commander says | Daily Sabah23 hours agoThe GuardianMoreNascent tech, real fear: how AI anxiety is upending career ambitions18 hours agoBy Aaron MokTechJuiceMoreSamsung Takes a Significant Leap in Advancing 6G Network Technology6 hours agoBy Zohaib ShahNASA (.gov)MoreNASA Technology Brings Golden Age of Exploration to Earth26 JanThe New York TimesMoreHow ICE Already Knows Who Minneapolis Protesters Are31 JanBy Aaron Krolik and Sheera FrenkelMIT Technology ReviewMore10 Breakthrough Technologies 202612 JanBy Amy NordrumHarvard Business ReviewMoreDesign Processes to Evolve with Emerging Technology30 JanThe Washington PostMoreThe powerful tools in ICE’s arsenal to track suspects — and protesters29 JanBy Artur Galocha, Kevin Schaul and Eva DouGOV.UKMoreNew technology and medicines to combat drug and alcohol addiction5 days agoBy Zubir AhmedBritannicaMoreArtificial intelligence (AI) | Definition, Examples, Types, Applications, Companies, & Facts3 hours agoBy Jack CopelandSimplilearn.comMore20 New Technology Trends for 2026 | Emerging Technologies 20266 hours agoBy Nikita Duggalsamsung.comMoreSamsung Electronics and KT Corporation Verify X-MIMO Technology in 7 GHz Band for 6G DevelopmentYesterdayBuilt InMoreThe Future of AI: How AI Is Changing the World2 days agoBy Mike Thomasorfonline.orgMoreMapping Gulf Sovereign Wealth Funds in the Global Energy Transition: Capital, Technology, and Diplomacy3 hours agoBy Parul BakshiChina DailyMoreTechnology transforming creativity15 hours agoFujitsu GlobalMoreFugaku and associated technologies help to solve major challenges in the world todayYesterdayBloomberg.comMoreVietnam Says Trump Will Let Nation Access Restricted Technology10 hours agoBy Nguyen DieuAwaz The VoiceMoreUK AI minister says Bihar is chasing future of technology6 hours agoPR NewswireMoreUniversity of Phoenix CIO Jamie Smith Shares How Technology Is Redefining Online Education for Adults on National Podcast19 hours agoThe World Economic ForumMoreTechnology will take our jobs? We've heard that one before2 days agoBy John LetzingThe GuardianMoreAI hit: India hungry to harness US tech giants’ technology at Delhi summit21 hours agoBy Robert BoothSouth China Morning PostMoreIs magnetic heating technology a new weapon in the fight against cancer?3 hours agoForbesMoreSmall Business Technology News: How Will ChatGPT Ads Actually Work?2 hours agoBy Gene MarksEconomist ImpactMoreHow global technology change is driving Net Positive businessYesterdayCNETMoreSharp Invented a New High-Speed Cooking Technology Called the 'Golden Heater'2 days agoBy David WatskyEHF EUROMoreThe power of technology: How the EHF & VOGO are making handball fairerYesterdayThe Quantum InsiderMorePhoenix and Quantum Technology: Arizona’s Industrial Bet on the Quantum Economy16 hours agoThe New York TimesMoreAt A.I. Summit, India Tries to Find a Way Between the U.S. and China5 hours agoBy Anupreeta Das and Pragati KbHanoi TimesMoreVietnam, US move to deepen ties in science, technology and innovation2 hours agoFast CompanyMoreHow technology is reinventing global payments23 hours agoBy Ken MooreThe Futurum GroupMoreCIO & Technology Buyers17 hours agoTechRadarMore'Modern technologies have revolutionised virtually every aspect of sport': Get ready for more AI coming to all the sports you love6 hours agoBy Mike MooreThe HinduMoreDonald Trump to remove Vietnam from restricted technology list: Hanoi10 hours agoGOV.UKMoreEnhanced package of cutting-edge technology to combat waste crimeYesterdayBy Emma ReynoldsResearch InformationMoreSony and Nature announce 2026 Women in Technology Award winnersYesterdayCalifornia Courts Newsroom (.gov)MoreCouncil Approves Funding for Technology Projects to Improve Services for the Public10 hours agoBy Blaine CorrenComputerworldMoreIs AI killing technology?YesterdayBy Mike ElganPopular ScienceMoreMan accidentally gains control of 7,000 robot vacuums41 minutes agoBy Mack DeGeurinMIT Technology ReviewMoreExclusive eBook: The great Al hype correction of 202519 hours agoSHRMMoreThe Executive Download: HR Technology Trends, February 202615 hours agoAerospace Manufacturing and DesignMoreBoost your productivity with the latest workholding technology8 hours agoBy Clare ScottCleanroom TechnologyMoreInterflow and High Purity Systems unite to create Netherlands’ largest clean technology provider22 hours agoThe Policy EdgeMoreMeitY: Advancing Inclusive Voice Technologies in India3 hours agoLive ScienceMoreYour own voice could be your biggest privacy threat. How can we stop AI technologies exploiting it?21 hours agoBy Drew TurneyRochester Institute of Technology AthleticsMoreWomen's Basketball defeats Bard, 58-4310 hours agoNorth Penn NowMoreSirene Abou-Chakra Champions Accountability in Civic Technology10 hours agothedetroitbureau.comMoreIRetail Technology Solut
+
+
+--- Result 4 ---
+URL:         https://en.wikipedia.org/wiki/Main_Page
+Engine:      colly
+Title:       Main Page
+Status:      200
+Clean Text:  5495 chars (5.37 KB)
+Links:       634
+Time:        566.327745ms
+Method:      css-selectors
+JS Heavy:    false
+
+--- CLEAN TEXT (first 5000 chars) ---
+the free encyclopedia that anyone can edit.
+293,013 active editors 7,140,551 articles in English
+Shigi Qutuqu (c. 1178 – 1260) was a high-ranking official during the early decades of the Mongol Empire. The adopted son of the empire's founder Temüjin (later titled Genghis Khan) and his wife Börte, Shigi Qutuqu played an important role in the codification of Mongol law, serving with distinction as an administrator in northern China. He was brought up in Temüjin's household and was one of the first Mongols to become literate. The Secret History exaggerates Shigi Qutuqu's role in the years after the empire's foundation, but he was nevertheless appointed to several high-ranking legal positions, in which he served during the Mongol conquest of the Jin dynasty. He was the commander during the only Mongol defeat in the western campaign against Khwarazmia, being overcome by Jalal al-Din at the 1221 Battle of Parwan. Shigi Qutuqu continued his career as an official during the reign of his adopted brother Ögedei Khan, Genghis's successor. (Full article...)
+Ælfwynn, wife of Æthelstan Half-King
+Did you know ...
+... that former NFL player Mike Brunson (pictured) was known for making banana ice cream?
+... that "There's a Hole in the City" is a Nebula Award–nominated short story that describes the September 11 attacks alongside the "summoned ghosts from past disasters" in New York City?
+... that French businessman André Kieffer was described as a "one-man party" and "easily the most aggressive and controversial figure" in the territorial assembly of Chad?
+... that only black Girardinus metallicus males put on a courtship show, while yellow and colorless males rely on coercion?
+... that Hermann E. Sieger, a Nazi Party official, was considered to be a trusted contact of the Liechtenstein government?
+... that the murder of a gay man in Afghanistan forced his brother to flee to Turkey and his boyfriend to go into hiding due to harassment from the Taliban?
+... that the Group Architects led strikes against traditional teaching styles at the Auckland School of Architecture in 1948, which were attended by 142 of 160 students?
+... that GameChat was inspired by Nintendo developers' frustrations over video-conferencing software during the COVID-19 pandemic?
+... that Sukumar Barua chose to work as a chef instead of pursuing poetry as a career because his pay was too good?
+José Jerí (pictured) is removed as the president of Peru by Congress, and replaced by José María Balcázar.
+American civil rights leader Jesse Jackson dies at the age of 84.
+The Nationalist Party, led by Tarique Rahman, wins the Bangladeshi general election.
+In the Barbadian general election, the Labour Party wins a third term and every seat in the House of Assembly.
+1828 – The inaugural issue of the Cherokee Phoenix, the first newspaper in a Native American language, was published.
+1866 – Lucy Hobbs Taylor (pictured) became the first woman to receive a doctorate from a dental college.
+1919 – Bavarian socialist Kurt Eisner, who had organized the German Revolution that overthrew the Wittelsbach monarchy and established Bavaria as a republic, was assassinated.
+1929 – Nanjing decade: In the first battle of the Warlord Rebellion in northeastern Shandong against the Nationalist government of China, a 24,000-strong rebel force led by Zhang Zongchang was defeated at Zhifu by 7,000 NRA troops.
+1973 – After accidentally straying into the airspace of the Israeli-occupied Sinai Peninsula, Libyan Arab Airlines Flight 114 was shot down by two Israeli fighter aircraft, killing 108 of the 113 people on board.
+Goscombe John  (b. 1860)Rhonda Sing  (b. 1961)Helen Hooven Santmyer  (d. 1986)Margot Fonteyn  (d. 1991)
+The masked trogon (Trogon personatus) is a species of bird in the family Trogonidae, the trogons. Fairly common in humid highland forests in South America, mainly in the Andes and on tepuis, it is resident in Bolivia, Brazil, Colombia, Ecuador, Guyana, Peru and Venezuela. It is a mid-sized trogon, averaging 27 centimetres (11 in) in length and 56 grams (2.0 oz) in mass. Like all members of its family, it displays sexual dimorphism. The male has upperparts, head and upper chest of variously green or reddish-bronze colouring, with a red belly and lower breast, while the female is brown above, with a pinkish to red belly and breast. Like all trogons, it feeds on both fruits and insects. It makes its nest by excavating into the soft wood of a rotting vertical tree trunk. This masked trogon of the subspecies T. p. temperatus (the highland trogon) was photographed at San Isidro Lodge near Cosanga in Napo Province, Ecuador.
+Community portal – The central hub for editors, with resources, links, tasks, and announcements.
+Village pump – Forum for discussions about Wikipedia itself, including policies and technical issues.
+Site news – Sources of news about Wikipedia and the broader Wikimedia movement.
+Teahouse – Ask basic questions about 
+
+
+--- Result 5 ---
+URL:         https://en.wikipedia.org/wiki/Pakistan
+Engine:      colly
+Title:       Pakistan
+Status:      200
+Clean Text:  237259 chars (231.70 KB)
+Links:       5110
+Time:        471.612503ms
+Method:      css-selectors
+JS Heavy:    false
+
+--- CLEAN TEXT (first 5000 chars) ---
+This article is about the country. For other uses, see Pakistan (disambiguation).
+Islamic Republic of Pakistanاسلامی جمہوریہ پاكستان (Urdu)Islāmī Jumhūriyah Pākistān[1]
+Īmān, Ittihād, Nazam (Urdu)
+Territory controlled by Pakistan  Territory claimed but not controlled(Kashmir, Junagadh, and Sir Creek)CapitalIslamabad33°41′30″N 73°3′0″E﻿ / ﻿33.69167°N 73.05000°E﻿ / 33.69167; 73.05000Largest cityKarachi24°51′36″N 67°0′36″E﻿ / ﻿24.86000°N 67.01000°E﻿ / 24.86000; 67.01000Official languagesUrduEnglish[a]Native languagesOver 77 languages[4]Religion  (2023)96.3% Islam (official)[b]2.2% Hinduism1.4% Christianity0.1% otherDemonymPakistaniGovernmentFederal parliamentary Islamic republic• President Asif Ali Zardari• Prime Minister Shehbaz Sharif
+LegislatureParliament• Upper houseSenate• Lower houseNational AssemblyIndependence from the United Kingdom• Declaration 23 March 1940• Recognized dominion 14 August 1947• Republic 23 March 1956• Last territory's acquisition 8 December 1958• Eastern territory withdrawn 16 December 1971• Current constitution 14 August 1973
+Area • Total881,913 km2 (340,509 sq mi)[c][6] (33rd)• Water (%)2.86Population• 2023 census 241,499,431[d] (5th)• Density273.8/km2 (709.1/sq mi) (56th)GDP (PPP)2025 estimate• Total $1.67 trillion (27th)• Per capita $6,950 (148th)GDP (nominal)2025 estimate• Total $410.5 billion (42nd)• Per capita $1,710 (160th)Gini (2018) 29.6low inequalityHDI (2023) 0.544low (168th)CurrencyPakistani rupee (₨) (PKR)Time zoneUTC+5 (PKT)Date formatdd-mm-yyyy[e]Calling code+92ISO 3166 codePKInternet TLD.pkپاکستان.Websitewww.pakistan.gov.pk
+You may need rendering support to display the Urdu text in this article correctly.
+Pakistan,[f] officially the Islamic Republic of Pakistan,[g] is a country in South Asia. It is the fifth-most populous country, with a population of over 241.5 million,[d] having the second-largest Muslim population as of 2023. Islamabad is the nation's capital, while Karachi is its largest city and financial centre. Pakistan is the 33rd-largest country by area. Bounded by the Arabian Sea on the south, the Gulf of Oman on the southwest, and the Sir Creek on the southeast, it shares land borders with India to the east; Afghanistan to the west; Iran to the southwest; and China to the northeast. It shares a maritime border with Oman in the Gulf of Oman, and is separated from Tajikistan in the northwest by Afghanistan's narrow Wakhan Corridor.
+Pakistan is the site of several ancient cultures, including the 8,500-year-old Neolithic site of Mehrgarh in Balochistan, the Indus Valley Civilisation of the Bronze Age,[8] and the ancient Gandhara civilisation.[9] The regions that compose the modern state of Pakistan were the realm of multiple empires and dynasties, including the Achaemenid, the Maurya, the Kushan, the Gupta;[10] the Umayyad Caliphate in its southern regions, the Hindu Shahis, the Ghaznavids, the Delhi Sultanate, the Samma, the Shah Miris, the Mughals,[11] and finally, the British Raj from 1858 to 1947.
+Spurred by the Pakistan Movement, which sought a homeland for the Muslims of British India, and election victories in 1946 by the All-India Muslim League, Pakistan gained independence in 1947 after the partition of British India, which awarded separate statehood to its Muslim-majority regions and was accompanied by an unparalleled mass migration and loss of life.[12][13] Initially a dominion of the British Commonwealth, Pakistan adopted a republican constitution in 1956 and became an Islamic republic with two geographically separate provinces, East Pakistan and West Pakistan. East Pakistan seceded as the new country of Bangladesh in 1971 after a nine-month-long civil war. In the following four decades, Pakistan has been ruled by governments that alternated between civilian and military, democratic and authoritarian, relatively secular and Islamist.[14]
+Pakistan is considered a middle power nation, with the world's seventh-largest standing armed forces. It is a declared nuclear-weapons state, and is ranked amongst the emerging and growth-leading economies,[15] with a large and rapidly growing middle class.[16][17] Pakistan's political history since independence has been characterized by periods of significant economic and military growth as well as those of political and economic instability. It is an ethnically and linguistically diverse country, with similarly diverse geography and wildlife. The country continues to face poverty, illiteracy, corruption, and terrorism.[18][19][20] Pakistan is a member of the United Nations, the Shanghai Cooperation Organisation, the Organisation of Islamic Cooperation, the Commonwealth of Nations, the South Asian Association for Regional Cooperation, and the Islamic Military Counter-Terrorism Coalition, and is designated as a major non-NATO ally by the United States.
+The name Pakistan 
+
+
+--- Result 6 ---
+URL:         https://en.wikipedia.org/w/index.php?search=sentiment+analysis
+Engine:      colly
+Title:       Sentiment analysis
+Status:      200
+Clean Text:  49823 chars (48.66 KB)
+Links:       684
+Time:        775.82845ms
+Method:      css-selectors
+JS Heavy:    false
+
+--- CLEAN TEXT (first 5000 chars) ---
+Sentiment analysis (also known as opinion mining or emotion AI) is the use of natural language processing, text analysis, computational linguistics, and biometrics to systematically identify, extract, quantify, and study affective states and subjective information. Sentiment analysis is widely applied to voice of the customer materials such as reviews and survey responses, online and social media, and healthcare materials for applications that range from marketing to customer service to clinical medicine. With the rise of deep language models, such as RoBERTa, also more difficult data domains can be analyzed, e.g., news texts where authors typically express their opinion/sentiment less explicitly.[1]
+A basic task in sentiment analysis is classifying the polarity of a given text at the document, sentence, or feature/aspect level—whether the expressed opinion in a document, a sentence or an entity feature/aspect is positive, negative, or neutral. Advanced, "beyond polarity" sentiment classification looks, for instance, at emotional states such as enjoyment, anger, disgust, sadness, fear, and surprise.[2]
+Precursors to sentimental analysis include the General Inquirer,[3] which provided hints toward quantifying patterns in text and, separately, psychological research that examined a person's psychological state based on analysis of their verbal behavior.[4]
+Subsequently, the method described in a patent by Volcani and Fogel,[5] looked specifically at sentiment and identified individual words and phrases in text with respect to different emotional scales. A current system based on their work, called EffectCheck, presents synonyms that can be used to increase or decrease the level of evoked emotion in each scale.
+Many other subsequent efforts were less sophisticated, using a mere polar view of sentiment, from positive to negative, such as work by Turney,[6] and Pang[7] who applied different methods for detecting the polarity of product reviews and movie reviews respectively. This work is at the document level. One can also classify a document's polarity on a multi-way scale, which was attempted by Pang[8] and Snyder[9] among others: Pang and Lee[8] expanded the basic task of classifying a movie review as either positive or negative to predict star ratings on either a 3- or a 4-star scale, while Snyder[9] performed an in-depth analysis of restaurant reviews, predicting ratings for various aspects of the given restaurant, such as the food and atmosphere (on a five-star scale).
+First steps to bringing together various approaches—learning, lexical, knowledge-based, etc.—were taken in the 2004 AAAI Spring Symposium where linguists, computer scientists, and other interested researchers first aligned interests and proposed shared tasks and benchmark data sets for the systematic computational research on affect, appeal, subjectivity, and sentiment in text.[10]
+Even though in most statistical classification methods, the neutral class is ignored under the assumption that neutral texts lie near the boundary of the binary classifier, several researchers suggest that, as in every polarity problem, three categories must be identified. Moreover, it can be proven that specific classifiers such as the Max Entropy[11] and SVMs[12] can benefit from the introduction of a neutral class and improve the overall accuracy of the classification. There are in principle two ways for operating with a neutral class. Either, the algorithm proceeds by first identifying the neutral language, filtering it out and then assessing the rest in terms of positive and negative sentiments, or it builds a three-way classification in one step.[13] This second approach often involves estimating a probability distribution over all categories (e.g. naive Bayes classifiers as implemented by the NLTK). Whether and how to use a neutral class depends on the nature of the data: if the data is clearly clustered into neutral, negative and positive language, it makes sense to filter the neutral language out and focus on the polarity between positive and negative sentiments. If, in contrast, the data are mostly neutral with small deviations towards positive and negative affect, this strategy would make it harder to clearly distinguish between the two poles.
+A different method for determining sentiment is the use of a scaling system whereby words commonly associated with having a negative, neutral, or positive sentiment  are given an associated number on a −10 to +10 scale (most negative up to most positive) or simply from 0 to a positive upper limit such as +4. This makes it possible to adjust the sentiment of a given term relative to its environment (usually on the level of the sentence). When a piece of unstructured text is analyzed using natural language processing, each concept in the specified environment is given a score based on the way sentiment words relate to the concept and its associated score.[14][15] This allows movement to a more sophisticated 
+
+
+--- Result 7 ---
+URL:         https://en.wikipedia.org/wiki/Natural_language_processing
+Engine:      colly
+Title:       Natural language processing
+Status:      200
+Clean Text:  43327 chars (42.31 KB)
+Links:       883
+Time:        144.388573ms
+Method:      css-selectors
+JS Heavy:    false
+
+--- CLEAN TEXT (first 5000 chars) ---
+Natural language processing (NLP) is the processing of natural language information by a computer. NLP is a subfield of computer science and is closely associated with artificial intelligence. NLP is also related to information retrieval, knowledge representation, computational linguistics, and linguistics more broadly.[1]
+Major processing tasks in an NLP system include: speech recognition, text classification, natural language understanding, and natural language generation.
+Natural language processing has its roots in the 1950s.[2] Already in 1950, Alan Turing published an article titled "Computing Machinery and Intelligence" which proposed what is now called the Turing test as a criterion of intelligence, though at the time that was not articulated as a problem separate from artificial intelligence. The proposed test includes a task that involves the automated interpretation and generation of natural language.
+Symbolic NLP (1950s – early 1990s)
+The premise of symbolic NLP is often illustrated using John Searle's Chinese room thought experiment: Given a collection of rules (e.g., a Chinese phrasebook, with questions and matching answers), the computer emulates natural language understanding (or other NLP tasks) by applying those rules to the data it confronts.
+1950s: The Georgetown experiment in 1954 involved fully automatic translation of more than sixty Russian sentences into English. The authors claimed that within three or five years, machine translation would be a solved problem.[3]  However, real progress was much slower, and after the ALPAC report in 1966, which found that ten years of research had failed to fulfill the expectations, funding for machine translation was dramatically reduced. Little further research in machine translation was conducted in America (though some research continued elsewhere, such as Japan and Europe[4]) until the late 1980s when the first statistical machine translation systems were developed.
+1960s: Some notably successful natural language processing systems developed in the 1960s were SHRDLU, a natural language system working in restricted "blocks worlds" with restricted vocabularies, and ELIZA, a simulation of a Rogerian psychotherapy, written by Joseph Weizenbaum between 1964 and 1966. Despite using minimal information about human thought or emotion, ELIZA was able to produce interactions that appeared human-like. When the "patient" exceeded the very small knowledge base, ELIZA might provide a generic response, for example, responding to "My head hurts" with "Why do you say your head hurts?". Ross Quillian's successful work on natural language was demonstrated with a vocabulary of only twenty words, because that was all that would fit in a computer  memory at the time.[5]
+1970s: During the 1970s, many programmers began to write "conceptual ontologies", which structured real-world information into computer-understandable data.  Examples are MARGIE (Schank, 1975), SAM (Cullingford, 1978), PAM (Wilensky, 1978), TaleSpin (Meehan, 1976), QUALM (Lehnert, 1977), Politics (Carbonell, 1979), and Plot Units (Lehnert 1981).  During this time, the first chatterbots were written (e.g., PARRY).
+1980s: The 1980s and early 1990s mark the heyday of symbolic methods in NLP. Focus areas of the time included research on rule-based parsing (e.g., the development of HPSG as a computational operationalization of generative grammar), morphology (e.g., two-level morphology[6]), semantics (e.g., Lesk algorithm), reference (e.g., within Centering Theory[7]) and other areas of natural language understanding (e.g., in the Rhetorical Structure Theory). Other lines of research were continued, e.g., the development of chatterbots with Racter and Jabberwacky. An important development (that eventually led to the statistical turn in the 1990s) was the rising importance of quantitative evaluation in this period.[8]
+Statistical NLP (1990s–present)
+Up until the 1980s, most natural language processing systems were based on complex sets of hand-written rules. Starting in the late 1980s, however, there was a revolution in natural language processing with the introduction of machine learning algorithms for language processing. This shift was influenced by increasing computational power (see Moore's law) and a decline in the dominance of Chomskyan linguistic theories... (e.g. transformational grammar), whose theoretical underpinnings discouraged the sort of corpus linguistics that underlies the machine-learning approach to language processing.[9]
+1990s: Many of the notable early successes in statistical methods in NLP occurred in the field of machine translation, due especially to work at IBM Research, such as IBM alignment models. These systems were able to take advantage of existing multilingual textual corpora that had been produced by the Parliament of Canada and the European Union as a result of laws calling for the translation of all governmental proceedings into all official languages of the corres
+
+
+--- Result 8 ---
+URL:         https://en.wikipedia.org/wiki/Web_scraping
+Engine:      colly
+Title:       Web scraping
+Status:      200
+Clean Text:  25261 chars (24.67 KB)
+Links:       358
+Time:        366.343136ms
+Method:      css-selectors
+JS Heavy:    false
+
+--- CLEAN TEXT (first 5000 chars) ---
+For broader coverage of this topic, see Data scraping.
+"Web scraper" redirects here. For websites that scrape content, see Scraper site.
+Web scraping, web harvesting, or web data extraction is data scraping used for extracting data from websites.[1] Web scraping software may directly access the World Wide Web using the Hypertext Transfer Protocol or a web browser. While web scraping can be done manually by a software user, the term typically refers to automated processes implemented using a bot or web crawler. It is a form of copying in which specific data is gathered and copied from the web, typically into a central local database or spreadsheet, for later retrieval or analysis.
+Scraping a web page involves fetching it and then extracting data from it. Fetching is the downloading of a page (which a browser does when a user views a page). Therefore, web crawling is a main component of web scraping, to fetch pages for later processing. Having fetched, extraction can take place. The content of a page may be parsed, searched and reformatted, and its data copied into a spreadsheet or loaded into a database. Web scrapers typically take something out of a page, to make use of it for another purpose somewhere else. An example would be finding and copying names and telephone numbers, companies and their URLs, or e-mail addresses to a list (contact scraping). Another example is collecting competitors’ product prices for marketing purposes.
+Contact scraping is a type of web scraping that is used as a component of applications used for web indexing, web mining and data mining, online price change monitoring and price comparison, product review scraping (to watch the competition), gathering real estate listings, weather data monitoring, website change detection, research, tracking online presence and reputation, web mashup, and web data integration.
+Web pages are built using text-based markup languages (HTML and XHTML), and frequently contain a wealth of useful data in text form. However, most web pages are designed for human end-users and not for ease of automated use. As a result, specialized tools and software have been developed to facilitate the scraping of web pages. Web scraping applications include market research, price comparison, content monitoring and artificial intelligence.  Businesses rely on web scraping services to efficiently gather and utilize this data.
+Newer forms of web scraping involve monitoring data feeds from web servers.  For example, JSON is commonly used as a transport mechanism between the client and the web server.
+There are methods that some websites use to prevent web scraping, such as detecting and disallowing bots from crawling (viewing) their pages. In response, web scraping systems use techniques involving DOM parsing, computer vision and natural language processing to simulate human-like browsing to enable gathering web page content for offline parsing.
+After the birth of the World Wide Web in 1989, the first web robot,[2] World Wide Web Wanderer, was created in June 1993, which was intended only to measure the size of the web.
+In December 1993, the first crawler-based web search engine, JumpStation, was launched. As there were fewer websites available on the web, search engines at that time used to rely on human administrators to collect and format links. In comparison, Jump Station was the first WWW search engine to rely on a web robot.
+In 2000, the first Web API and API crawler were created. In 2000, Salesforce and eBay launched their own API, with which programmers could access and download some of the data available to the public.[3] Since then, many websites offer web APIs for people to access their public database.
+This section contains instructions or advice. Wikipedia is not a guidebook; please help rewrite such content to be encyclopedic or move it to Wikiversity, Wikibooks, or Wikivoyage.  (October 2025)
+Data extraction techniques range from manual collection to sophisticated automated systems. Advanced methods analyze the underlying structure of web pages to transform unstructured content into a machine-readable format. These techniques utilize text processing or artificial intelligence, aligning with the technical goals of the Semantic Web.
+The simplest form of web scraping is manual copying and pasting of data from a web page into a text file or spreadsheet. This approach requires no technical tools and can be used when automated scraping is blocked by website restrictions or when human judgment is necessary to interpret complex content. However, manual scraping is highly inefficient for large datasets, as it is time-consuming, prone to human error, and mentally exhausting. For this reason, it is generally considered impractical compared to automated methods, except in cases where automation is not feasible.
+A simple yet capable approach to extract information from web pages is to use the UNIX grep command or regular expression-matching facilities of programming lan
+
+
+--- Result 9 ---
+URL:         https://docs.python.org/3/whatsnew/3.12.html
+Engine:      colly
+Title:       What’s New In Python 3.12
+Status:      200
+Clean Text:  89228 chars (87.14 KB)
+Links:       330
+Time:        632.933386ms
+Method:      readability
+JS Heavy:    false
+
+--- CLEAN TEXT (first 5000 chars) ---
+This article explains the new features in Python 3.12, compared to 3.11. Python 3.12 was released on October 2, 2023. For full details, see the changelog.
+Python 3.12 is a stable release of the Python programming language, with a mix of changes to the language and the standard library. The library changes focus on cleaning up deprecated APIs, usability, and correctness. Of note, the distutils package has been removed from the standard library. Filesystem support in os and pathlib has seen a number of improvements, and several modules have better performance.
+The language changes focus on usability, as f-strings have had many limitations removed and ‘Did you mean …’ suggestions continue to improve. The new type parameter syntax and type statement improve ergonomics for using generic types and type aliases with static type checkers.
+This article doesn’t attempt to provide a complete specification of all new features, but instead gives a convenient overview. For full details, you should refer to the documentation, such as the Library Reference and Language Reference. If you want to understand the complete implementation and design rationale for a change, refer to the PEP for a particular new feature; but note that PEPs usually are not kept up-to-date once a feature has been fully implemented.
+PEP 695, type parameter syntax and the type statement
+PEP 701, f-strings in the grammar
+PEP 684, a unique per-interpreter GIL
+PEP 669, low impact monitoring
+Improved ‘Did you mean …’ suggestions for NameError, ImportError, and SyntaxError exceptions
+Python data model improvements:
+PEP 688, using the buffer protocol from Python
+Significant improvements in the standard library:
+The os module received several improvements for Windows support
+A command-line interface has been added to the sqlite3 module
+isinstance() checks against runtime-checkable protocols enjoy a speed up of between two and 20 times
+The asyncio package has had a number of performance improvements, with some benchmarks showing a 75% speed up.
+Due to the changes in PEP 701, producing tokens via the tokenize module is up to 64% faster.
+Replace the builtin hashlib implementations of SHA1, SHA3, SHA2-384, SHA2-512, and MD5 with formally verified code from the HACL* project. These builtin implementations remain as fallbacks that are only used when OpenSSL does not provide them.
+CPython implementation improvements:
+PEP 709, comprehension inlining
+PEP 692, using TypedDict to annotate **kwargs
+PEP 698, typing.override() decorator
+Important deprecations, removals or restrictions:
+PEP 623: Remove wstr from Unicode objects in Python’s C API, reducing the size of every str object by at least 8 bytes.
+PEP 632: Remove the distutils package. See the migration guide for advice replacing the APIs it provided. The third-party Setuptools package continues to provide distutils, if you still require it in Python 3.12 and beyond.
+gh-95299: Do not pre-install setuptools in virtual environments created with venv. This means that distutils, setuptools, pkg_resources, and easy_install will no longer available by default; to access these run pip install setuptools in the activated virtual environment.
+The asynchat, asyncore, and imp modules have been removed, along with several unittest.TestCase method aliases.
+Generic classes and functions under PEP 484 were declared using a verbose syntax that left the scope of type parameters unclear and required explicit declarations of variance.
+PEP 695 introduces a new, more compact and explicit way to create generic classes and functions:
+def max[T](args: Iterable[T]) -> T:
+def __getitem__(self, index: int, /) -> T:
+def append(self, element: T) -> None:
+In addition, the PEP introduces a new way to declare type aliases using the type statement, which creates an instance of TypeAliasType:
+type Point = tuple[float, float]
+Type aliases can also be generic:
+The new syntax allows declaring TypeVarTuple and ParamSpec parameters, as well as TypeVar parameters with bounds or constraints:
+type IntFunc[**P] = Callable[P, int]  # ParamSpec
+type LabeledTuple[*Ts] = tuple[str, *Ts]  # TypeVarTuple
+type HashableSequence[T: Hashable] = Sequence[T]  # TypeVar with bound
+type IntOrStrSequence[T: (int, str)] = Sequence[T]  # TypeVar with constraints
+The value of type aliases and the bound and constraints of type variables created through this syntax are evaluated only on demand (see lazy evaluation). This means type aliases are able to refer to other types defined later in the file.
+Type parameters declared through a type parameter list are visible within the scope of the declaration and any nested scopes, but not in the outer scope. For example, they can be used in the type annotations for the methods of a generic class or in the class body. However, they cannot be used in the module scope after the class is defined. See Type parameter lists for a detailed description of the runtime semantics of type parameters.
+In order to support these scoping
+
+
+--- Result 10 ---
+URL:         https://news.ycombinator.com
+Engine:      colly
+Title:       Hacker News
+Status:      200
+Clean Text:  1886 chars (1.84 KB)
+Links:       34
+Time:        1.330271787s
+Method:      readability
+JS Heavy:    false
+
+--- CLEAN TEXT (first 5000 chars) ---
+1.	I Verified My LinkedIn Identity. Here's What I Handed Over (thelocalstack.eu)
+2.	Keep Android Open (f-droid.org)
+3.	Turn Dependabot off (filippo.io)
+4.	I found a Vulnerability. They found a Lawyer (dixken.de)
+5.	Andrej Karpathy talks about "Claws" (simonwillison.net)
+6.	Facebook is cooked (pilk.website)
+7.	Ggml.ai joins Hugging Face to ensure the long-term progress of Local AI (github.com/ggml-org)
+8.	Wikipedia deprecates Archive.today, starts removing archive links (arstechnica.com)
+9.	CERN rebuilt the original browser from 1989 (2019) (cern.ch)
+10.	Padlet (YC W13) Is Hiring in San Francisco and Singapore (padlet.jobs)
+11.	Coccinelle: The Linux kernel's source-to-source transformation tool (github.com/coccinelle)
+12.	Understanding Std:Shared_mutex from C++17 (cppstories.com)
+13.	AI uBlock Blacklist (github.com/alvi-se)
+14.	Lean 4: How the theorem prover works and why it's the new competitive edge in AI (venturebeat.com)
+15.	What Is OAuth? (leaflet.pub)
+16.	Every company building your AI assistant is now an ad company (juno-labs.com)
+17.	JWasm: Masm Compatible Assembler (github.com/baron-von-riedesel)
+18.	Gitas – A tool for Git account switching (github.com/letmutex)
+19.	Index, Count, Offset, Size (tigerbeetle.com)
+20.	Large Language Model Reasoning Failures (arxiv.org)
+21.	The bare minimum for syncing Git repos (alexwlchan.net)
+22.	Instant AI Response (chatjimmy.ai)
+23.	Blue light filters don't work – controlling total luminance is a better bet (neuroai.science)
+24.	Cord: Coordinating Trees of AI Agents (june.kim)
+25.	Choose Your Fictions Well (2010) (henryjenkins.org)
+26.	The path to ubiquitous AI (17k tokens/sec) (taalas.com)
+27.	When etcd crashes, check your disks first (nubificus.co.uk)
+29.	Show HN: Mines.fyi – all the mines in the US in a leaflet visualization (mines.fyi)
+30.	Trump's global tariffs struck down by US Supreme Court (bbc.com)
+
+
+--- Result 11 ---
+URL:         https://www.aljazeera.com/news
+Engine:      colly
+Title:       News | Today's latest from Al Jazeera
+Status:      200
+Clean Text:  1666 chars (1.63 KB)
+Links:       82
+Time:        1.380550691s
+Method:      readability
+JS Heavy:    false
+
+--- CLEAN TEXT (first 5000 chars) ---
+Violence breaks out near parliament as demonstrators demand accountability in a corruption investigation.
+UK weighs removing ex-Prince Andrew from succession line amid Epstein probe
+The report comes as police widen investigations into former prince, including questioning his close protection teams.
+Where are the most endangered languages in the world?
+February 21 is World Mother Language Day. Al Jazeera looks at the most spoken languages and which ones are endangered.
+Brazil’s Lula says Maduro should face trial in Venezuela, not US
+Brazil’s President Lula says fate of Venezuelan president should be determined by the ‘people of Venezuela’.
+Gunmen on motorcycles kill at least 50 in northwest Nigeria: Report
+Nigerian lawmaker reports ‘at least 50 people dead’ after attack as list of missing is still being compiled.
+Trump, JD Vance vilify ‘lawless’ Supreme Court justices over tariff ruling
+President Trump calls Supreme Court justices an ’embarrassment to their families’ in 45-minute address to media.
+Russia-Ukraine war: List of key events, day 1,458
+These are the key developments from day 1,458 of Russia’s war on Ukraine.
+US military says it attacked vessel in Pacific Ocean, killing three people
+US military’s Southern Command (SOUTHCOM) claimed the vessel was involved in drug trafficking, without providing proof.
+US envoy suggests it would be ‘fine’ if Israel expands across Middle East
+‘It would be fine if they took it all,’ Mike Huckabee says when asked about expanding Israel from Nile to Euphrates.
+Bailed activists include four former hunger strikers: Teuta Hoxha, Kamran Ahmed, Qesser Zuhrah and Heba Muraisi.
+
+
+==========================================================
+  DEEP CRAWL (Wikipedia Pakistan sub-links)
+==========================================================
+
+Duration: 3.970930314s | Pages: 11
+
+--- Crawled Page 1 ---
+URL:         https://en.wikipedia.org/wiki/Pakistan
+Title:       Pakistan
+Clean Text:  237259 chars (231.70 KB)
+Links:       10
+Time:        0s
+
+--- CLEAN TEXT (first 3000 chars) ---
+This article is about the country. For other uses, see Pakistan (disambiguation).
+Islamic Republic of Pakistanاسلامی جمہوریہ پاكستان (Urdu)Islāmī Jumhūriyah Pākistān[1]
+Īmān, Ittihād, Nazam (Urdu)
+Territory controlled by Pakistan  Territory claimed but not controlled(Kashmir, Junagadh, and Sir Creek)CapitalIslamabad33°41′30″N 73°3′0″E﻿ / ﻿33.69167°N 73.05000°E﻿ / 33.69167; 73.05000Largest cityKarachi24°51′36″N 67°0′36″E﻿ / ﻿24.86000°N 67.01000°E﻿ / 24.86000; 67.01000Official languagesUrduEnglish[a]Native languagesOver 77 languages[4]Religion  (2023)96.3% Islam (official)[b]2.2% Hinduism1.4% Christianity0.1% otherDemonymPakistaniGovernmentFederal parliamentary Islamic republic• President Asif Ali Zardari• Prime Minister Shehbaz Sharif
+LegislatureParliament• Upper houseSenate• Lower houseNational AssemblyIndependence from the United Kingdom• Declaration 23 March 1940• Recognized dominion 14 August 1947• Republic 23 March 1956• Last territory's acquisition 8 December 1958• Eastern territory withdrawn 16 December 1971• Current constitution 14 August 1973
+Area • Total881,913 km2 (340,509 sq mi)[c][6] (33rd)• Water (%)2.86Population• 2023 census 241,499,431[d] (5th)• Density273.8/km2 (709.1/sq mi) (56th)GDP (PPP)2025 estimate• Total $1.67 trillion (27th)• Per capita $6,950 (148th)GDP (nominal)2025 estimate• Total $410.5 billion (42nd)• Per capita $1,710 (160th)Gini (2018) 29.6low inequalityHDI (2023) 0.544low (168th)CurrencyPakistani rupee (₨) (PKR)Time zoneUTC+5 (PKT)Date formatdd-mm-yyyy[e]Calling code+92ISO 3166 codePKInternet TLD.pkپاکستان.Websitewww.pakistan.gov.pk
+You may need rendering support to display the Urdu text in this article correctly.
+Pakistan,[f] officially the Islamic Republic of Pakistan,[g] is a country in South Asia. It is the fifth-most populous country, with a population of over 241.5 million,[d] having the second-largest Muslim population as of 2023. Islamabad is the nation's capital, while Karachi is its largest city and financial centre. Pakistan is the 33rd-largest country by area. Bounded by the Arabian Sea on the south, the Gulf of Oman on the southwest, and the Sir Creek on the southeast, it shares land borders with India to the east; Afghanistan to the west; Iran to the southwest; and China to the northeast. It shares a maritime border with Oman in the Gulf of Oman, and is separated from Tajikistan in the northwest by Afghanistan's narrow Wakhan Corridor.
+Pakistan is the site of several ancient cultures, including the 8,500-year-old Neolithic site of Mehrgarh in Balochistan, the Indus Valley Civilisation of the Bronze Age,[8] and the ancient Gandhara civilisation.[9] The regions that compose the modern state of Pakistan were the realm of multiple empires and dynasties, including the Achaemenid, the Maurya, the Kushan, the Gupta;[10] the Umayyad Caliphate in its southern region
+
+
+--- Crawled Page 2 ---
+URL:         https://en.wikipedia.org/wiki/Pakistan_(disambiguation)
+Title:       Pakistan (disambiguation)
+Clean Text:  1009 chars (0.99 KB)
+Links:       92
+Time:        347.774607ms
+
+--- CLEAN TEXT (first 3000 chars) ---
+Look up Pakistan or Päkistan in Wiktionary, the free dictionary.
+Pakistan is a country in South Asia.
+Pakistan, India, a village in the Bihar state of India
+Pakestan, a village in the Ardabil Province of Iran
+Dominion of Pakistan, an independent federal dominion in the British Empire from August 1947 to March 1956
+West Pakistan, former western provincial wing of Pakistan from 1955 until the 1971 Bangladesh Liberation War (now Pakistan)
+East Pakistan, former eastern provincial wing of Pakistan from 1955 until the 1971 Bangladesh Liberation War (now Bangladesh)
+Pakistan International Airlines, the International airlines carrier of Pakistan
+"Pakistan", a 2023 UK Top 10 hit by D-Block Europe and Clavish
+Little Pakistan, the global term for urban ethnic enclaves populated primarily by overseas Pakistanis
+This disambiguation page lists  articles associated with the title Pakistan.If an internal link incorrectly led you here, you may wish to change the link to point directly to the intended article.
+
+
+--- Crawled Page 3 ---
+URL:         https://en.wikipedia.org/wiki/Urdu_language
+Title:       Urdu
+Clean Text:  127354 chars (124.37 KB)
+Links:       2387
+Time:        178.146797ms
+
+--- CLEAN TEXT (first 3000 chars) ---
+Urduاردو (Urdū)Urdu written in the Nastaliq calligraphic handPronunciation[ˈʊɾd̪uː] ⓘNative toSouth Asia[1][2]Region
+Pakistan (widely used as lingua franca)
+Hindi–Urdu Belt and Deccan, India[3]
+[5]SpeakersL1: 78 million (2011–2023)[2]L2: 168 million (2011–2020)[2]Total: 246 million (2011–2023)[2]Language familyIndo-European
+Indo-IranianIndo-AryanCentral ZoneWestern HindiHindustaniUrduEarly formsShauraseni Prakrit
+Perso-Arabic script (Urdu alphabet)
+Andhra Pradesh (additional)[6][7]
+Recognised minoritylanguage inSouth Africa (protected language)[10]Regulated by
+National Language Promotion Department (Pakistan)
+National Council for Promotion of Urdu Language (India)
+Language codesISO 639-1urISO 639-2urdISO 639-3urdGlottologurdu1245Linguasphere59-AAF-qMap of the regions of India and Pakistan showing:  Areas where Urdu is either official or co-official
+Areas where Urdu is neither official nor co-officialThis article contains IPA phonetic symbols. Without proper rendering support, you may see question marks, boxes, or other symbols instead of Unicode characters. For an introductory guide on IPA symbols, see Help:IPA.
+This article contains Urdu text. Without proper rendering support, you may see unjoined letters running left to right or other symbols instead of Urdu script.
+Regional or dialectal variants (AndamanBihariBombayDeccaniDhakaiyaHinglishHyderabadiJudeo-UrduKauraviRekhtaUrdish)
+Urdu[a] (اُرْدُو) is an Indo-Aryan language spoken primarily in South Asia. It is the national language and lingua franca of Pakistan. It is also an official Eighth Schedule language in India, the status and cultural heritage of which are recognised by the Constitution of India.[11][12] It also has an official status in several Indian states.[note 1][14]
+Urdu and Hindi are closely related. They share a common, predominantly Sanskrit- and Prakrit-derived, vocabulary base, phonology, syntax, and grammar, making them mutually intelligible during colloquial communication.[15][16][17][18] The common base of the two languages is sometimes referred to as the Hindi–Urdu or Hindustani language, and Urdu has been described as a Persianised standard register of the Hindustani language.[19][20][21][22] While formal Urdu draws literary, political, and technical vocabulary from Persian,[23] formal Hindi draws these aspects from Sanskrit; consequently, the two languages' mutual intelligibility effectively decreases as the level of formality increases.[24]
+Urdu originated geographically in the upper Ganga-Yamuna doab, in and around the Delhi region, where Khari Boli was spoken. Urdu shared a grammatical foundation with Khari Boli, but was written in a revised Perso-Arabic script and included vocabulary borrowed from Persian and Arabic, which retained its original grammatical structure in those languages.[25][26] In 1837, Urdu became an official language of the British East India Company, replacing Persian across northern India during Company rule; Per
+
+
+--- Crawled Page 4 ---
+URL:         https://en.wikipedia.org/wiki/Flag_of_Pakistan
+Title:       Flag of Pakistan
+Clean Text:  16710 chars (16.32 KB)
+Links:       835
+Time:        130.897431ms
+
+--- CLEAN TEXT (first 3000 chars) ---
+Islamic Republic of Pakistanپرچمِ ستارہ و ہلال('Flag of the Star and Crescent')UseNational flag    Proportion2:3Adopted11 August 1947; 78 years ago (1947-08-11)DesignA white star and crescent on a dark green field, with a vertical white stripe at the hoistDesigned byAmiruddin Kidwai
+The national flag of Pakistan, also known as the Flag of the Star and Crescent (Parcham-e-Sitāra-o-Hilāl; پرچمِ ستارہ و ہلال), is made up of a green field with a stylized tilted white descending crescent moon and five-pointed star at its centre, and a vertical white stripe at its hoist-end. Though the specific shade of green on the flag is mandated only as 'dark green',[1] its official and most consistent representation is in Pakistan green, which is shaded distinctively darker. It was adopted by the Constituent Assembly of Pakistan on 11 August 1947, and it became the official flag of the Dominion of Pakistan on 14 August 1947, following independence from the British Empire.[2][3][4] The flag was subsequently retained as that of the Islamic Republic of Pakistan in 1956 and remains in use as the national flag to this day.
+Most notably, the flag is referred to in the third verse of Pakistan's national anthem, and is widely flown on several important days of the year, including Republic Day, Independence Day and Defence Day. It is also hoisted every morning at schools, offices and government buildings to the playing of the national anthem and lowered again before sunset. A very elaborate flag-raising and lowering ceremony is carried out every evening by the Pakistan Rangers and their Indian Border Security Force counterparts at the Wagah–Attari border crossing between India and Pakistan, which is regularly attended by hundreds of spectators. The Government of Pakistan has formalized rules and regulations related to the flying of the national flag; it is to be displayed all day at full-mast on 23 March annually to commemorate the adoption of the Lahore Resolution in 1940 and the declaration of Pakistan as an independent Islamic republic with a constitution in 1956, both of which occurred on the same day. The same regulations also apply on 14 August annually, in celebration of Pakistan's day of independence; when the country was carved out from erstwhile British India as the homeland and nation-state for the Muslims of the Indian subcontinent.
+Pakistan National Movement's c.1942 proposed flag for Pakistan, as depicted on the cover of Choudhry Rahmat Ali's pamphlet "The Millat of Islam and the menace of 'Indianism'".
+In 1942, the Pakistan National Movement published a pamphlet, "The Millat of Islam and the menace of 'Indianism'", by the founder of the Pakistan Movement, Choudhry Rahmat Ali, depicting on its cover a flag of a proposed Pakistan with a thin white crescent and five white stars on a green field.[5] A graphic illustration of Ali's flag in a critical work from 1946 more clearly portrays the stars in a pentagonal arrangement.[6
+
+
+--- Crawled Page 5 ---
+URL:         https://en.wikipedia.org/wiki/State_emblem_of_Pakistan
+Title:       State emblem of Pakistan
+Clean Text:  3632 chars (3.55 KB)
+Links:       313
+Time:        119.379488ms
+
+--- CLEAN TEXT (first 3000 chars) ---
+State emblem of Pakistanپاکستان کا قومی نشانArmigerIslamic Republic of PakistanAdopted1954[1]CrestA mullet and crescent increscent, both vertShieldQuarterly, first vert a lozenge argent, charged with a cotton flower argent, second argent with tea stalk vert, third argent charged with a garb of wheat vert, fourth party fer fess argent and vert four jute stalks eradicated counterchangedSupportersTwo jasmine branches embowed vert in their natural colorsCompartmentRibbon vert, backed argent  upon which is written in argent the word national motto in the Urdu language.Mottoایمان، اتحاد، نظم  "Faith, Unity, Discipline"
+The State Emblem of Pakistan was adopted in 1954 and symbolises the ideological foundation of the country, the basis of its economy, cultural heritage, and guiding principles.[2]
+Punjabi artist Abdur Rahman Chughtai was the designer of the first state emblem for Pakistan. On 18 May 1948, the design was approved by Muhammad Ali Jinnah, governor-general of Pakistan. The second design was adopted in 1954. It was designed by Meraj Muhammad, an artist from Dera Ghazi Khan, who was an alumnus of the Mayo School of Arts.[3]
+The four components of the emblem are a crescent and star crest above an escutcheon, which is surrounded by a wreath, below which is a scroll.[2] The crest and the green color of the emblem are considered traditional symbols of Islam. The quartered shield in the center shows cotton, wheat, tea, and jute, which were the major crops of Pakistan at independence and are shown in the form of escutcheon and signify the main agricultural base for the importance of the Nation's economy.[2] The floral wreath, surrounding the shield, is Jasminum officinale (the national flower) and represents the floral designs used in traditional Mughal art and emphasizes the cultural heritage of Pakistan.[2] The scroll supporting the shield contains the national motto in Urdu, "Īmān, Ittiḥād, Naẓm", which reads from right to left: (ایمان، اتحاد، نظم), translated as "Faith, Unity, Discipline" which are intended as the guiding principles for Pakistan.[4]
+Former state emblems (1947–1972)
+Emblem of the Dominion of Pakistan (1947–1954)
+Emblem of the Islamic Republic of Pakistan (1954–1972)
+Emblem of the Election Commission (1956–1972)
+Emblem of President of Pakistan (1956-present)
+Emblem of East Pakistan (1956–1970)
+Emblem of East Pakistan (1970–1971)
+Emblem of the North-West Frontier Province (now Khyber Pakhtunkhwa)
+^ body:not(.skin-timeless):not(.skin-minerva) "State Emblem of Pakistan". pakistan786.tripod.com. Archived from the original on 2014-12-19.
+^ a b c d "The State Emblem". Ministry of Information and Broadcasting, Government of Pakistan. Archived from the original on 2007-07-01. Retrieved 2007-11-29.
+^ Rizvi, Syed Farjood Ailya; Tahir, Rafia; Asim, Rabiya (2022). "National emblem and flag of Pakistan in colonial context" (PDF). Ancient Punjab. 10. Lahore: University of the Punj
+
+
+--- Crawled Page 6 ---
+URL:         https://en.wikipedia.org/wiki/%C4%AAm%C4%81n,_Ittih%C4%81d,_Nazam
+Title:       Faith, Unity, Discipline
+Clean Text:  4932 chars (4.82 KB)
+Links:       163
+Time:        1.152383437s
+
+--- CLEAN TEXT (first 3000 chars) ---
+Faith, Unity, Discipline (Urdu: ایمان، اتحاد، نظم, romanized: Īmān, Ittiḥād, Naẓm) is the national motto of Pakistan, regarded as the guiding principle of Pakistani nationhood. It is derived from the principles laid down by Muhammad Ali Jinnah, the founding father of Pakistan. The motto was officially adopted in 1948, and was inscribed on the national emblem of Pakistan (originally in both Urdu and Bengali) in 1954.[1]
+Governor-General of Pakistan14 August 1947 – 11 September 1948
+Upon the independence of Pakistan, it was introduced and adopted as the national motto by the country's founder Muhammad Ali Jinnah.[2] It is inscribed in Urdu at the base of the state emblem. The emblem itself is an adaptation of four components: wreath, crescent, star and scroll, with all components in the shield bounded by the wreath of the jasmine flower, and the crescent and star crest depicted at the top.[3]
+The words "ঈমান, একতা, শৃঙ্খলা" in Bengali language was also added to the banner before 1973.[4]
+The origin of the motto is derived from the country's founding father Muhammad Ali Jinnah. Jinnah related it to his personal example of life, and instilled a message to the youth of his time, as well as for Pakistan's future generations.[5]
+On 28 December 1947, four months after the emergence of Pakistan on the world's map, Jinnah said:
+"We are going through fire: the sunshine has yet to come. But I have no doubt that with Unity, Faith and Discipline we will compare with any nation of the world. Are you prepared to undergo the fire?  You must make up your minds now. We must sink individualism and petty jealousies and make up our minds to serve the people with honesty and faithfulness. We are passing through a period of fear, danger, and menace. We must have faith, unity and discipline."[6]
+Jinnah delivered many addresses describing faith, unity and discipline. On 23 March 1945, he said:
+"In Pakistan lies our deliverance, defence and honour…In our solidarity, unity and discipline lie the strength, power and sanction behind us to carry on this fight successfully. No sacrifice should be considered too great. I can assure you that there is nothing greater in this world than your own conscience and, when you appear before God, you can say that you performed your duty with the highest sense of integrity, honesty and with loyalty and faithfulness."[7]
+On 11 September 1948, Jinnah gave his last message:
+"The foundations of your state have been laid and it is now for you to build and build as quickly and as well as you can. Pakistan is proud of her youth, particularly the students, who are nation builders of tomorrow. They must fully equip themselves by discipline, education, and training for the arduous task lying ahead of them. With faith, discipline, unity and selfless devotion to duty, there is nothing worthwhile that you cannot achieve."[8]
+ঈমান, একতা, শৃঙ্খলা
+Īmān, Ēkatā, Śr̥�
+
+
+--- Crawled Page 7 ---
+URL:         https://en.wikipedia.org/wiki/Urdu
+Title:       Urdu
+Clean Text:  127354 chars (124.37 KB)
+Links:       2386
+Time:        186.826294ms
+
+--- CLEAN TEXT (first 3000 chars) ---
+Urduاردو (Urdū)Urdu written in the Nastaliq calligraphic handPronunciation[ˈʊɾd̪uː] ⓘNative toSouth Asia[1][2]Region
+Pakistan (widely used as lingua franca)
+Hindi–Urdu Belt and Deccan, India[3]
+[5]SpeakersL1: 78 million (2011–2023)[2]L2: 168 million (2011–2020)[2]Total: 246 million (2011–2023)[2]Language familyIndo-European
+Indo-IranianIndo-AryanCentral ZoneWestern HindiHindustaniUrduEarly formsShauraseni Prakrit
+Perso-Arabic script (Urdu alphabet)
+Andhra Pradesh (additional)[6][7]
+Recognised minoritylanguage inSouth Africa (protected language)[10]Regulated by
+National Language Promotion Department (Pakistan)
+National Council for Promotion of Urdu Language (India)
+Language codesISO 639-1urISO 639-2urdISO 639-3urdGlottologurdu1245Linguasphere59-AAF-qMap of the regions of India and Pakistan showing:  Areas where Urdu is either official or co-official
+Areas where Urdu is neither official nor co-officialThis article contains IPA phonetic symbols. Without proper rendering support, you may see question marks, boxes, or other symbols instead of Unicode characters. For an introductory guide on IPA symbols, see Help:IPA.
+This article contains Urdu text. Without proper rendering support, you may see unjoined letters running left to right or other symbols instead of Urdu script.
+Regional or dialectal variants (AndamanBihariBombayDeccaniDhakaiyaHinglishHyderabadiJudeo-UrduKauraviRekhtaUrdish)
+Urdu[a] (اُرْدُو) is an Indo-Aryan language spoken primarily in South Asia. It is the national language and lingua franca of Pakistan. It is also an official Eighth Schedule language in India, the status and cultural heritage of which are recognised by the Constitution of India.[11][12] It also has an official status in several Indian states.[note 1][14]
+Urdu and Hindi are closely related. They share a common, predominantly Sanskrit- and Prakrit-derived, vocabulary base, phonology, syntax, and grammar, making them mutually intelligible during colloquial communication.[15][16][17][18] The common base of the two languages is sometimes referred to as the Hindi–Urdu or Hindustani language, and Urdu has been described as a Persianised standard register of the Hindustani language.[19][20][21][22] While formal Urdu draws literary, political, and technical vocabulary from Persian,[23] formal Hindi draws these aspects from Sanskrit; consequently, the two languages' mutual intelligibility effectively decreases as the level of formality increases.[24]
+Urdu originated geographically in the upper Ganga-Yamuna doab, in and around the Delhi region, where Khari Boli was spoken. Urdu shared a grammatical foundation with Khari Boli, but was written in a revised Perso-Arabic script and included vocabulary borrowed from Persian and Arabic, which retained its original grammatical structure in those languages.[25][26] In 1837, Urdu became an official language of the British East India Company, replacing Persian across northern India during Company rule; Per
+
+
+--- Crawled Page 8 ---
+URL:         https://en.wikipedia.org/wiki/Qaumi_Taranah
+Title:       Qaumi Taranah
+Clean Text:  13440 chars (13.12 KB)
+Links:       537
+Time:        432.805417ms
+
+--- CLEAN TEXT (first 3000 chars) ---
+This article is about the national anthem of Pakistan. "Pak sarzamin" redirects here. For other uses, see Pak sar zamin (disambiguation).
+This article contains special characters. Without proper rendering support, you may see question marks, boxes, or other symbols.
+Problems playing this file? See media help.
+Problems playing this file? See media help.
+The National Anthem of Pakistan,[a] also known by its incipit "The Sacred Land",[b] is the national anthem of the Islamic Republic of Pakistan and formerly the Dominion of Pakistan.[1] First composed by Ahmad G. Chagla in 1949, lyrics in classical Urdu were later written by Hafeez Jalandhari in 1952. It was broadcast publicly for the first time on Radio Pakistan on 13 August 1954, sung by Jalandhari himself and officially adopted on 16 August 1954 by the Interior Ministry of the Government of Pakistan.
+After officially being adopted,[2] it was recorded in the same year by eleven singers of Pakistan including Ahmad Rushdi.[3]
+In early 1948, A. R. Ghani, a Muslim from South Africa's Transvaal, offered two prizes of five thousand rupees each for the poet and composer of a new national anthem for the newly independent state of Pakistan. The prizes were announced through a government press advertisement published in June 1948. In December 1948, the Government of Pakistan established the National Anthem Committee (NAC) with the task of coming up with the composition and lyrics for the official national anthem of Pakistan. The NAC was initially chaired by the Information Secretary, Sheikh Muhammad Ikram, and its members included several politicians, poets and musicians, including Abdur Rab Nishtar, Ahmad G. Chagla and Hafeez Jalandhari. The NAC encountered early difficulties in finding suitable music and lyrics.
+When President Sukarno of Indonesia became the first foreign head of state to visit Pakistan on 30 January 1950, there was no Pakistani national anthem to be played. In 1950, the impending state visit of the Shah of Iran added urgency to the matter and resulted in the government of Pakistan asking the NAC to submit a state anthem without further delay. The NAC chairman, then Federal Minister for Education, Fazlur Rahman, asked several poets and composers to write lyrics but none of the submitted works were deemed suitable. The NAC also examined several different tunes and eventually selected the one presented by Ahmed G. Chagla and submitted it for formal approval.[4] On 21 August 1950, the Government of Pakistan adopted Chagla's tune for the national anthem.[5]
+It was later played for Prime Minister Liaquat Ali Khan during his official visit to the United States on 3 May 1950. It was played before the NAC on 10 August 1950.[6] Official recognition to the national anthem, however, was not given until August 1954.[6] The NAC distributed records of the composed tune amongst prominent poets, who responded by writing and submitting several hundred songs for evaluation by the NAC. Eventually, the lyric
+
+
+--- Crawled Page 9 ---
+URL:         https://en.wikipedia.org/wiki/Kashmir_conflict
+Title:       Kashmir conflict
+Clean Text:  267747 chars (261.47 KB)
+Links:       2944
+Time:        246.983394ms
+
+--- CLEAN TEXT (first 3000 chars) ---
+html body.mediawiki This article may be too long to read and navigate comfortably.  When this tag was added, its readable prose size was 18,000 words. Consider splitting content into sub-articles, condensing it, or adding subheadings. Please discuss this issue on the article's talk page.  (November 2023)
+India claims the entire erstwhile British Indian princely state of Jammu and Kashmir based on an instrument of accession signed in 1947. Pakistan claims most of the region based on its Muslim-majority population, whereas China claims the largely uninhabited regions of Aksai Chin and the Shaksgam Valley.
+Skirmishes, incidents and standoffs
+The Kashmir conflict is a territorial conflict over the Kashmir region, primarily between India and Pakistan, and also between China and India in the northeastern portion of the region.[1][2] The conflict started after the partition of India in 1947 as both India and Pakistan claimed the entirety of the former princely state of Jammu and Kashmir. It is a dispute over the region that escalated into three wars between India and Pakistan and several other armed skirmishes. India controls approximately 55% of the land area of the region that includes Jammu, the Kashmir Valley, most of Ladakh, the Siachen Glacier,[3][4] and 70% of its population; Pakistan controls approximately 30% of the land area that includes Azad Kashmir and Gilgit-Baltistan; and China controls the remaining 15% of the land area that includes the Aksai Chin region, the mostly uninhabited Trans-Karakoram Tract, and part of the Demchok sector.[3][note 1]
+After the partition of India and a rebellion in the western districts of the state, Pakistani tribal militias invaded Kashmir, leading the Hindu ruler of Jammu and Kashmir to join India.[11] The resulting Indo-Pakistani War ended with a UN-mediated ceasefire along a line that was eventually named the Line of Control.[12][13] In 1962, China invaded and fought a war with India along the disputed Indo-Chinese border, including in Indian administered-Ladakh, marking their entry to the Kashmir conflict.[14] In 1965, Pakistan attempted to infiltrate Indian-administered Kashmir to precipitate an insurgency there, resulting in another war fought by the two countries over the region. After further fighting during the war of 1971, the Simla Agreement formally established the Line of Control between the territories under Indian and Pakistani control.[15][16] In 1999, an armed conflict between the two countries broke out again in Kargil with no effect on the status quo.[17]
+In 1989, an armed insurgency erupted against Indian rule in Indian-administered Kashmir Valley, after years of political disenfranchisement and alienation, with logistical support from Pakistan.[18][19][20] The insurgency was actively opposed in Jammu and Ladakh, where it revived long-held demands for autonomy from Kashmiri dominance and greater integration with India.[21][22][23][24] Spearheaded by a group seeking creation of an independen
+
+
+--- Crawled Page 10 ---
+URL:         https://en.wikipedia.org/wiki/Annexation_of_Junagadh
+Title:       Annexation of Junagadh
+Clean Text:  23660 chars (23.11 KB)
+Links:       556
+Time:        783.705744ms
+
+--- CLEAN TEXT (first 3000 chars) ---
+Annexation of JunagadhDateNovember 1947 – February 1948LocationJunagadh StateResult
+State of Junagadh annexed by India and incorporated into Saurashtra state.Belligerents
+Between November 1947 and February 1948, the princely state of Junagadh was annexed by the Union of India, following the state's accession to Pakistan, internal revolt and a blockade by the neighbouring princely states. Junagadh had been a princely state under the suzerainty of the British Crown, until independence and partition of British India in 1947.
+It had the choice of joining one of the two newly independent dominions: the Union of India or Pakistan. It was ruled by Nawab Muhammad Mahabat Khanji III, a Muslim whose ancestors had ruled Junagadh and small principalities for some two hundred years.
+The Nawab decided that Junagadh should become part of Pakistan, much to the displeasure of many of the people of the state, an overwhelming majority of whom were Hindus, about 80%. On 15 August 1947, the Nawab announced his intention to accede to Pakistan, to which it was only joined by sea.[1] The principality of Babariawad and Sheikh of Mangrol reacted by claiming independence from Junagadh and accession to India,[2] although the Sheikh of Mangrol withdrew his accession to India the next day.[3] Muhammad Ali Jinnah waited for a month to accept the Instrument of Accession. When Pakistan accepted the Nawab's Instrument of Accession on 13 September, the Government of India objected.[4] Nehru laid out India's position which was that India did not accept Junagadh's accession to Pakistan.[5] Home Minister Sardar Vallabhbhai Patel believed that if Junagadh was permitted to go to Pakistan, it would exacerbate the communal tension already simmering in Gujarat.[6]
+The princely state was surrounded on all of its land borders by India, with an outlet onto the Arabian Sea. The unsettled conditions in Junagadh had led to a cessation of all trade with India and the food position became precarious. With the region in crisis, the Nawab, fearing for his life, fled to Karachi with his family and  followers.
+Sardar Vallabhbhai Patel offered Pakistan time to reverse its acceptance of the accession and to hold a plebiscite in Junagadh. Meanwhile, tensions were simmering in the regional areas and in major cities such as Bombay against the Nawab's decision. 25,000 - 30,000 people belonging to Saurashtra and Junagadh gathered in Bombay, proclaiming to "liberate" Junagadh from the Nawab's regime. Samaldas Gandhi formed a provisional government-in-exile, called the Aarzi Hukumat (lit. Provisional Government) of the people of Junagadh. Eventually, Patel ordered the forcible annexation of Junagadh's three subsidiary principalities. Junagadh's state government, facing financial collapse and lacking forces with which to resist Indian force, invited the Government of India to take control. A plebiscite was conducted in December, in which approximately 99.95% of the people chose India over Pakistan.[7]
+A numb
+
+
+--- Crawled Page 11 ---
+URL:         https://en.wikipedia.org/wiki/Sir_Creek#Indo-Pakistani_border_dispute
+Title:       Sir Creek
+Clean Text:  16706 chars (16.31 KB)
+Links:       371
+Time:        128.031153ms
+
+--- CLEAN TEXT (first 3000 chars) ---
+Sir CreekSir CreekPhysical characteristicsMouth  • locationIndian Ocean • coordinates23°58′N 68°48′E﻿ / ﻿23.967°N 68.800°E﻿ / 23.967; 68.800Basin featuresRiver systemIndus River Delta
+Sir Creek (/sər ˈkrik/ ⓘ sər KREEK), originally Ban Ganga,[1] is a 96 km (60 mi) tidal estuary in the uninhabited marshlands of the Indus River Delta on the border between India and Pakistan. The creek flows into the Arabian Sea and separates Gujarat state in India from Sindh province in Pakistan.[2] The long-standing India-Pakistan Sir Creek border dispute stems from the demarcation "from the mouth of Sir Creek to the top of Sir Creek, and from the top of Sir Creek eastward to a point on the line designated on the Western Terminus".[2][3] From this point onward, the boundary is unambiguously fixed as defined by the Tribunal Award of 1968.[4]
+Sir Creek was originally known as Ban Ganga. It was renamed Sir Creek after a representative of the British Raj.[1]
+This marshy area is home to Russell's vipers and scorpions, which makes the lives of border soldiers difficult.[5] During the monsoon season between June and September, the creek floods its banks and envelops the low-lying salty mudflats around it. During the winter season, the area is home to flamingoes and other migratory birds. The 24th parallel north passes through Sir Creek. Sir Creek is mainly fed by Nareri Lake, whose outlet joins the creek on its right bank.[6] LBOD, a canal, also discharges water effluents into Sir Creek.
+There are 17 major creeks in the Indus Delta,[7] including the Sir Creek. On the Pakistani side are several other creeks to the west of Sir Creek, most of which are part of the Keti Bunder South Wildlife Sanctuary.
+Sir Creek lies just to the west of the Great Rann of Kutch area of India. On the Indian side, Sir Creek is one of the six main creeks in this area, the others being Vian Wari Creek (Vianbari and Viyanbari), Pir Sanai, Pabevari, Padala (16 km (9.9 mi) southeast from Sir Creek), and easternmost Kori (34 km (21 mi) southeast from Sir Creek).[8][5] All of these creeks are within the undisputed territory of India, except the westernmost creek, Sir Creek, which is claimed by both India and Pakistan. These evershifting creeks exit Indian territory, enter Pakistan, re-enter India, and vice versa, creating a hard-to-patrol, marshy wetland border with no physical barrier or fencing.[5]
+Two channels, the Harami Nala and Bondho Dhoro, are of specific concern to India for preventing infiltration and illegal activities. Vian Wari Creek (Vianbari and Viyanbari) on the Indian side enters Pakistan in the north, where is it called Harami Dhoro (bastard's stream); turns east and re-enters India, where it is called Harami Nala (bastard's drain); then splits into two streams, one of which re-enters Pakistan, which poses a strategic challenge for India for guarding against infiltration from Pakistan. The Bondho Dhoro channel, which enters India further north of H
+
+
