@@ -57,7 +57,13 @@ export default function ForgotPasswordPage() {
       <div className={styles.brandPanel}>
         <div className={styles.brandContent}>
           <Link href='/' className={styles.brandLogo}>
-            <span className={styles.logoIcon}>P</span>
+            <img
+              src='/Pak Sentiments.svg'
+              alt='PakSentiment'
+              className={styles.logoImage}
+              width={32}
+              height={32}
+            />
             <span className={styles.logoText}>PakSentiment</span>
           </Link>
           <h2 className={styles.brandTitle}>

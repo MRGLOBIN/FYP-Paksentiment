@@ -62,6 +62,20 @@
   --warning: #f59e0b;
   --info: #3b82f6;
 
+  /* ── Source Colors ── */
+  --source-reddit: #FF4500;
+  --source-twitter: #1DA1F2;
+  --source-web: #10b981;
+  --source-history: #8B5CF6;
+  --source-ai: #EAB308;
+  --source-youtube: #FF0000;
+
+  /* ── Sentiment Colors ── */
+  --sentiment-positive: #10b981;
+  --sentiment-negative: #f43f5e;
+  --sentiment-neutral: #94a3b8;
+  --sentiment-mixed: #f59e0b;
+
   /* ── Radius ── */
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -126,6 +140,20 @@
   --border-light: #1e293b;
   --divider: #1e293b;
 
+  /* ── Source Colors (Dark Theme) ── */
+  --source-reddit: #FF4500;
+  --source-twitter: #1DA1F2;
+  --source-web: #10b981;
+  --source-history: #8B5CF6;
+  --source-ai: #EAB308;
+  --source-youtube: #FF0000;
+
+  /* ── Sentiment Colors (Dark Theme) ── */
+  --sentiment-positive: #10b981;
+  --sentiment-negative: #f43f5e;
+  --sentiment-neutral: #94a3b8;
+  --sentiment-mixed: #f59e0b;
+
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-md:
@@ -168,6 +196,20 @@
     --border: #232d46;
     --border-light: #1e293b;
     --divider: #1e293b;
+
+    /* ── Source Colors (Dark Theme) ── */
+    --source-reddit: #FF4500;
+    --source-twitter: #1DA1F2;
+    --source-web: #10b981;
+    --source-history: #8B5CF6;
+    --source-ai: #EAB308;
+    --source-youtube: #FF0000;
+
+    /* ── Sentiment Colors (Dark Theme) ── */
+    --sentiment-positive: #10b981;
+    --sentiment-negative: #f43f5e;
+    --sentiment-neutral: #94a3b8;
+    --sentiment-mixed: #f59e0b;
 
     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);

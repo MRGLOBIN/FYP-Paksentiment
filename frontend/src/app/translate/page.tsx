@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styles from './page.module.scss'
 import { useAuthStore } from '../../store/useAuthStore'
+import { Public as PublicIcon } from '@mui/icons-material'
 
 const LANGUAGES = [
     { code: 'spanish', native: 'Español', english: 'Spanish' },
@@ -86,7 +87,7 @@ export default function TranslatePage() {
                 ) : (
                     <>
                         <div className={styles.header}>
-                            <h1>🌐 Global Language Translator</h1>
+                            <h1><PublicIcon fontSize="large" style={{ verticalAlign: 'middle', marginRight: '8px' }} /> Global Language Translator</h1>
                             <p>Translate Spanish, French, Mandarin, Arabic, Hindi & more to English</p>
                         </div>
 

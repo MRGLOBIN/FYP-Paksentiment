@@ -21,6 +21,7 @@
     "db:init": "ts-node scripts/init-database.ts"
   },
   "dependencies": {
+    "@google/genai": "^1.52.0",
     "@nestjs/axios": "^4.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
@@ -35,6 +36,7 @@
     "google-auth-library": "^9.0.0",
     "google-translate-api-x": "^10.7.2",
     "mongodb": "^6.8.0",
+    "natural": "^8.1.1",
     "pg": "^8.13.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
@@ -50,6 +52,7 @@
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
+    "@types/natural": "^5.1.5",
     "@types/node": "^24.8.1",
     "@types/pg": "^8.11.0",
     "@types/supertest": "^6.0.2",

@@ -35,6 +35,10 @@ export interface SentimentAnalysis {
   sentiment: 'positive' | 'negative' | 'neutral';
   score: number;
   summary: string;
+  emotion?: string;
+  keywords?: string[];
+  language?: string;
+  relevance?: number;
 }
 
 export interface RedditRawDataResponse {

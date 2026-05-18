@@ -7,11 +7,11 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"regexp"
-	"strings"
+
 	"time"
 
 	"github.com/paksentiment/colly-sidecar/models"
+	"github.com/paksentiment/colly-sidecar/perf"
 )
 
 // OllamaAnalyzer handles sentiment analysis via an Ollama LLM instance.
@@ -37,6 +37,7 @@ type ollamaRequest struct {
 	Model  string `json:"model"`
 	Prompt string `json:"prompt"`
 	Stream bool   `json:"stream"`
+	Format string `json:"format,omitempty"`
 }
 
 // ollamaResponse is the JSON body returned from Ollama /api/generate.
@@ -45,13 +46,13 @@ type ollamaResponse struct {
 	Done     bool   `json:"done"`
 }
 
-// sentimentJSON is the expected structured output from the LLM.
-type sentimentJSON struct {
-	Sentiment  string  `json:"sentiment"`
-	Confidence float64 `json:"confidence"`
-	Topic      string  `json:"topic"`
-	Summary    string  `json:"summary"`
-}
+// // sentimentJSON is the expected structured output from the LLM.
+// type sentimentJSON struct {
+// 	Sentiment  string  `json:"sentiment"`
+// 	Confidence float64 `json:"confidence"`
+// 	Topic      string  `json:"topic"`
+// 	Summary    string  `json:"summary"`
+// }
 
 // IsAvailable checks if the Ollama server is reachable with a quick ping.
 func (o *OllamaAnalyzer) IsAvailable() bool {
@@ -98,11 +99,13 @@ func (o *OllamaAnalyzer) AnalyzePages(results []models.PageResult) bool {
 			continue
 		}
 
+		perf.Log("go started sentiment analysis via Ollama")
 		sentiment, confidence, topic, summary, err := o.analyzeSingle(results[i].Text)
 		if err != nil {
 			log.Printf("[Sentiment] Ollama failed for %s: %v", results[i].URL, err)
 			continue
 		}
+		perf.Log("go finished sentiment analysis via Ollama")
 
 		results[i].Sentiment = sentiment
 		results[i].Confidence = confidence
@@ -120,10 +123,7 @@ func (o *OllamaAnalyzer) AnalyzePages(results []models.PageResult) bool {
 
 // analyzeSingle sends a single text to Ollama and parses the sentiment response.
 func (o *OllamaAnalyzer) analyzeSingle(text string) (string, float64, string, string, error) {
-	// Truncate text to avoid overwhelming the LLM with full pages, but keep enough context for a good summary
-	if len(text) > 1500 {
-		text = text[:1500]
-	}
+	text = TruncateToWords(text, 100)
 
 	prompt := buildPrompt(text)
 
@@ -131,6 +131,7 @@ func (o *OllamaAnalyzer) analyzeSingle(text string) (string, float64, string, st
 		Model:  o.model,
 		Prompt: prompt,
 		Stream: false,
+		Format: "json",
 	})
 
 	resp, err := o.client.Post(o.url+"/api/generate", "application/json", bytes.NewReader(reqBody))
@@ -155,60 +156,7 @@ func (o *OllamaAnalyzer) analyzeSingle(text string) (string, float64, string, st
 
 	raw := ollamaResp.Response
 
-	// Try to extract JSON from the response
-	jsonRegex := regexp.MustCompile(`\{[\s\S]*?\}`)
-	match := jsonRegex.FindString(raw)
-	if match != "" {
-		var parsed sentimentJSON
-		if err := json.Unmarshal([]byte(match), &parsed); err == nil {
-			confidence := parsed.Confidence
-			if confidence < 0 {
-				confidence = 0
-			}
-			if confidence > 1 {
-				confidence = 1
-			}
-			topic := parsed.Topic
-			if topic == "" {
-				topic = "General"
-			}
-			return parsed.Sentiment, confidence, topic, parsed.Summary, nil
-		}
-	}
-
-	// Fallback: keyword detection
-	lower := strings.ToLower(raw)
-	sentiment := "Neutral"
-	confidence := 0.5
-	if strings.Contains(lower, "positive") {
-		sentiment = "Positive"
-		confidence = 0.7
-	} else if strings.Contains(lower, "negative") {
-		sentiment = "Negative"
-		confidence = 0.7
-	}
-
-	summary := raw
-	if len(summary) > 300 {
-		summary = summary[:300]
-	}
-
-	return sentiment, confidence, "General", strings.TrimSpace(summary), nil
+	return parseLLMResponse(raw)
 }
 
-// buildPrompt creates a structured prompt for sentiment analysis with topic extraction.
-func buildPrompt(text string) string {
-	return fmt.Sprintf(`You are a sentiment analysis and topic classification expert. Analyze the following text and respond with ONLY a valid JSON object (no markdown, no explanation, just JSON).
 
-Classify the sentiment as one of: Positive, Negative, Neutral
-Identify the main topic as a single word (e.g. Economics, Politics, Technology, Health, Education, Sports, Science, Culture, Environment, Law).
-Write a concise summary of 3-4 sentences that captures the key points for a content preview.
-
-Respond in this exact JSON format:
-{"sentiment": "<category>", "confidence": <0.0 to 1.0>, "topic": "<single word topic>", "summary": "<3-4 sentence summary>"}
-
-Text to analyze:
-"""%s"""
-
-JSON response:`, text)
-}

@@ -1,0 +1,62 @@
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--card-bg) 25%,
+        var(--card-bg-hover) 50%,
+        var(--card-bg) 75%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.4s ease-in-out infinite;
+    margin-bottom: 0.5rem;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.statCard {
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sessionCard {
+    padding: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.sessionMeta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.donut {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 50%;
+    background: var(--card-bg-hover);
+}
+
+.donutRing {
+    position: absolute;
+    inset: 16%;
+    border-radius: 50%;
+    background: var(--card-bg);
+}

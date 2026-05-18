@@ -1,0 +1,146 @@
+=== PakSentiment Integration Services Test Report ===
+Time: 2026-05-15 08:02:49
+==================================================
+
+--- Testing Go: Hacker News ---
+Endpoint: http://localhost:8081/integrations/hackernews?query=technology
+Status Code: 200
+Response Time: 1.11s
+Results Found: 20
+Sample Result [0]:
+  Title: The boring technology behind a one-person Internet company (2018)
+  Author: mxschumacher
+  URL: https://broadcast.listennotes.com/the-boring-technology-behind-listen-notes-56697c2e347b
+  Text Snippet: The boring technology behind a one-person Internet company (2018)
+
+--------------------------------------------------
+
+--- Testing Go: NewsAPI ---
+Endpoint: http://localhost:8081/integrations/newsapi?query=technology
+Status Code: 200
+Response Time: 1.33s
+Results Found: 14
+Sample Result [0]:
+  Title: The Bloomberg Terminal Is Getting an AI Makeover, Like It or Not
+  Author: Joel Khalili
+  URL: https://www.wired.com/story/the-bloomberg-terminal-is-getting-an-ai-makeover-like-it-or-not/
+  Text Snippet: WIRED spoke with Bloomberg's chief technology officer about the big, chatbot-style changes coming to the iconic platform for traders.
+
+For its famous ...
+
+--------------------------------------------------
+
+--- Testing Go: NewsData.io ---
+Endpoint: http://localhost:8081/integrations/newsdata?query=technology
+Status Code: 200
+Response Time: 0.83s
+Results Found: 10
+Sample Result [0]:
+  Title: YAS ISLAND TO BE HOME OF SPHERE ABU DHABI, A NEW GLOBAL ICON FOR IMMERSIVE ENTERTAINMENT
+  Author: en_prnasisa
+  URL: https://en.prnasia.com/story/533091-0.shtml
+  Text Snippet: The Department of Culture and Tourism – Abu Dhabi will invest USD 1.7 billion in the construction phase of this landmark project on Yas Island Constru...
+
+--------------------------------------------------
+
+--- Testing Go: GDELT ---
+Endpoint: http://localhost:8081/integrations/gdelt?query=technology
+Status Code: 500
+Response Time: 6.95s
+Error Response: {"error":"GDELT API returned 429"}
+
+--------------------------------------------------
+
+--- Testing Go: Mastodon ---
+Endpoint: http://localhost:8081/integrations/mastodon?query=technology
+Status Code: 200
+Response Time: 0.53s
+Results Found: 0
+
+--------------------------------------------------
+
+--- Testing Go: Stack Overflow ---
+Endpoint: http://localhost:8081/integrations/stackoverflow?query=python
+Status Code: 200
+Response Time: 0.49s
+Results Found: 20
+Sample Result [0]:
+  Title: Python pyVISA GPIB connection issue
+  Author: ND24
+  URL: https://stackoverflow.com/questions/28663308/python-pyvisa-gpib-connection-issue
+  Text Snippet: Python pyVISA GPIB connection issue
+
+Tags: python, pythonxy, gpib
+
+--------------------------------------------------
+
+--- Testing Go: Google Trends ---
+Endpoint: http://localhost:8081/integrations/googletrends?query=bitcoin
+Status Code: 500
+Response Time: 0.01s
+Error Response: {"error":"FastAPI Google Trends returned status 500"}
+
+--------------------------------------------------
+
+--- Testing Go: RSS Feed ---
+Endpoint: http://localhost:8081/integrations/rss?url=https://hnrss.org/frontpage
+Status Code: 200
+Response Time: 3.47s
+Results Found: 20
+Sample Result [0]:
+  Title: 7 in 10 Americans oppose data centers being built in their communities
+  Author: 1vuio0pswjnm7
+  URL: https://www.washingtonpost.com/nation/2026/05/13/7-10-americans-oppose-data-centers-being-built-their-communities/
+  Text Snippet: 
+<p>Article URL: <a href="https://www.washingtonpost.com/nation/2026/05/13/7-10-americans-oppose-data-centers-being-built-their-communities/">https://...
+
+--------------------------------------------------
+
+--- Testing Python: Reddit Search ---
+Endpoint: http://localhost:8000/reddit/search?subreddit=pakistan&query=technology&limit=2
+Status Code: 200
+Response Time: 0.65s
+Results Found: 0
+
+--------------------------------------------------
+
+--- Testing Python: Twitter Sentiment ---
+Endpoint: http://localhost:8000/twitter/sentiment?query=technology&max_results=10
+Status Code: 500
+Response Time: 0.38s
+Error Response: {"detail":"Twitter fetch error: 401 Unauthorized\nUnauthorized"}
+
+--------------------------------------------------
+
+--- Testing Python: YouTube Search ---
+Endpoint: http://localhost:8000/youtube/search?query=technology&max_results=2
+Status Code: 200
+Response Time: 0.72s
+Results Found: 0
+
+--------------------------------------------------
+
+--- Testing Python: CommonCrawl ---
+Endpoint: http://localhost:8000/commoncrawl/records?domain=medium.com&limit=2
+Status Code: 200
+Response Time: 1.43s
+Results Found: 0
+
+--------------------------------------------------
+
+--- Testing Python: Scrapling Web ---
+Endpoint: http://localhost:8000/scrapling/fetch?url=https://news.ycombinator.com&fetch_limit=1
+Status Code: 200
+Response Time: 6.82s
+Results Found: 1
+Sample Result [0]:
+  Title: N/A
+  Author: N/A
+  URL: https://news.ycombinator.com/
+  Text Snippet: | 1. | | Removing the modem and GPS from my 2024 RAV4 hybrid (arkadiyt.com) |
+| 655 points by arkadiyt 9 hours ago | hide | 386 comments |
+|
+| 2. | | ...
+
+--------------------------------------------------
+

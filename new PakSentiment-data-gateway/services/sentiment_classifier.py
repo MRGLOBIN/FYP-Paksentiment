@@ -3,12 +3,9 @@ from __future__ import annotations
 import asyncio
 import json
 from typing import Iterable, List, TypedDict, Any, Dict
-import asyncio
-import json
 
 from groq import AsyncGroq, RateLimitError
 from fastapi import HTTPException
-from transformers import pipeline
 
 from config import settings
 
@@ -172,59 +169,151 @@ def get_classifier() -> GroqSentimentClassifier:
         classifier = GroqSentimentClassifier()
     return classifier
 
-
 class AnalysisModelSentimentClassifier:
     """
-    Local sentiment classifier using google/flan-t5-small (Analysis Model).
+    Local sentiment classifier using Ollama (qwen2.5:1.5b).
+    Offloads inference to the highly optimized Ollama daemon running on the host,
+    enabling sub-second CPU inference speeds via C++/Metal/Accelerate.
     """
     def __init__(self):
-        print("📥 Loading Analysis Model (Flan-T5-Small)... (this may take a moment)")
-        # Initialize pipeline for text2text-generation
-        self.pipe = pipeline("text2text-generation", model="google/flan-t5-small", max_length=512)
-        print("✅ Analysis Model loaded.")
+        import httpx
+        self._model_name = "llama3.2:1b"
+        self._url = "http://localhost:11434/api/generate"
+        # We initialize the client per-request or globally in process_batch to avoid unclosed sessions
+        print(f"✅ Analysis Model routing configured to Ollama: {self._model_name}")
+
+    def _truncate_text(self, text: str, max_words: int = 100) -> str:
+        words = text.split()
+        if len(words) <= max_words:
+            return text
+        return " ".join(words[:max_words]) + "..."
+
+    def _build_batch_prompt(self, docs: List[Document], custom_sentiments: str | None = None) -> str:
+        # Prepare the dataset
+        truncated_docs = []
+        for d in docs:
+            truncated_docs.append({
+                "id": d["id"],
+                "text": self._truncate_text(d["text"], 100)
+            })
+            
+        dataset = json.dumps(truncated_docs, ensure_ascii=False, indent=2)
+
+        topic_inst = f'- "topic" (one word from: {custom_sentiments})' if custom_sentiments else '- "topic" (one word, e.g. Politics, Sports, Economy, Technology)'
+        
+        return (
+            f'You are an expert data extractor. Analyze the following list of documents. '
+            f'Extract the topic, sentiment, emotion, keywords, language, relevance, and summary for EACH document and format your response STRICTLY as a JSON array of objects.\n\n'
+            f'Required Fields for EACH object:\n'
+            f'- "id" (must EXACTLY match the input document id)\n'
+            f'{topic_inst}\n'
+            f'- "sentiment" (exactly "Positive", "Negative", or "Neutral")\n'
+            f'- "confidence" (number between 0.0 and 1.0)\n'
+            f'- "emotion" (exactly one of: "Joy", "Anger", "Fear", "Surprise", "Sadness", "Disgust", "Trust", "Anticipation")\n'
+            f'- "keywords" (array of 3 to 5 key terms from the text)\n'
+            f'- "language" (ISO 639-1 code of the source text, e.g. "en", "ur", "ar")\n'
+            f'- "relevance" (how relevant this document is to the overall topic, 0.0 to 1.0)\n'
+            f'- "summary" (one short sentence summary)\n\n'
+            f'Documents to analyze:\n{dataset}'
+        )
 
     async def process_batch(self, documents: Iterable[Document], custom_sentiments: str | None = None) -> List[Dict[str, Any]]:
         """
-        Process a batch of documents using Analysis Model.
-        Since T5 is seq2seq, we'll prompt it for specific fields and aggregate.
+        Process a batch of documents using Ollama in a SINGLE prompt.
+        This dramatically improves response time by eliminating HTTP queue overhead.
         """
+        import httpx
         docs = list(documents)
-        results = []
+        if not docs:
+            return []
 
-        # Run inference in a thread to avoid blocking the event loop
-        def _run_inference(doc: Document):
-            text = doc["text"]
-            # 1. Topic/Context
-            if custom_sentiments:
-                topic_prompt = f"Classify this text into one of these categories ({custom_sentiments}): {text}"
-            else:
-                topic_prompt = f"Classify the topic of this text into one word (e.g. Politics, Sports, Economy): {text}"
-            
-            topic_res = self.pipe(topic_prompt)[0]['generated_text']
-
-            # 2. Summary
-            sum_prompt = f"Summarize this text in one sentence: {text}"
-            sum_res = self.pipe(sum_prompt)[0]['generated_text']
-            
-            # Note: Groq classifier maps 'sentiment' field to Topic. We follow suit.
-            
-            return {
-                "id": doc["id"],
-                "sentiment": topic_res.strip(), 
-                "confidence": 0.85, 
-                "summary": sum_res.strip()
-            }
-
-        for doc in docs:
-            try:
-                # Run CPU intensive model in thread
-                res = await asyncio.to_thread(_run_inference, doc)
-                results.append(res)
-            except Exception as e:
-                print(f"Error processing doc {doc['id']} with Analysis Model: {e}")
-                continue
+        prompt = self._build_batch_prompt(docs, custom_sentiments)
         
-        return results
+        # Enforce strict JSON Schema for an ARRAY of objects
+        schema = {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "string"},
+                    "topic": {"type": "string"},
+                    "sentiment": {"type": "string", "enum": ["Positive", "Negative", "Neutral"]},
+                    "confidence": {"type": "number"},
+                    "emotion": {"type": "string", "enum": ["Joy", "Anger", "Fear", "Surprise", "Sadness", "Disgust", "Trust", "Anticipation"]},
+                    "keywords": {"type": "array", "items": {"type": "string"}},
+                    "language": {"type": "string"},
+                    "relevance": {"type": "number"},
+                    "summary": {"type": "string"}
+                },
+                "required": ["id", "topic", "sentiment", "confidence", "emotion", "keywords", "language", "relevance", "summary"]
+            }
+        }
+        
+        payload = {
+            "model": self._model_name,
+            "prompt": prompt,
+            "format": schema,
+            "stream": False,
+            "options": {
+                "temperature": 0.1,
+                "num_ctx": 8192,     # Double the context window to prevent prompt truncation
+                "num_predict": 4000  # Increased to accommodate keywords array + new fields per document
+            }
+        }
+        
+        valid_results = []
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(self._url, json=payload, timeout=300.0)
+                response.raise_for_status()
+                
+                data = response.json()
+                response_text = data.get("response", "[]")
+                
+                # Ollama JSON Schema enforcement guarantees this is a valid JSON array
+                parsed_array = json.loads(response_text)
+                
+                if isinstance(parsed_array, list):
+                    # Create a lookup for validation
+                    doc_ids = {str(d["id"]) for d in docs}
+                    
+                    for item in parsed_array:
+                        item_id = str(item.get("id"))
+                        if item_id in doc_ids:
+                            try:
+                                conf = float(item.get("confidence", 0.7))
+                                item["confidence"] = max(0.0, min(1.0, conf))
+                            except (ValueError, TypeError):
+                                item["confidence"] = 0.7
+                            valid_results.append(item)
+                            doc_ids.remove(item_id)
+                    
+                    # Handle any missing documents that the model skipped
+                    for missing_id in doc_ids:
+                        print(f"Model skipped document {missing_id}")
+                        valid_results.append({
+                            "id": missing_id,
+                            "topic": "Unknown",
+                            "sentiment": "Unknown",
+                            "confidence": 0.0,
+                            "summary": "Analysis failed due to model skipping"
+                        })
+                else:
+                    raise ValueError("Model did not return a JSON array")
+                    
+        except Exception as e:
+            print(f"Batched Ollama request failed: {e}")
+            # Fallback for all documents if the entire request fails
+            for doc in docs:
+                valid_results.append({
+                    "id": doc["id"],
+                    "topic": "Unknown",
+                    "sentiment": "Unknown",
+                    "confidence": 0.0,
+                    "summary": "Analysis failed due to an error"
+                })
+                
+        return valid_results
 
 analysis_model_instance: AnalysisModelSentimentClassifier | None = None
 
@@ -233,4 +322,5 @@ def get_analysis_model() -> AnalysisModelSentimentClassifier:
     if analysis_model_instance is None:
         analysis_model_instance = AnalysisModelSentimentClassifier()
     return analysis_model_instance
+
 

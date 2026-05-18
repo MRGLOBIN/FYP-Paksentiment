@@ -5,7 +5,6 @@ import { Reddit, Twitter, YouTube, Public, RssFeed, Shield } from '@mui/icons-ma
 
 const SOURCES = [
     { name: 'Reddit', icon: <Reddit fontSize="inherit" />, description: 'Community discussions and subreddit trends' },
-    { name: 'Twitter/X', icon: <Twitter fontSize="inherit" />, description: 'Real-time tweets and hashtag analysis' },
     { name: 'YouTube', icon: <YouTube fontSize="inherit" />, description: 'Video comments and channel insights' },
     { name: 'CommonCrawl', icon: <Public fontSize="inherit" />, description: 'Web archive and news content' },
     { name: 'News RSS', icon: <RssFeed fontSize="inherit" />, description: 'Major news outlets and publications' }

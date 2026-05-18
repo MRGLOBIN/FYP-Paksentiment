@@ -17,6 +17,9 @@ dependencies = [
     "numpy<2",
     "justext>=3.0.0",
     "lxml>=5.0.0",
+    "redis[hiredis]>=5.0.0",
+    "accelerate>=1.13.0",
+    "pytrends>=4.9.2",
 ]
 
 [project.optional-dependencies]

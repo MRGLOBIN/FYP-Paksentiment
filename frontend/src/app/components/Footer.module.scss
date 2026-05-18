@@ -40,20 +40,12 @@
   margin-bottom: 0.5rem;
 }
 
-.logoIcon {
+.logoImage {
   width: 36px;
   height: 36px;
-  background: var(--primary);
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .brandName {

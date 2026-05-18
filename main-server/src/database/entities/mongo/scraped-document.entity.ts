@@ -38,6 +38,9 @@ export class ScrapedDocumentEntity {
         chunkResults?: any[];
     };
 
+    @Column('simple-array', { nullable: true })
+    searchKeywords?: string[];
+
     @Column({ type: 'date' })
     createdAt: Date;
 

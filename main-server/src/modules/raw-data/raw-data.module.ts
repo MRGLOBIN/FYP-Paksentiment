@@ -4,6 +4,7 @@ import { HttpModule } from '@nestjs/axios';
 
 import { RawDataService } from './raw-data.service';
 import { RawDataController } from './raw-data.controller';
+import { ProxyController } from './proxy.controller';
 import { SmartSearchService } from './smart-search.service';
 import { ActivityModule } from '../activity/activity.module';
 import { AuthModule } from '../auth/auth.module';
@@ -20,6 +21,7 @@ import { CommonCrawlProvider } from './providers/commoncrawl.provider';
 import { ScraplingProvider } from './providers/scrapling.provider';
 import { WebProvider } from './providers/web.provider';
 import { SentimentProvider } from './providers/sentiment.provider';
+import { IntegrationsProvider } from './providers/integrations.provider';
 
 @Module({
   imports: [
@@ -31,7 +33,7 @@ import { SentimentProvider } from './providers/sentiment.provider';
     ),
     ActivityModule,
   ],
-  controllers: [RawDataController],
+  controllers: [RawDataController, ProxyController],
   providers: [
     RawDataService,
     SmartSearchService,
@@ -44,7 +46,8 @@ import { SentimentProvider } from './providers/sentiment.provider';
     ScraplingProvider,
     WebProvider,
     SentimentProvider,
+    IntegrationsProvider,
   ],
-  exports: [RawDataService, SmartSearchService],
+  exports: [RawDataService, SmartSearchService, IntegrationsProvider],
 })
 export class RawDataModule { }

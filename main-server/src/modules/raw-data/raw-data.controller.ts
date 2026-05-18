@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Body,
   Controller,
@@ -7,10 +11,7 @@ import {
   Request,
   Param,
 } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import {
   FetchRedditRawDataDocs,
@@ -71,7 +72,7 @@ export class RawDataController {
     private readonly rawDataService: RawDataService,
     private readonly smartSearchService: SmartSearchService,
     private readonly activityService: ActivityService,
-  ) { }
+  ) {}
 
   @Post('reddit')
   @FetchRedditRawDataDocs()
@@ -79,33 +80,38 @@ export class RawDataController {
     @Body() query: RedditRawDataQueryDto,
     @Request() req,
   ): Promise<RedditRawDataResponse> {
-    const result = await this.rawDataService.fetchRedditPosts(
+    // Auto-detect tier from user's JWT (free users → RSS, paid → JSON+proxy)
+    const tier = this.resolveUserTier(req.user);
+    const result = await this.rawDataService.fetchRedditScaled(
       query,
       req.user.sub,
+      tier,
     );
     await this.activityService.logActivity(req.user.sub, 'SEARCH_REDDIT', {
       ...query,
+      tier,
       sessionId: result.sessionId,
+      count: result.count || result.posts?.length || 0,
     });
     return result;
   }
 
-  @Post('twitter')
-  @FetchTwitterRawDataDocs()
-  async fetchTwitterRawData(
-    @Body() query: TwitterRawDataQueryDto,
-    @Request() req,
-  ): Promise<TwitterRawDataResponse> {
-    const result = await this.rawDataService.fetchTwitterPosts(
-      query,
-      req.user.sub,
-    );
-    await this.activityService.logActivity(req.user.sub, 'SEARCH_TWITTER', {
-      ...query,
-      sessionId: result.sessionId,
-    });
-    return result;
-  }
+  // @Post('twitter')
+  // @FetchTwitterRawDataDocs()
+  // async fetchTwitterRawData(
+  //   @Body() query: TwitterRawDataQueryDto,
+  //   @Request() req,
+  // ): Promise<TwitterRawDataResponse> {
+  //   const result = await this.rawDataService.fetchTwitterPosts(
+  //     query,
+  //     req.user.sub,
+  //   );
+  //   await this.activityService.logActivity(req.user.sub, 'SEARCH_TWITTER', {
+  //     ...query,
+  //     sessionId: result.sessionId,
+  //   });
+  //   return result;
+  // }
 
   @Post('reddit/sentiment')
   @FetchRedditSentimentDocs()
@@ -113,33 +119,38 @@ export class RawDataController {
     @Body() query: RedditSentimentQueryDto,
     @Request() req,
   ): Promise<RedditSentimentResponse> {
-    const result = await this.rawDataService.fetchRedditSentiment(
+    // Auto-detect tier from user's JWT (free users → RSS, paid → JSON+proxy)
+    const tier = this.resolveUserTier(req.user);
+    const result = await this.rawDataService.fetchRedditScaledSentiment(
       query,
       req.user.sub,
+      tier,
     );
     await this.activityService.logActivity(req.user.sub, 'ANALYZE_REDDIT', {
       ...query,
+      tier,
       sessionId: result.sessionId,
+      count: result.count || result.posts?.length || 0,
     });
     return result;
   }
 
-  @Post('twitter/sentiment')
-  @FetchTwitterSentimentDocs()
-  async fetchTwitterSentiment(
-    @Body() query: TwitterSentimentQueryDto,
-    @Request() req,
-  ): Promise<TwitterSentimentResponse> {
-    const result = await this.rawDataService.fetchTwitterSentiment(
-      query,
-      req.user.sub,
-    );
-    await this.activityService.logActivity(req.user.sub, 'ANALYZE_TWITTER', {
-      ...query,
-      sessionId: result.sessionId,
-    });
-    return result;
-  }
+  // @Post('twitter/sentiment')
+  // @FetchTwitterSentimentDocs()
+  // async fetchTwitterSentiment(
+  //   @Body() query: TwitterSentimentQueryDto,
+  //   @Request() req,
+  // ): Promise<TwitterSentimentResponse> {
+  //   const result = await this.rawDataService.fetchTwitterSentiment(
+  //     query,
+  //     req.user.sub,
+  //   );
+  //   await this.activityService.logActivity(req.user.sub, 'ANALYZE_TWITTER', {
+  //     ...query,
+  //     sessionId: result.sessionId,
+  //   });
+  //   return result;
+  // }
 
   @Post('youtube/search')
   @FetchYouTubeVideosDocs()
@@ -151,6 +162,7 @@ export class RawDataController {
     await this.activityService.logActivity(req.user.sub, 'SEARCH_YOUTUBE', {
       ...query,
       sessionId: result.sessionId,
+      count: result.count || result.posts?.length || 0,
     });
     return result;
   }
@@ -177,6 +189,7 @@ export class RawDataController {
     await this.activityService.logActivity(req.user.sub, 'SEARCH_COMMONCRAWL', {
       ...query,
       sessionId: result.sessionId,
+      count: result.count || result.posts?.length || 0,
     });
     return result;
   }
@@ -197,15 +210,20 @@ export class RawDataController {
     @Body('customTags') customTags: string,
     @Request() req,
   ) {
+    const tier = this.resolveUserTier(req.user);
     const result = await this.smartSearchService.executeSmartSearch(
       query,
       req.user.sub,
       customTags,
+      tier,
     );
     await this.activityService.logActivity(req.user.sub, 'SMART_SEARCH', {
       query,
       customTags,
+      tier,
       sessionId: result.sessionId,
+      sentiment: result.overallSentiment,
+      count: result.count || result.posts?.length || 0,
     });
     return result;
   }
@@ -236,6 +254,7 @@ export class RawDataController {
     await this.activityService.logActivity(req.user.sub, 'ANALYZE_WEB', {
       ...query,
       sessionId: result.sessionId,
+      count: result.count || result.posts?.length || 0,
     });
     return result;
   }
@@ -250,6 +269,7 @@ export class RawDataController {
     await this.activityService.logActivity(req.user.sub, 'ANALYZE_WEB', {
       ...query,
       sessionId: result.sessionId,
+      count: result.count || result.posts?.length || 0,
     });
     return result;
   }
@@ -264,5 +284,50 @@ export class RawDataController {
   @GetSessionDataDocs()
   async getSessionData(@Param('sessionId') sessionId: string) {
     return await this.rawDataService.getSessionData(sessionId);
+  }
+
+  @Get('integrations/:platform')
+  async fetchIntegration(
+    @Param('platform') platform: string,
+    @Request() req,
+  ): Promise<any> {
+    const query = {
+      platform,
+      query: req.query.query,
+      limit: req.query.limit,
+      customTags: req.query.customTags
+    };
+    
+    const result = await this.rawDataService.fetchIntegration(
+      query,
+      req.user.sub,
+    );
+    await this.activityService.logActivity(req.user.sub, `SEARCH_${platform.toUpperCase()}`, {
+      ...query,
+      sessionId: result.sessionId,
+      count: result.count || result.posts?.length || 0,
+    });
+    return result;
+  }
+
+  /**
+   * Resolve the user's data access tier from their JWT token.
+   * Maps subscription tiers to data access levels:
+   *   - free → 'free' (RSS feeds only)
+   *   - premium / super_premium / admin → 'paid' (JSON + proxy, richer data)
+   */
+  private resolveUserTier(user: any): string {
+    const subscriptionTier = user?.tier || 'free';
+    if (
+      subscriptionTier === 'premium' ||
+      subscriptionTier === 'super_premium'
+    ) {
+      return 'paid';
+    }
+    // Admin users also get paid tier access
+    if (user?.role === 'admin') {
+      return 'paid';
+    }
+    return 'free';
   }
 }

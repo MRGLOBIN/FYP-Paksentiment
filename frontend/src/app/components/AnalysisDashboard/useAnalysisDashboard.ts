@@ -34,6 +34,17 @@ export const TOPIC_COLORS: Record<string, string> = {
     neutral: '#6b7280'
 }
 
+export const EMOTION_COLORS: Record<string, string> = {
+    joy: '#FBBF24',
+    anger: '#EF4444',
+    fear: '#8B5CF6',
+    surprise: '#F97316',
+    sadness: '#3B82F6',
+    disgust: '#84CC16',
+    trust: '#10B981',
+    anticipation: '#EC4899'
+}
+
 export const TOPIC_COLOR_MAP: Record<string, string> = {
     economics: '#F59E0B', politics: '#EF4444', technology: '#8B5CF6',
     health: '#F97316', education: '#0EA5E9', sports: '#10B981',
@@ -89,6 +100,68 @@ export const sanitizeTopic = (raw: any): string => {
     return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
 }
 
+export const getSafeDateStr = (timestamp?: any, created_utc?: any, rawDate?: any): string => {
+    try {
+        if (timestamp) {
+            const d = new Date(timestamp);
+            if (!isNaN(d.getTime())) return d.toISOString().split('T')[0];
+        }
+        if (created_utc) {
+            const parsedUtc = Number(created_utc);
+            if (!isNaN(parsedUtc)) {
+                const ms = parsedUtc > 1e11 ? parsedUtc : parsedUtc * 1000;
+                const d = new Date(ms);
+                if (!isNaN(d.getTime())) return d.toISOString().split('T')[0];
+            }
+        }
+        if (rawDate) {
+            const dStr = rawDate.toString();
+            if (dStr.length >= 8 && /^\d+$/.test(dStr.slice(0, 8))) {
+                return `${dStr.slice(0, 4)}-${dStr.slice(4, 6)}-${dStr.slice(6, 8)}`;
+            }
+        }
+    } catch (e) {
+        // ignore
+    }
+    return 'Unknown';
+}
+
+export const getSafeLocaleDateStr = (timestamp?: any, created_utc?: any): string => {
+    try {
+        if (timestamp) {
+            const d = new Date(timestamp);
+            if (!isNaN(d.getTime())) return d.toLocaleString();
+        }
+        if (created_utc) {
+            const parsedUtc = Number(created_utc);
+            if (!isNaN(parsedUtc)) {
+                const ms = parsedUtc > 1e11 ? parsedUtc : parsedUtc * 1000;
+                const d = new Date(ms);
+                if (!isNaN(d.getTime())) return d.toLocaleString();
+            }
+        }
+    } catch (e) {
+        // ignore
+    }
+    return 'N/A';
+}
+
+export const shortenAuthorName = (author: any): string => {
+    const raw = getSafeString(author, '—');
+    if (raw === '—') return raw;
+    try {
+        if (raw.startsWith('http') || raw.includes('www.')) {
+            const url = new URL(raw.startsWith('http') ? raw : `https://${raw}`);
+            let hostname = url.hostname.replace(/^www\./, '');
+            hostname = hostname.split('.').slice(0, -1).join('.') || hostname;
+            return hostname;
+        }
+    } catch (e) {}
+    
+    if (raw.length > 25) return raw.substring(0, 22) + '...';
+    return raw;
+}
+
 export const useAnalysisDashboard = (data: AnalysisResult) => {
     const [selectedPost, setSelectedPost] = useState<Post | null>(null)
     const [exportAnchorEl, setExportAnchorEl] = useState<null | HTMLElement>(null)
@@ -100,7 +173,7 @@ export const useAnalysisDashboard = (data: AnalysisResult) => {
             const rawSentiment = post.sentiment || sentimentObj?.sentiment
 
             return {
-                Date: post.timestamp ? new Date(post.timestamp).toLocaleString() : (post.created_utc ? new Date(post.created_utc * 1000).toLocaleString() : 'N/A'),
+                Date: getSafeLocaleDateStr(post.timestamp, post.created_utc),
                 'User Name': post.author || 'Unknown',
                 Source: post.url?.includes('reddit') ? 'Reddit' : (post.url?.includes('youtube') ? 'YouTube' : (post.url?.includes('twitter') ? 'Twitter' : 'Web')),
                 Content: (post.text || post.content || post.title || '').replace(/[\n\r]+/g, ' ').substring(0, 500),
@@ -254,17 +327,7 @@ export const useAnalysisDashboard = (data: AnalysisResult) => {
     const timelineData = useMemo(() => {
         const dateMap: Record<string, number> = {}
         data.posts?.forEach(p => {
-            let dateStr = 'Unknown'
-            if (p.timestamp) {
-                dateStr = new Date(p.timestamp).toISOString().split('T')[0]
-            } else if (p.created_utc) {
-                dateStr = new Date(p.created_utc * 1000).toISOString().split('T')[0]
-            } else if (p.date) {
-                const d = p.date.toString()
-                if (d.length >= 8) {
-                    dateStr = `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}`
-                }
-            }
+            const dateStr = getSafeDateStr(p.timestamp, p.created_utc, p.date);
             if (dateStr !== 'Unknown') {
                 dateMap[dateStr] = (dateMap[dateStr] || 0) + 1
             }
@@ -317,6 +380,131 @@ export const useAnalysisDashboard = (data: AnalysisResult) => {
 
     const uniqueTopicCount = Object.keys(realTopicCounts).length
 
+    // ============ NEW: EMOTION DISTRIBUTION ============
+    const emotionChartData = useMemo(() => {
+        const counts: Record<string, number> = {}
+        const sentiments = data.sentiment || []
+        sentiments.forEach((s: any) => {
+            const emotion = (s.emotion || 'Trust').trim()
+            counts[emotion] = (counts[emotion] || 0) + 1
+        })
+        // Also check posts directly
+        data.posts?.forEach(p => {
+            if (p.emotion && !data.sentiment?.find(s => s.id === p.id)) {
+                const emotion = p.emotion.trim()
+                counts[emotion] = (counts[emotion] || 0) + 1
+            }
+        })
+        return Object.entries(counts).map(([name, value]) => ({
+            name,
+            value,
+            color: EMOTION_COLORS[name.toLowerCase()] || '#6B7280'
+        })).sort((a, b) => b.value - a.value)
+    }, [data])
+
+    const topEmotion = emotionChartData.length > 0 ? emotionChartData[0].name : 'N/A'
+
+    // ============ NEW: KEYWORD FREQUENCY ============
+    const keywordData = useMemo(() => {
+        const freq: Record<string, number> = {}
+        const sentiments = data.sentiment || []
+        sentiments.forEach((s: any) => {
+            if (Array.isArray(s.keywords)) {
+                s.keywords.forEach((kw: string) => {
+                    const normalized = kw.toLowerCase().trim()
+                    if (normalized.length > 1) {
+                        freq[normalized] = (freq[normalized] || 0) + 1
+                    }
+                })
+            }
+        })
+        data.posts?.forEach(p => {
+            if (Array.isArray(p.keywords) && !data.sentiment?.find(s => s.id === p.id)) {
+                p.keywords.forEach((kw: string) => {
+                    const normalized = kw.toLowerCase().trim()
+                    if (normalized.length > 1) {
+                        freq[normalized] = (freq[normalized] || 0) + 1
+                    }
+                })
+            }
+        })
+        return Object.entries(freq)
+            .map(([word, count]) => ({ word, count }))
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 30)
+    }, [data])
+
+    // ============ NEW: LANGUAGE DISTRIBUTION ============
+    const languageData = useMemo(() => {
+        const counts: Record<string, number> = {}
+        const sentiments = data.sentiment || []
+        sentiments.forEach((s: any) => {
+            const lang = (s.language || 'en').toUpperCase()
+            counts[lang] = (counts[lang] || 0) + 1
+        })
+        data.posts?.forEach(p => {
+            if (p.language && !data.sentiment?.find(s => s.id === p.id)) {
+                const lang = p.language.toUpperCase()
+                counts[lang] = (counts[lang] || 0) + 1
+            }
+        })
+        return Object.entries(counts)
+            .map(([name, value]) => ({ name, value }))
+            .sort((a, b) => b.value - a.value)
+    }, [data])
+
+    // ============ NEW: SOURCE MIX ============
+    const sourceMixData = useMemo(() => {
+        const counts: Record<string, number> = {}
+        data.posts?.forEach(p => {
+            let src = 'Web'
+            const url = p.url || ''
+            const metaSource = (p.metadata?.source || '').toLowerCase()
+
+            if (url.includes('reddit.com') || p.subreddit) src = 'Reddit'
+            else if (url.includes('youtube.com')) src = 'YouTube'
+            else if (url.includes('twitter.com') || url.includes('x.com')) src = 'Twitter'
+            else if (url.includes('news.ycombinator.com') || metaSource === 'hackernews') src = 'Hacker News'
+            else if (url.includes('stackoverflow.com') || metaSource === 'stackoverflow') src = 'Stack Overflow'
+            else if (url.includes('mastodon') || metaSource === 'mastodon') src = 'Mastodon'
+            else if (metaSource === 'newsapi') src = 'NewsAPI'
+            else if (metaSource === 'newsdata') src = 'NewsData'
+            else if (metaSource === 'gdelt') src = 'GDELT'
+            else if (metaSource === 'googletrends' || url.includes('trends.google.com')) src = 'Google Trends'
+            else if (metaSource === 'rss') src = 'RSS'
+            else if (metaSource === 'commoncrawl' || data.source === 'commoncrawl') src = 'CommonCrawl'
+            else if (data.source) {
+                // Fallback: use the top-level data.source if set
+                src = data.source.charAt(0).toUpperCase() + data.source.slice(1)
+            }
+            counts[src] = (counts[src] || 0) + 1
+        })
+        const sourceColors: Record<string, string> = {
+            Reddit: '#FF4500', YouTube: '#FF0000', Twitter: '#1DA1F2',
+            CommonCrawl: '#8B5CF6', Web: '#10B981',
+            'Hacker News': '#FF6600', 'Stack Overflow': '#f97316',
+            Mastodon: '#6364FF', NewsAPI: '#0ea5e9', NewsData: '#3b82f6',
+            GDELT: '#6366f1', 'Google Trends': '#4285F4', RSS: '#f59e0b',
+        }
+        return Object.entries(counts).map(([name, value]) => ({
+            name, value, color: sourceColors[name] || '#6B7280'
+        }))
+    }, [data])
+
+    // ============ NEW: ENGAGEMENT SCORE ============
+    const engagementStats = useMemo(() => {
+        let totalScore = 0, totalComments = 0, count = 0
+        data.posts?.forEach(p => {
+            if (p.score != null) { totalScore += p.score; count++ }
+            if (p.num_comments != null) totalComments += p.num_comments
+        })
+        return {
+            avgScore: count > 0 ? Math.round(totalScore / count) : 0,
+            totalComments,
+            hasEngagement: count > 0
+        }
+    }, [data])
+
     // Table Data
     const tableRows = useMemo(() => {
         return data.posts?.map((post, idx) => {
@@ -338,9 +526,234 @@ export const useAnalysisDashboard = (data: AnalysisResult) => {
                 summary: safeSummary,
                 sentiment: getSafeString(rawSentimentValue, '—'),
                 confidence: sentimentObj?.confidence ?? post.confidence ?? getConfidenceValue(rawSentimentValue, 0),
+                keywords: (sentimentObj?.keywords || post.keywords || []) as string[],
+                language: getSafeString(sentimentObj?.language || post.language, '—').toUpperCase(),
+                relevance: (sentimentObj?.relevance ?? post.relevance ?? 0) as number,
+                author: shortenAuthorName(post.author),
+                date: getSafeDateStr(post.timestamp, post.created_utc, post.date),
                 fullPost: post
             }
         }) || []
+    }, [data])
+
+    // ============ PHASE 1: NET SENTIMENT SCORE ============
+    const netSentimentScore = useMemo(() => {
+        const sentiments = kpis.sentimentSource
+        if (sentiments.length === 0) return 0
+        let pos = 0, neg = 0
+        sentiments.forEach(s => {
+            const sl = s.sentiment.toLowerCase()
+            if (sl.includes('positive')) pos++
+            else if (sl.includes('negative')) neg++
+        })
+        return Math.round(((pos - neg) / sentiments.length) * 100)
+    }, [kpis.sentimentSource])
+
+    // ============ PHASE 1: SENTIMENT OVER TIME (stacked) ============
+    const sentimentTimelineData = useMemo(() => {
+        const dateMap: Record<string, { date: string, Positive: number, Negative: number, Neutral: number }> = {}
+        data.posts?.forEach(p => {
+            const dateStr = getSafeDateStr(p.timestamp, p.created_utc, p.date)
+            if (dateStr === 'Unknown') return
+            if (!dateMap[dateStr]) dateMap[dateStr] = { date: dateStr, Positive: 0, Negative: 0, Neutral: 0 }
+            const sentimentObj = data.sentiment?.find(s => s.id === p.id)
+            const sent = getSentimentString(sentimentObj?.sentiment || p.sentiment)
+            if (sent === 'Positive') dateMap[dateStr].Positive++
+            else if (sent === 'Negative') dateMap[dateStr].Negative++
+            else dateMap[dateStr].Neutral++
+        })
+        return Object.values(dateMap).sort((a, b) => a.date.localeCompare(b.date))
+    }, [data])
+
+    // ============ PHASE 1: TOP AUTHORS ============
+    const topAuthorsData = useMemo(() => {
+        const counts: Record<string, { posts: number, totalScore: number }> = {}
+        data.posts?.forEach(p => {
+            const author = p.author || 'Unknown'
+            if (author === 'Unknown' || author === '—') return
+            if (!counts[author]) counts[author] = { posts: 0, totalScore: 0 }
+            counts[author].posts++
+            counts[author].totalScore += (p.score || 0)
+        })
+        return Object.entries(counts)
+            .map(([name, val]) => ({ name, posts: val.posts, score: val.totalScore }))
+            .sort((a, b) => b.posts - a.posts || b.score - a.score)
+            .slice(0, 10)
+    }, [data])
+
+    // ============ PHASE 1: CONTENT LENGTH DISTRIBUTION ============
+    const contentLengthData = useMemo(() => {
+        const buckets = [
+            { range: '0-50', min: 0, max: 50, count: 0 },
+            { range: '50-100', min: 50, max: 100, count: 0 },
+            { range: '100-200', min: 100, max: 200, count: 0 },
+            { range: '200-500', min: 200, max: 500, count: 0 },
+            { range: '500-1k', min: 500, max: 1000, count: 0 },
+            { range: '1k+', min: 1000, max: Infinity, count: 0 },
+        ]
+        data.posts?.forEach(p => {
+            const text = p.text || p.content || p.title || ''
+            const wordCount = text.split(/\s+/).filter(Boolean).length
+            const bucket = buckets.find(b => wordCount >= b.min && wordCount < b.max)
+            if (bucket) bucket.count++
+        })
+        return buckets.map(b => ({ range: b.range, count: b.count }))
+    }, [data])
+
+    // ============ PHASE 1: PEAK HOURS HEATMAP ============
+    const peakHoursData = useMemo(() => {
+        const grid: number[][] = Array.from({ length: 7 }, () => Array(24).fill(0))
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        data.posts?.forEach(p => {
+            let d: Date | null = null
+            if (p.timestamp) d = new Date(p.timestamp)
+            else if (p.created_utc) {
+                const utc = Number(p.created_utc)
+                if (!isNaN(utc)) d = new Date(utc > 1e11 ? utc : utc * 1000)
+            }
+            if (d && !isNaN(d.getTime())) {
+                grid[d.getDay()][d.getHours()]++
+            }
+        })
+        const result: { day: string, hour: number, count: number }[] = []
+        for (let dayIdx = 0; dayIdx < 7; dayIdx++) {
+            for (let hour = 0; hour < 24; hour++) {
+                if (grid[dayIdx][hour] > 0) {
+                    result.push({ day: dayNames[dayIdx], hour, count: grid[dayIdx][hour] })
+                }
+            }
+        }
+        return result
+    }, [data])
+
+    // ============ MEDIA GALLERY DATA ============
+    const mediaItems = useMemo(() => {
+        const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/raw-data.*$/, '').replace(/\/api\/v1\/?$/, '') || 'http://localhost:3000';
+
+        const formatMediaUrl = (url: string) => {
+            if (!url) return url;
+            // Backend sends relative proxy paths like /proxy/image?url=...
+            if (url.startsWith('/proxy/')) return `${apiBase}${url}`;
+            return url;
+        };
+
+        // Use standardized media array from backend if available
+        if (data.media && Array.isArray(data.media) && data.media.length > 0) {
+            return data.media.map(m => ({ ...m, mediaUrl: formatMediaUrl(m.mediaUrl) }));
+        }
+
+        const items: {
+            id: string
+            type: 'image' | 'video'
+            mediaUrl: string
+            title: string
+            source: string
+            sourceUrl: string
+            query: string
+            date: string
+        }[] = []
+
+        data.posts?.forEach((post, idx) => {
+            const postId = post.id || String(idx)
+            const title = post.title || 'Untitled'
+            const sourceUrl = post.url || ''
+            const date = getSafeDateStr(post.timestamp, post.created_utc, post.date)
+
+            // Determine source label
+            let source = data.source || 'Web'
+            if (sourceUrl.includes('reddit.com')) source = 'Reddit'
+            else if (sourceUrl.includes('youtube.com')) source = 'YouTube'
+            else if (sourceUrl.includes('news.ycombinator.com')) source = 'Hacker News'
+            else if (sourceUrl.includes('stackoverflow.com')) source = 'Stack Overflow'
+            else if (post.author?.includes('.')) {
+                try {
+                    const urlObj = new URL(sourceUrl || `https://${post.author}`)
+                    source = urlObj.hostname.replace(/^www\./, '')
+                } catch { source = post.author }
+            }
+
+            // Direct image_url from API (NewsAPI, NewsData, Reddit, etc.)
+            if (post.image_url) {
+                // Decode any HTML entities that may have slipped through (e.g. &amp; -> &)
+                const cleanImageUrl = post.image_url.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+                items.push({
+                    id: `${postId}-img`,
+                    type: 'image',
+                    mediaUrl: formatMediaUrl(`/proxy/image?url=${encodeURIComponent(cleanImageUrl)}`),
+                    title,
+                    source,
+                    sourceUrl,
+                    query: data.source || '',
+                    date,
+                })
+            }
+
+            // Direct video_url from API
+            if (post.video_url) {
+                items.push({
+                    id: `${postId}-vid`,
+                    type: 'video',
+                    mediaUrl: post.video_url,
+                    title,
+                    source,
+                    sourceUrl,
+                    query: data.source || '',
+                    date,
+                })
+            }
+            
+            // Fallback: check if the source URL itself is a direct image link
+            if (!post.image_url && !post.video_url && sourceUrl) {
+                const lowerUrl = sourceUrl.toLowerCase();
+                if (
+                    lowerUrl.match(/\.(jpeg|jpg|gif|png|webp)(\?.*)?$/) ||
+                    lowerUrl.includes('i.redd.it') ||
+                    lowerUrl.includes('preview.redd.it') ||
+                    lowerUrl.includes('imgur.com')
+                ) {
+                    const isImgurGallery = lowerUrl.includes('imgur.com/a/') || lowerUrl.includes('imgur.com/gallery/');
+                    if (!isImgurGallery) {
+                        let finalUrl = sourceUrl.replace(/&amp;/g, '&');
+                        if (lowerUrl.includes('imgur.com') && !lowerUrl.match(/\.(jpeg|jpg|gif|png|webp)$/)) {
+                            finalUrl = `${finalUrl}.jpg`;
+                        }
+                        items.push({
+                            id: `${postId}-fallback-img`,
+                            type: 'image',
+                            mediaUrl: formatMediaUrl(`/proxy/image?url=${encodeURIComponent(finalUrl)}`),
+                            title,
+                            source,
+                            sourceUrl,
+                            query: data.source || '',
+                            date,
+                        })
+                    }
+                }
+            }
+
+            // YouTube embeds: extract video ID from URL
+            if (sourceUrl.includes('youtube.com/watch')) {
+                try {
+                    const urlObj = new URL(sourceUrl)
+                    const videoId = urlObj.searchParams.get('v')
+                    if (videoId) {
+                        // Add thumbnail
+                        items.push({
+                            id: `${postId}-yt-thumb`,
+                            type: 'image',
+                            mediaUrl: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+                            title,
+                            source: 'YouTube',
+                            sourceUrl,
+                            query: data.source || '',
+                            date,
+                        })
+                    }
+                } catch {}
+            }
+        })
+
+        return items
     }, [data])
 
     return {
@@ -350,6 +763,11 @@ export const useAnalysisDashboard = (data: AnalysisResult) => {
         hasSentiment, kpis, topicChartData,
         sourceData, timelineData, confidenceData,
         realTopicChartData, uniqueTopicCount,
-        tableRows
+        emotionChartData, topEmotion,
+        keywordData, languageData,
+        sourceMixData, engagementStats,
+        netSentimentScore, sentimentTimelineData,
+        topAuthorsData, contentLengthData, peakHoursData,
+        tableRows, mediaItems
     }
 }

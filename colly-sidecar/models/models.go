@@ -27,6 +27,8 @@ type PageResult struct {
 	Status          int               `json:"status" bson:"status"`
 	Title           string            `json:"title" bson:"title"`
 	Text            string            `json:"text" bson:"text"`
+	Author          string            `json:"author,omitempty" bson:"author,omitempty"`
+	PublishedAt     time.Time         `json:"published_at,omitempty" bson:"published_at,omitempty"`
 	Headlines       []string          `json:"headlines,omitempty" bson:"headlines,omitempty"`
 	Links           []string          `json:"links" bson:"links"`
 	Extracted       map[string]string `json:"extracted,omitempty" bson:"extracted,omitempty"`
@@ -39,7 +41,13 @@ type PageResult struct {
 	Confidence      float64           `json:"confidence,omitempty" bson:"confidence,omitempty"`
 	Summary         string            `json:"summary,omitempty" bson:"summary,omitempty"`
 	Topic           string            `json:"topic,omitempty" bson:"topic,omitempty"`
+	Emotion         string            `json:"emotion,omitempty" bson:"emotion,omitempty"`
+	Keywords        []string          `json:"keywords,omitempty" bson:"keywords,omitempty"`
+	Language        string            `json:"language,omitempty" bson:"language,omitempty"`
+	Relevance       float64           `json:"relevance,omitempty" bson:"relevance,omitempty"`
 	SentimentEngine string            `json:"sentiment_engine,omitempty" bson:"sentiment_engine,omitempty"`
+	ImageURL        string            `json:"image_url,omitempty" bson:"image_url,omitempty"`
+	VideoURL        string            `json:"video_url,omitempty" bson:"video_url,omitempty"`
 }
 
 // ScraplingResponse matches the FastAPI /scrapling/fetch JSON response.

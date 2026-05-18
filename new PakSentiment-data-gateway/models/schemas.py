@@ -57,6 +57,16 @@ class RedditSearchResponse(BaseModel):
     posts: List[Dict[str, Any]] = Field(..., description="List of Reddit posts")
 
 
+class RedditScaledSearchResponse(BaseModel):
+    """Response for scaled Reddit search with tier + cache metadata."""
+    source: str = Field(..., example="reddit_free")
+    tier: str = Field(..., description="Access tier used (free or paid)", example="free")
+    cached: bool = Field(..., description="Whether the result was served from cache")
+    cache_key: str = Field(..., description="Redis cache key for this result")
+    count: int = Field(..., description="Number of posts returned")
+    posts: List[Dict[str, Any]] = Field(..., description="List of Reddit posts")
+
+
 class TwitterSearchResponse(BaseModel):
     """Response for Twitter search endpoint."""
     source: str = Field(..., example="twitter")

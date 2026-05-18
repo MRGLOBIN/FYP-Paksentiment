@@ -73,7 +73,7 @@ export abstract class AbstractDataProvider {
      */
     protected async saveSession(
         sessionId: string,
-        userId: number,
+        userId: number | undefined,
         query: string,
         source: string,
         rawPosts: any[],

@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 
 from .models import CommonCrawlRecord
 from .base import AbstractScraperClient
+from .perf_logger import log_perf
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +32,7 @@ class CommonCrawlScraperClient(AbstractScraperClient):
         Initializes the Common Crawl client.
         :param crawl_id: Specific crawl ID (e.g., '2025-47'). If None, uses latest.
         """
-        self.crawl_id = crawl_id or "2025-47"
+        self.crawl_id = crawl_id
         self.session: Optional[aiohttp.ClientSession] = None
 
     async def _get_session(self) -> aiohttp.ClientSession:
@@ -40,12 +41,32 @@ class CommonCrawlScraperClient(AbstractScraperClient):
             self.session = aiohttp.ClientSession()
         return self.session
 
+    async def _get_latest_crawl_id(self) -> str:
+        """Fetches the latest Common Crawl ID dynamically."""
+        session = await self._get_session()
+        try:
+            async with session.get("https://index.commoncrawl.org/collinfo.json") as response:
+                if response.status == 200:
+                    data = await response.json()
+                    if data and len(data) > 0:
+                        # Extract the crawl ID from the first (latest) entry
+                        # Example: data[0]['id'] -> "CC-MAIN-2024-10"
+                        return data[0]['id'].replace("CC-MAIN-", "")
+        except Exception as e:
+            logger.warning(f"Failed to fetch latest CC crawl ID: {e}")
+        
+        # Fallback to a known recent valid crawl ID if API fails
+        return "2024-10"
+
     async def _search_index(
         self, domain: str, limit: int, filter_mime: str = "text/html", keyword: str | None = None
     ) -> List[Dict]:
         """
         Search the Common Crawl Index (CDX) for a domain.
         """
+        if not self.crawl_id:
+            self.crawl_id = await self._get_latest_crawl_id()
+
         index_url = CC_INDEX_API_URL.format(crawl_id=self.crawl_id)
         
         # If we need a keyword, fetch a much larger batch to ensure we have enough matches
@@ -92,10 +113,14 @@ class CommonCrawlScraperClient(AbstractScraperClient):
                         path = urlparse(url).path
                         if any(x in path for x in ['/category/', '/tag/', '/author/', '/page/', '/search/']):
                             continue
-                        # If path is too short (homepage), skip
-                        if len(path.strip('/').split('/')) < 2:
-                            continue
-                            
+                        
+                        # Allow more pages (including top-level categories) to ensure we get results
+                        # Only skip completely empty paths if necessary
+                        if not path or path == '/':
+                            # Optionally allow homepage if it contains significant text, 
+                            # but usually we want specific pages. Let's be a bit more permissive.
+                            pass
+                        
                         seen_urls.add(url)
                         unique_records.append(r)
                 
@@ -105,7 +130,7 @@ class CommonCrawlScraperClient(AbstractScraperClient):
                 return records
 
         except Exception as e:
-            logger.exception(f"Error searching CDX index: {e}")
+            logger.warning(f"Error searching CDX index: {e}")
             return []
 
     async def _fetch_warc_record(self, record: Dict) -> Optional[CommonCrawlRecord]:
@@ -192,6 +217,7 @@ class CommonCrawlScraperClient(AbstractScraperClient):
         """
         Fetch text records filtered by domain and optional keyword using CDX Index.
         """
+        log_perf(f"python start fetching commoncrawl index for: {domain}")
         if crawl_id:
             self.crawl_id = crawl_id
 
@@ -199,6 +225,7 @@ class CommonCrawlScraperClient(AbstractScraperClient):
         cdx_records = await self._search_index(domain, limit, keyword=keyword)
         
         if not cdx_records:
+            log_perf("python finished fetching commoncrawl records (0 found in CDX)")
             return []
 
         # 2. Fetch records in parallel
@@ -208,6 +235,7 @@ class CommonCrawlScraperClient(AbstractScraperClient):
         # 3. Filter None results
         valid_records = [r for r in results if r is not None]
         
+        log_perf(f"python finished fetching commoncrawl records ({len(valid_records)} successfully fetched)")
         return valid_records
 
     async def close_connection(self):

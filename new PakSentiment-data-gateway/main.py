@@ -5,12 +5,15 @@ import asyncio
 from typing import Dict
 from contextlib import asynccontextmanager
 
+import redis.asyncio as aioredis
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 from config import settings
 from paksentiment_scraper import (
     RedditScraperClient,
+    RedditRSSClient,
+    RedditJSONClient,
     XScraperClient,
     YouTubeScraperClient,
     CommonCrawlScraperClient,
@@ -24,8 +27,10 @@ from routes import (
     youtube,
     commoncrawl,
     scrapling,
-    sentiment
+    sentiment,
+    trends_router,
 )
+from routes import reddit_scaled
 
 logger = logging.getLogger("uvicorn")
 
@@ -56,6 +61,25 @@ async def lifespan(app: FastAPI):
     # Scrapling (Stealth mode by default)
     app.state.scrapling_client = ScraplingClient(stealth=True)
 
+    # --- Scaled Reddit Clients (Free + Paid tiers) ---
+    app.state.reddit_rss_client = RedditRSSClient(
+        user_agent=str(settings.REDDIT_USER_AGENT),
+    )
+    proxy_url = getattr(settings, "WEBSHARE_PROXY_URL", None)
+    app.state.reddit_json_client = RedditJSONClient(
+        user_agent=str(settings.REDDIT_USER_AGENT),
+        proxy=str(proxy_url) if proxy_url else None,
+    )
+
+    # --- Redis Connection (for caching layer) ---
+    redis_url = getattr(settings, "REDIS_URL", None) or "redis://localhost:6379"
+    app.state.redis = aioredis.from_url(
+        redis_url,
+        decode_responses=True,
+        max_connections=20,
+    )
+    logger.info(f"Redis connected: {redis_url}")
+
     # Local Sentiment Classifier (Analysis Model)
     app.state.analysis_model = get_analysis_model()
     
@@ -67,6 +91,9 @@ async def lifespan(app: FastAPI):
     if app.state.youtube_client:
         await app.state.youtube_client.close_connection()
     await app.state.commoncrawl_client.close_connection()
+    await app.state.reddit_rss_client.close_connection()
+    await app.state.reddit_json_client.close_connection()
+    await app.state.redis.close()
 
 
 app = FastAPI(
@@ -97,11 +124,13 @@ Internal API keys used. No auth required for consumers.
 
 # Include Routers
 app.include_router(reddit.router)
-app.include_router(twitter.router)
+# app.include_router(twitter.router)
 app.include_router(youtube.router)
 app.include_router(commoncrawl.router)
 app.include_router(scrapling.router)
 app.include_router(sentiment.router)
+app.include_router(reddit_scaled.router)
+app.include_router(trends_router.router)
 
 @app.get(
     "/",

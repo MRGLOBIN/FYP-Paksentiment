@@ -12,6 +12,7 @@ import (
 	"github.com/gocolly/colly/v2"
 	"github.com/paksentiment/colly-sidecar/cache"
 	"github.com/paksentiment/colly-sidecar/models"
+	"github.com/paksentiment/colly-sidecar/perf"
 )
 
 // Crawler wraps Colly with Redis caching.
@@ -26,21 +27,26 @@ func NewCrawler(rc *cache.RedisCache) *Crawler {
 
 // ScrapePage fetches a single page, checking the Redis cache first.
 func (c *Crawler) ScrapePage(ctx context.Context, url string, selectors map[string]string) (*models.PageResult, error) {
+	perf.Log("go start crawling for page: " + url)
+
 	// Check cache
 	if html, ok := c.cache.Get(ctx, url); ok {
 		result := parseHTMLResult(url, html, selectors)
 		result.CachedHit = true
 		result.Status = 200
+		perf.Log("go parsed the result (from cache) for page: " + url)
 		return result, nil
 	}
 
 	result, err := c.fetchPage(url, selectors)
 	if err != nil {
+		perf.Log("go failed crawling for page: " + url)
 		return nil, err
 	}
 
 	// Cache the raw HTML (we store text, but for cache we store what we got)
 	c.cache.Set(ctx, url, result.Text)
+	perf.Log("go parsed the result for page: " + url)
 	return result, nil
 }
 
@@ -152,6 +158,18 @@ func (c *Crawler) CrawlSite(ctx context.Context, req models.CrawlRequest) ([]mod
 			ScrapedAt: time.Now(),
 		}
 
+		// Extract og:image meta tag for media gallery
+		ogImage := e.ChildAttr(`meta[property="og:image"]`, "content")
+		if ogImage == "" {
+			ogImage = e.ChildAttr(`meta[name="og:image"]`, "content")
+		}
+		if ogImage == "" {
+			ogImage = e.ChildAttr(`meta[property="twitter:image"]`, "content")
+		}
+		if ogImage != "" {
+			result.ImageURL = ogImage
+		}
+
 		mu.Lock()
 		results = append(results, result)
 		currentCount := len(results)
@@ -237,6 +255,18 @@ func (c *Crawler) fetchPage(pageURL string, selectors map[string]string) (*model
 			}
 		})
 		result.Links = links
+
+		// Extract og:image meta tag for media gallery
+		ogImage := e.ChildAttr(`meta[property="og:image"]`, "content")
+		if ogImage == "" {
+			ogImage = e.ChildAttr(`meta[name="og:image"]`, "content")
+		}
+		if ogImage == "" {
+			ogImage = e.ChildAttr(`meta[property="twitter:image"]`, "content")
+		}
+		if ogImage != "" {
+			result.ImageURL = ogImage
+		}
 
 		// Apply selectors if provided (for backward compatibility)
 		if len(selectors) > 0 {

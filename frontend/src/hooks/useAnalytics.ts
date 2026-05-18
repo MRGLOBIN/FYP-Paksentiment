@@ -249,6 +249,23 @@ async function fetchSource(
       endpoint = `/raw-data/session/${q}` // q is the sessionId here
       break
     default:
+      if (src.startsWith('integrations_')) {
+        const platform = src.replace('integrations_', '')
+        endpoint = `/raw-data/integrations/${platform}?query=${encodeURIComponent(q)}&limit=20`
+        if (customTags) {
+          endpoint += `&customTags=${encodeURIComponent(customTags)}`
+        }
+        // Use a GET request for integrations to match the NestJS endpoint
+        const getRes = await fetch(`${apiUrl}${endpoint}`, {
+          method: 'GET',
+          headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+        })
+        if (!getRes.ok) {
+          const errorData = await getRes.json().catch(() => ({}))
+          throw new Error(errorData.message || `Failed to analyze ${src}`)
+        }
+        return await getRes.json()
+      }
       throw new Error(`Unknown source: ${src}`)
   }
 
