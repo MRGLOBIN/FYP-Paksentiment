@@ -21,7 +21,7 @@ pass() { echo -e "  ${GREEN}✓ PASS${NC}: $1"; ((PASS++)); }
 fail() { echo -e "  ${RED}✗ FAIL${NC}: $1"; ((FAIL++)); }
 info() { echo -e "  ${YELLOW}→${NC} $1"; }
 
-OLLAMA_URL="${OLLAMA_URL:-https://llm.h4mxa.com}"
+OLLAMA_URL="${OLLAMA_URL:-}" # Must be provided via environment variable
 OLLAMA_MODEL="${OLLAMA_MODEL:-phi3:mini}"
 NESTJS_URL="${NESTJS_URL:-http://localhost:3000}"
 COLLY_URL="${COLLY_URL:-http://localhost:8081}"
