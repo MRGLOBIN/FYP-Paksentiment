@@ -10,6 +10,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/paksentiment/colly-sidecar/cache"
 	"github.com/paksentiment/colly-sidecar/crawler"
+	"github.com/paksentiment/colly-sidecar/integrations"
 	"github.com/paksentiment/colly-sidecar/models"
 	"github.com/paksentiment/colly-sidecar/sentiment"
 	"github.com/paksentiment/colly-sidecar/storage"
@@ -21,7 +22,7 @@ func SetupRouter(
 	redisCache *cache.RedisCache,
 	store *storage.MongoStorage,
 	crawl *crawler.Crawler,
-	analyzer *sentiment.OllamaAnalyzer,
+	analyzer sentiment.Analyzer,
 	fastAPIBase string,
 ) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
@@ -206,6 +207,104 @@ func SetupRouter(
 			"success": true,
 			"results": results,
 		})
+	})
+
+	// --- Integrations Endpoints ---
+	
+	r.GET("/integrations/hackernews", func(c *gin.Context) {
+		query := c.Query("query")
+		limit := 20 // Default limit, could be parsed from c.Query("limit")
+		
+		results, err := integrations.FetchHackerNews(query, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"success": true, "results": results})
+	})
+
+	r.GET("/integrations/newsapi", func(c *gin.Context) {
+		query := c.Query("query")
+		limit := 20
+		
+		results, err := integrations.FetchNewsAPI(query, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"success": true, "results": results})
+	})
+
+	r.GET("/integrations/gdelt", func(c *gin.Context) {
+		query := c.Query("query")
+		limit := 20
+		
+		results, err := integrations.FetchGDELT(query, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"success": true, "results": results})
+	})
+
+	r.GET("/integrations/rss", func(c *gin.Context) {
+		urlStr := c.Query("url")
+		limit := 20
+		
+		results, err := integrations.FetchRSS(urlStr, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"success": true, "results": results})
+	})
+
+	r.GET("/integrations/newsdata", func(c *gin.Context) {
+		query := c.Query("query")
+		limit := 20
+		
+		results, err := integrations.FetchNewsData(query, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"success": true, "results": results})
+	})
+
+	r.GET("/integrations/mastodon", func(c *gin.Context) {
+		query := c.Query("query")
+		limit := 20
+		
+		results, err := integrations.FetchMastodon(query, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"success": true, "results": results})
+	})
+
+	r.GET("/integrations/stackoverflow", func(c *gin.Context) {
+		query := c.Query("query")
+		limit := 20
+		
+		results, err := integrations.FetchStackOverflow(query, limit)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"success": true, "results": results})
+	})
+
+	r.GET("/integrations/googletrends", func(c *gin.Context) {
+		query := c.Query("query")
+		timeframe := c.Query("timeframe")
+		
+		results, err := integrations.FetchGoogleTrends(query, timeframe)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"success": true, "results": results})
 	})
 
 	return r

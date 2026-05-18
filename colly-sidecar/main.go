@@ -51,11 +51,16 @@ func main() {
 
 	crawl := crawler.NewCrawler(redisCache)
 
-	// --- Initialize Ollama sentiment analyzer ---
-	ollamaURL := getEnv("OLLAMA_URL", "https://llm.h4mxa.com")
-	ollamaModel := getEnv("OLLAMA_MODEL", "phi3:mini")
+	// --- Initialize Sentiment Analyzer (Local Ollama only) ---
+	// geminiKey := os.Getenv("GEMINI_MODEL")
+	ollamaURL := os.Getenv("OLLAMA_URL")
+	ollamaModel := getEnv("OLLAMA_MODEL", "llama3.2:1b")
+
+	// gemini := sentiment.NewGeminiAnalyzer(geminiKey)
 	analyzer := sentiment.NewOllamaAnalyzer(ollamaURL, ollamaModel)
-	log.Printf("Ollama sentiment analyzer configured: %s (model: %s)", ollamaURL, ollamaModel)
+
+	// analyzer := sentiment.NewHybridAnalyzer(gemini, ollama)
+	log.Printf("Sentiment analyzer configured (Engine: Local Ollama %s)", ollamaModel)
 
 	// --- Gin HTTP Server ---
 	r := cmd.SetupRouter(redisCache, store, crawl, analyzer, fastAPIBase)
