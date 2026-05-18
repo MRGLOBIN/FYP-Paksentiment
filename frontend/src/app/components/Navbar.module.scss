@@ -40,18 +40,12 @@
   flex-shrink: 0;
 }
 
-.logoIcon {
+.logoImage {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: var(--gradient-primary);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1rem;
-  letter-spacing: -0.02em;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .logoText {

@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styles from './page.module.scss'
 import { useChat } from './useChat'
+import { Public as PublicIcon, WavingHand as WavingHandIcon } from '@mui/icons-material'
 
 export default function ChatPage() {
     const {
@@ -40,7 +41,7 @@ export default function ChatPage() {
                 ) : (
                     <>
                         <div className={styles.header}>
-                            <h1>🌐 Global AI Assistant</h1>
+                            <h1><PublicIcon fontSize="large" style={{ verticalAlign: 'middle', marginRight: '8px' }} /> Global AI Assistant</h1>
                             <p>Chat in Spanish, French, Mandarin, Arabic, or English!</p>
                         </div>
 
@@ -48,7 +49,7 @@ export default function ChatPage() {
                             <div className={styles.messages}>
                                 {messages.length === 0 && (
                                     <div className={`${styles.message} ${styles.assistant}`}>
-                                        Hello! 👋 How can I help you today?
+                                        Hello! <WavingHandIcon fontSize="small" style={{ verticalAlign: 'middle', margin: '0 4px' }} /> How can I help you today?
                                         <br /><br />
                                         Feel free to chat in Spanish, French, Mandarin, Arabic, or English!
                                     </div>

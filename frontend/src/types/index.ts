@@ -29,6 +29,10 @@ export interface SentimentResult {
     confidence: number
     summary: string
     topic?: string
+    emotion?: string
+    keywords?: string[]
+    language?: string
+    relevance?: number
     engine?: string
     chunk_results?: Record<string, unknown>[]
 }
@@ -45,9 +49,16 @@ export interface Post {
     date?: string | number
     sentiment?: string
     confidence?: number
+    emotion?: string
+    keywords?: string[]
+    language?: string
+    relevance?: number
     subreddit: string
     score: number
+    num_comments?: number
     metadata?: Record<string, unknown>
+    image_url?: string
+    video_url?: string
 }
 
 export interface AnalysisResult {

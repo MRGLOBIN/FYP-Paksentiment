@@ -60,7 +60,13 @@ export default function Navbar() {
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.navContainer}>
         <Link href='/' className={styles.logo}>
-          <span className={styles.logoIcon}>P</span>
+          <img
+            src='/Pak Sentiments.svg'
+            alt='PakSentiment'
+            className={styles.logoImage}
+            width={32}
+            height={32}
+          />
           <span className={styles.logoText}>PakSentiment</span>
         </Link>
 

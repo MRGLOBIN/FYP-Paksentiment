@@ -11,24 +11,14 @@ export default function Footer() {
           {/* Brand Section */}
           <div className={styles.footerSection}>
             <div className={styles.brand}>
-              <div className={styles.logoIcon}>
-                <svg
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    d='M12 2L2 7L12 12L22 7L12 2Z'
-                    fill='currentColor'
-                    opacity='0.8'
-                  />
-                  <path
-                    d='M2 17L12 22L22 17V12L12 17L2 12V17Z'
-                    fill='currentColor'
-                  />
-                </svg>
-              </div>
-              <h3 className={styles.brandName}>DataInsight</h3>
+              <img
+                src='/Pak Sentiments.svg'
+                alt='PakSentiment'
+                className={styles.logoImage}
+                width={36}
+                height={36}
+              />
+              <h3 className={styles.brandName}>PakSentiment</h3>
             </div>
             <p className={styles.brandDescription}>
               AI-powered trend monitoring for the global digital
