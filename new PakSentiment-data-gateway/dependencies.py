@@ -7,6 +7,8 @@ from services.youtube_service import YouTubeService
 from services.commoncrawl_service import CommonCrawlService
 from services.scrapling_service import ScraplingService
 from services.sentiment_service_gw import SentimentService
+from services.reddit_scaled_service import RedditScaledService
+from services.reddit_cache import RedditCacheService
 
 # Dependency functions
 
@@ -14,6 +16,15 @@ def get_reddit_service(request: Request) -> RedditService:
     client = request.app.state.reddit_client
     classifier = request.app.state.analysis_model
     return RedditService(client, classifier)
+
+def get_reddit_scaled_service(request: Request) -> RedditScaledService:
+    return RedditScaledService(
+        rss_client=request.app.state.reddit_rss_client,
+        json_client=request.app.state.reddit_json_client,
+        api_client=request.app.state.reddit_client,
+        cache=RedditCacheService(request.app.state.redis),
+        classifier=request.app.state.analysis_model,
+    )
 
 def get_twitter_service(request: Request) -> TwitterService:
     client = request.app.state.twitter_client
