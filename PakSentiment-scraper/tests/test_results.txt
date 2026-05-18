@@ -1,0 +1,16 @@
+=== REDDIT SCALING TEST RESULTS ===
+
+--- RSS Test: r/pakistan ---
+Status: SUCCESS
+Posts found: 25
+Sample Post: Daily Discussion Thread (April 28, 2026)
+
+--- JSON Test: r/pakistan with Proxy ---
+Status: SUCCESS
+Posts found: 5
+- Daily Discussion Thread (April 27, 2026) (Score: 5)
+- Daily Discussion Thread (April 28, 2026) (Score: 1)
+- Or its staged maybe (Score: 322)
+- I bet Maryam Nawaz can't have a following like this even in her dreams (Score: 194)
+- The Himalayas block cool northern air, trapping heat over Ind*a and Pakistan, which is why they are the hottest places right now. In Nep*l, you can even see it: one side of the mountains is green and cool, the other side is hot and dry. (Score: 48)
+
