@@ -102,16 +102,50 @@ export class WebProvider extends AbstractDataProvider {
       new Map(pages.map((p: any) => [p.url || url, p])).values(),
     );
 
+    const stripHtml = (html: string) => html ? html.replace(/<[^>]*>?/gm, '').trim() : '';
+
     const posts = uniquePages.map((page: any) => {
       const pageUrl = page.url || url;
       const docId = crypto.createHash('md5').update(pageUrl).digest('hex');
+      
+      let content = page.text || page.content || '';
+      
+      // Extract the first image URL from <img> tags before stripping HTML
+      let extractedImageUrl: string | null = null;
+      const imgMatch = content.match(/<img[^>]+src=["']([^"']+)["']/i);
+      if (imgMatch && imgMatch[1]) {
+        try {
+          // Resolve relative URLs using the base page URL
+          extractedImageUrl = new URL(imgMatch[1], pageUrl).toString();
+        } catch {
+          extractedImageUrl = imgMatch[1];
+        }
+      }
+
+      content = stripHtml(content);
+      
+      let title = page.title || '';
+      title = stripHtml(title);
+
+      let author = page.author;
+      if (!author || author.toLowerCase() === 'unknown' || author === 'n/a') {
+        try {
+          const urlObj = new URL(pageUrl);
+          author = urlObj.hostname.replace(/^www\./, '').split('.').slice(0, -1).join('.') || urlObj.hostname;
+        } catch (e) {
+          author = this.extractDomain(pageUrl);
+        }
+      }
+
       return {
         id: docId,
         url: pageUrl,
-        title: page.title || '',
-        content: (page.text || '').substring(0, 5000),
-        author: this.extractDomain(pageUrl),
+        title,
+        content: content.substring(0, 5000),
+        author,
         timestamp: new Date().toISOString(),
+        image_url: page.image_url || page.ImageURL || extractedImageUrl || null,
+        video_url: page.video_url || page.VideoURL || null,
       };
     });
 
@@ -146,6 +180,22 @@ export class WebProvider extends AbstractDataProvider {
       // No pre-analyzed data — run NestJS-level analysis (Ollama → FastAPI fallback)
       try {
         sentiment = await this.sentimentProvider.analyzeSentiment(posts, customTags);
+        
+        // If AI generated titles, update the posts
+        sentiment.forEach(s => {
+          if (s.generatedTitle) {
+            const post = posts.find(p => p.id === s.id);
+            if (post && (!post.title || post.title.trim() === '')) {
+              post.title = s.generatedTitle;
+            }
+          }
+          
+          // Apply title as summary fallback if AI summary is empty (when shouldSummarize was false)
+          if (!s.summary || s.summary.trim() === '') {
+             const post = posts.find(p => p.id === s.id);
+             if (post) s.summary = post.title;
+          }
+        });
       } catch (err) {
         this.logger.warn(`[Web] Sentiment analysis failed: ${err.message}`);
       }

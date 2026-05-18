@@ -4,14 +4,8 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import * as util from 'util';
-import { InjectRepository } from '@nestjs/typeorm';
+
 import { MongoRepository } from 'typeorm';
-import * as crypto from 'crypto';
-import * as fs from 'fs';
-import * as path from 'path';
-import { firstValueFrom } from 'rxjs';
-import { translate } from 'google-translate-api-x';
 
 import { AnalysisSessionEntity } from '../../database/entities/mongo/analysis-session.entity';
 import {
@@ -31,6 +25,8 @@ import { YouTubeProvider } from './providers/youtube.provider';
 import { CommonCrawlProvider } from './providers/commoncrawl.provider';
 import { ScraplingProvider } from './providers/scrapling.provider';
 import { WebProvider } from './providers/web.provider';
+import { IntegrationsProvider } from './providers/integrations.provider';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 /**
@@ -53,7 +49,12 @@ export class RawDataService {
     private readonly commonCrawlProvider: CommonCrawlProvider,
     private readonly scraplingProvider: ScraplingProvider,
     private readonly webProvider: WebProvider,
-  ) { }
+    private readonly integrationsProvider: IntegrationsProvider,
+  ) {}
+
+  async fetchIntegration(query: any, userId: number): Promise<any> {
+    return this.integrationsProvider.fetchSentiment(query, userId);
+  }
 
   /**
    * Retrieve stored session data (Raw + Processed).
@@ -92,7 +93,7 @@ export class RawDataService {
         if (rawMap.has(key)) {
           // Safe merge to prevent shallow legacy overwrite
           const existing = rawMap.get(key);
-          Object.keys(p).forEach(k => {
+          Object.keys(p).forEach((k) => {
             if (p[k] !== undefined && p[k] !== null) {
               existing[k] = p[k];
             }
@@ -135,6 +136,8 @@ export class RawDataService {
           timestamp: raw?.metadata?.timestamp || raw?.createdAt,
           sentiment: processed?.sentiment?.label,
           confidence: processed?.sentiment?.score,
+          image_url: raw?.metadata?.image_url || raw?.metadata?.thumbnail,
+          video_url: raw?.metadata?.video_url,
           metadata: raw?.metadata,
         };
       })
@@ -144,14 +147,17 @@ export class RawDataService {
       `[getSessionData] Session ${sessionId}: Returning ${normalizedPosts.length} posts.`,
     );
 
-    const normalizedSentiment = normalizedPosts.map((p) => ({
-      id: p.id,
-      sentiment: p.sentiment,
-      score: p.confidence,
-      summary: processedMap.get(p.id)?.metadata?.summary,
-      topic: processedMap.get(p.id)?.metadata?.topic || 'General',
-      engine: processedMap.get(p.id)?.metadata?.engine || 'unknown',
-    }));
+    const normalizedSentiment = normalizedPosts.map((p) => {
+      const pm = processedMap.get(p.id);
+      return {
+        id: p.id,
+        sentiment: p.sentiment,
+        score: p.confidence,
+        summary: pm?.sentiment?.summary || pm?.metadata?.summary,
+        topic: pm?.metadata?.topic || pm?.sentiment?.topic || 'General',
+        engine: pm?.metadata?.engine || 'unknown',
+      };
+    });
 
     return {
       source: session.source + ' (History)',
@@ -182,6 +188,28 @@ export class RawDataService {
    */
   async fetchRedditSentiment(query: RedditSentimentQueryDto, userId?: number) {
     return this.redditProvider.fetchSentiment(query, userId);
+  }
+
+  /**
+   * Fetch Reddit posts using the scaled tiered endpoint (free=RSS, paid=JSON+proxy).
+   */
+  async fetchRedditScaled(
+    query: RedditRawDataQueryDto,
+    userId?: number,
+    tier: string = 'free',
+  ) {
+    return this.redditProvider.fetchScaled(query, userId, tier);
+  }
+
+  /**
+   * Fetch Reddit posts using scaled tier and perform sentiment analysis.
+   */
+  async fetchRedditScaledSentiment(
+    query: RedditSentimentQueryDto,
+    userId?: number,
+    tier: string = 'free',
+  ) {
+    return this.redditProvider.fetchScaledSentiment(query, userId, tier);
   }
 
   /**

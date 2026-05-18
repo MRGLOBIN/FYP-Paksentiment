@@ -13,7 +13,7 @@ export interface ChatMessage {
  */
 export class AiService {
     private readonly groqApiUrl = 'https://api.groq.com/openai/v1/chat/completions';
-    private readonly model = 'llama-3.3-70b-versatile'; // Llama 3.3 Stable
+    private readonly model = 'meta-llama/llama-4-scout-17b-16e-instruct'; // Llama 3.3 Stable
     private readonly logger = new Logger(AiService.name);
 
     constructor(private readonly httpService: HttpService) { }

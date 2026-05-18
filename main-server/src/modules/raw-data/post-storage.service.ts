@@ -25,7 +25,7 @@ export class PostStorageService {
       const content = this.composeContent(post);
       const timestamp = this.extractTimestamp(post);
 
-      const doc = {
+      const doc: any = {
         url: post.url || `https://${platform}.com/${sourceId}`,
         domain: platform, // Extracted or generic
         sourceEngine: platform, // Reddit, Twitter, Scrapling, etc.
@@ -41,9 +41,14 @@ export class PostStorageService {
         }
       };
 
+      const updateOp: any = { $set: doc };
+      if (post.searchKeywords && Array.isArray(post.searchKeywords)) {
+        updateOp.$addToSet = { searchKeywords: { $each: post.searchKeywords } };
+      }
+
       await this.documentsRepo.updateOne(
         { "metadata.sourceId": sourceId, sourceEngine: platform },
-        { $set: doc },
+        updateOp,
         { upsert: true }
       );
     }
@@ -99,6 +104,8 @@ export class PostStorageService {
           summary: sentiment.summary,
           chunkResults: sentiment.chunk_results
         };
+        if (sentiment.topic) updatePayload['metadata.topic'] = sentiment.topic;
+        if (sentiment.engine) updatePayload['metadata.engine'] = sentiment.engine;
       }
 
       await this.documentsRepo.updateOne(
@@ -200,6 +207,21 @@ export class PostStorageService {
 
   async getRawPostsBySourceIds(sourceIds: string[]) {
     return this.getProcessedPostsBySourceIds(sourceIds);
+  }
+
+  /**
+   * Fetch historical posts that contain ALL provided search keywords.
+   */
+  async getPostsByKeywords(keywords: string[]) {
+    if (!keywords || keywords.length === 0) return [];
+    const posts = await this.documentsRepo.find({
+      where: {
+        searchKeywords: { $all: keywords } as any
+      },
+      take: 200,
+      order: { createdAt: 'DESC' }
+    });
+    return posts;
   }
 }
 

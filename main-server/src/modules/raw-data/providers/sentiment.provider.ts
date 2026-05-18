@@ -10,62 +10,58 @@ export class SentimentProvider {
     private readonly fastApiBaseUrl: string;
 
     constructor(private readonly httpService: HttpService) {
-        this.ollamaUrl = process.env.OLLAMA_URL || 'https://llm.h4mxa.com';
-        this.ollamaModel = process.env.OLLAMA_MODEL || 'phi3:mini';
+        this.ollamaUrl = process.env.OLLAMA_URL!;
+        this.ollamaModel = process.env.OLLAMA_MODEL || 'qwen2.5:1.5b';
         this.fastApiBaseUrl = process.env.FAST_API_BASE_URL || 'http://localhost:8000';
     }
 
     /**
-     * Run sentiment analysis — tries Ollama phi3:mini first, falls back to FastAPI.
+     * Run sentiment analysis — tries Gemini first, then Ollama, falls back to FastAPI.
      */
     async analyzeSentiment(posts: any[], customTags?: string): Promise<any[]> {
-        const MAX_TEXT_LENGTH = 1500;
-        const allDocs: { id: string; text: string; originalId: string }[] = [];
+        const MAX_WORDS = 30; // Limit to 30 words to drastically save input tokens and speed up generation
+        const allDocs: { id: string; text: string; originalId: string; needsSummary: boolean }[] = [];
+
+        const truncateToWords = (text: string, maxWords: number) => {
+            if (!text) return '';
+            const words = text.trim().split(/\s+/);
+            if (words.length <= maxWords) return text;
+            return words.slice(0, maxWords).join(' ') + '...';
+        };
 
         posts.forEach((p) => {
-            const text = p.content || '';
-            if (text.length > 0) {
-                // Truncate length to reduce model latency while keeping it enough for summary
-                allDocs.push({ id: p.id, originalId: p.id, text: text.substring(0, MAX_TEXT_LENGTH) });
+            const text = p.content || p.text || '';
+            const docId = String(p.id || p.post_id || p.tweet_id || p.comment_id || p.video_id || '');
+            if (text.length > 0 && docId) {
+                const needsSummary = !p.title || p.title.trim() === '';
+                allDocs.push({ id: docId, originalId: docId, text: truncateToWords(text, MAX_WORDS), needsSummary });
             }
         });
 
         if (allDocs.length === 0) return [];
 
-        // ── Try Ollama phi3:mini first ──
-        let rawSentiments: any[] | null = null;
-        try {
-            const ollamaUp = await this.isOllamaAvailable();
-            if (ollamaUp) {
-                this.logger.log(`[Sentiment] Ollama available — using ${this.ollamaModel} for ${allDocs.length} doc(s)`);
-                rawSentiments = await this.analyzeSentimentWithOllama(allDocs, customTags);
-            } else {
-                this.logger.warn('[Sentiment] Ollama unavailable — falling back to FastAPI');
+        const rawSentiments: any[] = [];
+        let pendingDocs = [...allDocs];
+
+        // ── 1. Try Ollama phi3:mini first ──
+        if (pendingDocs.length > 0) {
+            try {
+                const ollamaUp = await this.isOllamaAvailable();
+                if (ollamaUp) {
+                    this.logger.log(`[Sentiment] Ollama available — using ${this.ollamaModel} for ${pendingDocs.length} doc(s)`);
+                    const ollamaResults = await this.analyzeSentimentWithOllama(pendingDocs, customTags);
+                    rawSentiments.push(...ollamaResults);
+                    const successfulIds = new Set(ollamaResults.map(r => r.id));
+                    pendingDocs = pendingDocs.filter(d => !successfulIds.has(d.id));
+                } else {
+                    this.logger.warn('[Sentiment] Ollama unavailable — falling back to FastAPI');
+                }
+            } catch (err) {
+                this.logger.warn(`[Sentiment] Ollama sentiment failed: ${err.message} — falling back to FastAPI`);
             }
-        } catch (err) {
-            this.logger.warn(`[Sentiment] Ollama sentiment failed: ${err.message} — falling back to FastAPI`);
         }
 
-        // ── Fallback to FastAPI local model ──
-        if (!rawSentiments) {
-            this.logger.log('[Sentiment] Using FastAPI local model for sentiment analysis');
-            try {
-                const sentimentRes = await firstValueFrom(
-                    this.httpService.post(
-                        `${this.fastApiBaseUrl}/sentiment/analyze/local`,
-                        {
-                            documents: allDocs.slice(0, 3).map((d) => ({ id: d.id, text: d.text.substring(0, 500) })),
-                            ...(customTags ? { custom_sentiments: customTags } : {}),
-                        },
-                        { timeout: 60000 }
-                    )
-                );
-                rawSentiments = sentimentRes.data?.sentiment || [];
-            } catch (err) {
-                this.logger.warn(`[Sentiment] FastAPI sentiment fallback failed: ${err.message}`);
-                rawSentiments = [];
-            }
-        }
+
 
         // ── Map back to original documents ──
         const aggregated = (rawSentiments ?? []).map((s: any) => {
@@ -79,40 +75,8 @@ export class SentimentProvider {
             };
         });
 
-        // ── Ensure every entry has topic (FastAPI doesn't return it) ──
-        for (const entry of aggregated) {
-            if (!entry.topic || entry.topic === 'General') {
-                const post = posts.find((p: any) => p.id === entry.id);
-                const snippet = (post?.content || post?.text || '').substring(0, 500);
-                if (snippet.length > 30) {
-                    try {
-                        const topicRes = await firstValueFrom(
-                            this.httpService.post(
-                                `${this.ollamaUrl}/api/generate`,
-                                {
-                                    model: this.ollamaModel,
-                                    prompt: `Classify the main topic of this text as a single word (e.g. Economics, Politics, Technology, Health, Education, Sports, Science, Culture, Environment, Law, Society, Entertainment). Reply with ONLY the single word.\n\nText: "${snippet}"\n\nTopic:`,
-                                    stream: false,
-                                },
-                                { timeout: 60000 },
-                            ),
-                        );
-                        const topicRaw = (topicRes.data?.response || '').trim();
-                        const firstWord = topicRaw.split(/[\s,.\n]/)[0].replace(/[^a-zA-Z]/g, '');
-                        if (firstWord && firstWord.length > 1 && firstWord.length < 20) {
-                            entry.topic = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
-                            this.logger.log(`[Sentiment] Extracted topic "${entry.topic}" for doc ${entry.id}`);
-                        }
-                    } catch {
-                        entry.topic = 'General';
-                    }
-                } else {
-                    entry.topic = 'General';
-                }
-            }
-            entry.topic = entry.topic || 'General';
-        }
 
+        this.logger.log(`[Sentiment] Analysis complete: ${aggregated.length} docs processed`);
         return aggregated;
     }
 
@@ -134,90 +98,195 @@ export class SentimentProvider {
         }
     }
 
+
+
     /**
-     * Analyze sentiment using the self-hosted Ollama phi3:mini model.
+     * Analyze sentiment using the self-hosted Ollama model (Batched).
      */
-    async analyzeSentimentWithOllama(docs: { id: string; text: string }[], customTags?: string): Promise<any[]> {
+    async analyzeSentimentWithOllama(docs: { id: string; text: string; needsSummary?: boolean }[], customTags?: string): Promise<any[]> {
         const results: any[] = [];
 
-        for (const doc of docs) {
-            const prompt = this.buildSentimentPrompt(doc.text, customTags);
+        // Run parallel requests to Ollama to reduce overall processing time
+        const promises = docs.map(async (doc) => {
+            const shouldSummarize = !!doc.needsSummary;
+            const prompt = this.buildSentimentPrompt(doc, customTags, shouldSummarize);
 
-            const res = await firstValueFrom(
-                this.httpService.post(
-                    `${this.ollamaUrl}/api/generate`,
-                    {
-                        model: this.ollamaModel,
-                        prompt,
-                        stream: false,
-                    },
-                    { timeout: 30000 },
-                ),
-            );
+            const schemaProperties: any = {
+                id: { type: "string" },
+                sentiment: { type: "string" },
+                confidence: { type: "number" },
+                topic: { type: "string" }
+            };
+            const schemaRequired = ["id", "sentiment", "confidence", "topic"];
 
-            const raw = res.data?.response || '';
-            let sentiment = 'Neutral';
-            let confidence = 0.5;
-            let topic = 'General';
-            let summary = raw.trim();
-
-            try {
-                const jsonMatch = raw.match(/\{[\s\S]*?\}/);
-                if (jsonMatch) {
-                    const parsed = JSON.parse(jsonMatch[0]);
-                    sentiment = parsed.sentiment || sentiment;
-                    confidence = typeof parsed.confidence === 'number'
-                        ? parsed.confidence
-                        : parseFloat(parsed.confidence) || confidence;
-                    topic = parsed.topic || topic;
-                    summary = parsed.summary || summary;
-                }
-            } catch {
-                const lower = raw.toLowerCase();
-                if (lower.includes('positive')) {
-                    sentiment = 'Positive';
-                    confidence = 0.7;
-                } else if (lower.includes('negative')) {
-                    sentiment = 'Negative';
-                    confidence = 0.7;
-                } else {
-                    sentiment = 'Neutral';
-                    confidence = 0.5;
-                }
-                summary = raw.substring(0, 300).trim();
+            if (shouldSummarize) {
+                schemaProperties.summary = { type: "string" };
+                schemaProperties.generated_title = { type: "string" };
+                schemaRequired.push("summary", "generated_title");
             }
 
-            results.push({
-                id: doc.id,
-                sentiment,
-                confidence: Math.min(Math.max(confidence, 0), 1),
-                topic,
-                summary,
-                engine: 'ollama:' + this.ollamaModel,
-            });
-        }
+            try {
+                const res = await firstValueFrom(
+                    this.httpService.post(
+                        `${this.ollamaUrl}/api/generate`,
+                        {
+                            model: this.ollamaModel,
+                            prompt,
+                            format: {
+                                type: "object",
+                                properties: schemaProperties,
+                                required: schemaRequired
+                            },
+                            stream: false,
+                            options: {
+                                temperature: 0.1,
+                                num_predict: 500
+                            }
+                        },
+                        { timeout: 4800000 }, // 8 minute timeout
+                    ),
+                );
+
+                const raw = res.data?.response || '';
+                const parsedBatch = this.parseBatchLLMResponse(raw, [doc], `ollama:${this.ollamaModel}`);
+                this.logger.log(`[Sentiment] Summarised doc ${doc.id} using AI Platform: Local Ollama (${this.ollamaModel})`);
+                return parsedBatch[0] || {
+                    id: doc.id,
+                    sentiment: 'Neutral',
+                    confidence: 0,
+                    topic: 'Unknown',
+                    summary: 'Analysis failed due to missing object',
+                    engine: `ollama:${this.ollamaModel}`
+                };
+            } catch (err) {
+                this.logger.warn(`[Sentiment] Ollama failed for doc ${doc.id}: ${err.message}`);
+                return {
+                    id: doc.id,
+                    sentiment: 'Neutral',
+                    confidence: 0,
+                    topic: 'Unknown',
+                    summary: 'Analysis failed due to an error',
+                    engine: `ollama:${this.ollamaModel}`
+                };
+            }
+        });
+
+        const parallelResults = await Promise.all(promises);
+        results.push(...parallelResults);
 
         return results;
     }
 
     /**
-     * Build a structured sentiment analysis prompt for the LLM.
+     * Build a structured sentiment analysis prompt for a single document.
      */
-    private buildSentimentPrompt(text: string, customTags?: string): string {
+    private buildSentimentPrompt(doc: { id: string; text: string }, customTags?: string, shouldSummarize = false): string {
         const categories = customTags ? customTags : 'Positive, Negative, Neutral';
 
-        return `You are a sentiment analysis and topic classification expert. Analyze the following text and respond with ONLY a valid JSON object (no markdown, no explanation, just JSON).
+        let instructions = `1. Classify the sentiment as one of: ${categories}
+2. Identify the main topic as a single word noun.
+3. Give a confidence score between 0.0 and 1.0.`;
 
-Classify the sentiment as one of: ${categories}
-Identify the main topic as a single word (e.g. Economics, Politics, Technology, Health, Education, Sports, Science, Culture, Environment, Law).
-Write a concise summary of 3-4 sentences that captures the key points for a content preview.
+        let format = `{"id": "${doc.id}", "sentiment": "<category>", "confidence": <your confidence>, "topic": "<single word topic>"}`;
+
+        if (shouldSummarize) {
+            instructions += `\n4. Write a very short 3-5 word summary.\n5. Generate a concise 5-8 word title for the document.`;
+            format = `{"id": "${doc.id}", "sentiment": "<category>", "confidence": <your confidence>, "topic": "<single word topic>", "summary": "<3-5 word summary>", "generated_title": "<concise title>"}`;
+        }
+
+        return `You are a sentiment analysis and topic classification expert. Analyze the following document and respond with ONLY a valid JSON object (no markdown, no explanation, just the JSON object).
+
+${instructions}
 
 Respond in this exact JSON format:
-{"sentiment": "<category>", "confidence": <0.0 to 1.0>, "topic": "<single word topic>", "summary": "<3-4 sentence summary>"}
+${format}
 
-Text to analyze:
-"""${text}"""
+Document to analyze:
+"""
+${doc.text}
+"""
 
 JSON response:`;
     }
+
+    /**
+     * Helper to parse JSON array from batched LLM response strings.
+     */
+    private parseBatchLLMResponse(raw: string, batchDocs: any[], engineName: string): any[] {
+        let parsedArray: any[] = [];
+        try {
+            const jsonMatch = raw.match(/\[[\s\S]*?\]/);
+            if (jsonMatch) {
+                parsedArray = JSON.parse(jsonMatch[0]);
+            } else {
+                // Try parsing the entire response just in case it is pure JSON
+                const parsed = JSON.parse(raw.trim());
+                // If the LLM returned a single object instead of an array, wrap it in an array
+                if (!Array.isArray(parsed) && parsed !== null && typeof parsed === 'object') {
+                    parsedArray = [parsed];
+                } else {
+                    parsedArray = parsed;
+                }
+            }
+        } catch (e) {
+            // As a final fallback, try to extract just an object
+            try {
+                const objMatch = raw.match(/\{[\s\S]*?\}/);
+                if (objMatch) {
+                    parsedArray = [JSON.parse(objMatch[0])];
+                }
+            } catch (innerErr) {
+                this.logger.warn(`[Sentiment] Failed to parse batch JSON response: ${e.message}`);
+            }
+        }
+
+        const validResults: any[] = [];
+        const docIds = new Set(batchDocs.map(d => String(d.id)));
+
+        if (Array.isArray(parsedArray) && parsedArray.length > 0) {
+            for (let i = 0; i < parsedArray.length; i++) {
+                const item = parsedArray[i];
+                // If BATCH_SIZE is 1, forcefully map the first item to the single document we sent,
+                // because small LLMs often hallucinate or strip dashes from UUIDs.
+                let itemId = String(item.id);
+                if (batchDocs.length === 1 && i === 0) {
+                    itemId = String(batchDocs[0].id);
+                }
+
+                if (docIds.has(itemId)) {
+                    validResults.push({
+                        id: itemId,
+                        sentiment: item.sentiment || 'Neutral',
+                        confidence: typeof item.confidence === 'number' ? item.confidence : (parseFloat(item.confidence) || 0.5),
+                        topic: item.topic || 'General',
+                        summary: item.summary || '',
+                        generatedTitle: item.generated_title || null,
+                        engine: engineName
+                    });
+                    docIds.delete(itemId);
+                }
+            }
+        }
+
+        // Fill in missing docs
+        for (const missingId of docIds) {
+            validResults.push({
+                id: missingId,
+                sentiment: 'Neutral',
+                confidence: 0,
+                topic: 'Unknown',
+                summary: 'Analysis failed due to model skipping or parse error',
+                engine: engineName
+            });
+        }
+
+        return validResults;
+    }
 }
+
+
+
+
+
+
+

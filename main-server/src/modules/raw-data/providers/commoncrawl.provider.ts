@@ -26,7 +26,10 @@ export class CommonCrawlProvider extends AbstractDataProvider {
 
     async fetchSentiment(query: any, userId?: number): Promise<any> {
         const response = await this.proxyRequest<any>('/commoncrawl/sentiment', {
-            params: query
+            params: {
+                ...query,
+                _t: Date.now() // Cache busting
+            }
         });
 
         // POst-processing
