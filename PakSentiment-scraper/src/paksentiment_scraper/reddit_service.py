@@ -5,6 +5,7 @@ from typing import Any, Dict, List
 import asyncpraw
 from asyncpraw.exceptions import RedditAPIException
 from .base import AbstractScraperClient
+from .perf_logger import log_perf
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +37,7 @@ class RedditScraperClient(AbstractScraperClient):
         :param query: post query you want to search for in subreddit.
         :param limit: max limit for post you want to get in result
         """
+        log_perf(f"python start scraping reddit: {subreddit_name} for '{query}'")
         max_retries = 3
         retry_count = 0
 
@@ -45,6 +47,27 @@ class RedditScraperClient(AbstractScraperClient):
                 results = []
 
                 async for submission in subreddit.search(query, limit=limit):
+                    # Extract best available image URL
+                    image_url = None
+                    # 1. Check preview images (highest quality)
+                    if hasattr(submission, 'preview') and submission.preview:
+                        try:
+                            images = submission.preview.get('images', [])
+                            if images:
+                                source_img = images[0].get('source', {})
+                                if source_img.get('url'):
+                                    image_url = source_img['url'].replace('&amp;', '&')
+                        except (AttributeError, KeyError, IndexError):
+                            pass
+                    # 2. Check if the post URL is a direct image
+                    if not image_url and submission.url:
+                        url_lower = submission.url.lower()
+                        if any(url_lower.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp']) or 'i.redd.it' in url_lower:
+                            image_url = submission.url
+                    # 3. Fallback to thumbnail
+                    if not image_url and hasattr(submission, 'thumbnail') and submission.thumbnail and submission.thumbnail.startswith('http'):
+                        image_url = submission.thumbnail
+
                     results.append(
                         {
                             "post_id": submission.id,
@@ -66,9 +89,12 @@ class RedditScraperClient(AbstractScraperClient):
                             "total_awards": submission.total_awards_received,
                             "distinguished": submission.distinguished,
                             "locked": submission.locked,
+                            "thumbnail": getattr(submission, 'thumbnail', None),
+                            "image_url": image_url,
                         }
                     )
 
+                log_perf("python finished scraping reddit")
                 return results
 
             except RedditAPIException as e:
@@ -88,6 +114,10 @@ class RedditScraperClient(AbstractScraperClient):
                     logger.exception("Reddit API Exception occurred")
                     raise
             except Exception as e:
+                # Catch 404 Not Found explicitly without needing to import asyncprawcore directly
+                if "404" in str(e) or "NotFound" in e.__class__.__name__:
+                    logger.warning(f"Subreddit '{subreddit_name}' not found or search failed (404). Returning empty list.")
+                    return []
                 logger.exception(f"An unexpected error occurred: {e}")
                 raise
 
