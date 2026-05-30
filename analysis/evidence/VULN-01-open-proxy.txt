@@ -1,0 +1,14 @@
+=== VULN-01 Open Proxy / SSRF Tests ===
+API base: http://localhost:5002
+Timestamp: 2026-05-30T13:30:36Z
+Status: SERVICES OFFLINE (HTTP 000) — see STATIC-CODE-REVIEW-EVIDENCE.md
+
+When stack is running, expected behavior (confirmed by code review):
+- GET /proxy/image?url=<any-valid-url> succeeds without Authorization header
+- Server performs server-side HTTP request via axios (SSRF/open-proxy risk)
+
+Reproduction (with docker compose up):
+  curl -i "http://localhost:5002/proxy/image?url=https://example.com/favicon.ico"
+  curl -i "http://localhost:5002/proxy/image?url=http://169.254.169.254/latest/meta-data/"
+
+Source: main-server/src/modules/raw-data/proxy.controller.ts — no AuthGuard

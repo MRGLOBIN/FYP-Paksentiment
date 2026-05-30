@@ -1,0 +1,24 @@
+=== VULN-04/05 Internal API Direct Access ===
+Gateway: http://localhost:5003
+Colly: http://localhost:5004
+Timestamp: 2026-05-30T13:30:36Z
+Status: SERVICES OFFLINE (HTTP 000) — see STATIC-CODE-REVIEW-EVIDENCE.md
+
+Expected when stack is online:
+
+GET http://localhost:5003/
+  → FastAPI health JSON (no authentication)
+
+GET http://localhost:5003/reddit/scaled/search?subreddit=technology&limit=2&tier=paid
+  → Paid-tier Reddit data without Nest JWT (tier is query param only)
+
+POST http://localhost:5004/scrape
+  Content-Type: application/json
+  {"url":"https://example.com","maxDepth":0}
+  → Crawl results without authentication
+
+Reproduction script: analysis/scripts/04-test-gateway-direct.sh
+
+Sources:
+- new PakSentiment-data-gateway/main.py (no auth middleware)
+- colly-sidecar/cmd/router.go (public POST /scrape, /crawl)
