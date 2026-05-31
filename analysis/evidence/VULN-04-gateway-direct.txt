@@ -1,24 +1,24 @@
 === VULN-04/05 Internal API Direct Access ===
-Gateway: http://localhost:5003
-Colly: http://localhost:5004
-Timestamp: 2026-05-30T13:30:36Z
-Status: SERVICES OFFLINE (HTTP 000) — see STATIC-CODE-REVIEW-EVIDENCE.md
+Gateway: http://localhost:8000
+Colly: http://localhost:8081
+Timestamp: 2026-05-31T12:52:37Z
 
-Expected when stack is online:
+--- FastAPI root (no JWT) ---
+{"message":"PakSentiment Data Gateway is running."}
+HTTP 200
 
-GET http://localhost:5003/
-  → FastAPI health JSON (no authentication)
+--- Reddit scaled tier=paid (bypass Nest JWT) ---
+{"source":"reddit_paid","tier":"paid","cached":true,"cache_key":"reddit:paid:technology:new:ai","count":2,"posts":[{"post_id":"t3_1tssnct","title":"These AI models are free, private, and will never say 'no'","text":"<table> <tr><td> <a href=\"https://www.reddit.com/r/technology/comments/1tssnct/these_ai_models_are_free_private_and_will_never/\"> <img alt=\"These AI models are free, private, and will never say 'no'\" src=\"https://external-preview.redd.it/kURK8y0EQw7sSxYAJEZ_ka5WUt4q9KDoLG9Gt2sEeZs.jpeg?width=640&amp;crop=smart&amp;auto=webp&amp;s=0d2e2e0f546af309869913b288d9b9f3bc28d934\" title=\"These AI models are free, private, and will never say 'no'\" /> </a> </td><td> &#32; submitted by &#32; <a href=\"https://www.reddit.com/user/No-Lifeguard-8173\"> /u/No-Lifeguard-8173 </a> <br /> <span><a href=\"https://www.npr.org/2026/05/31/nx-s1-5816391/ai-safety-concerns-danger-open-weight-models-risks\">[link]</a></span> &#32; <span><a href=\"https://www.reddit.com/r/technology/comments/1tssnct/these_ai_models_are_free_private_and_will_never/\">[comments]</a></span> </td></tr></table>","author_name":"/u/No-Lifeguard-8173","created_utc":"2026-05-31T11:22:47+00:00","url":"https://www.reddit.com/r/technology/comments/1tssnct/these_ai_models_are_free_private_and_will_never/","category":"technology","image_url":"https://external-preview.redd.it/kURK8y0EQw7sSxYAJEZ_ka5WUt4q9KDoLG9Gt2sEeZs.jpeg?auto=webp&s=0d2e2e0f546af309869913b288d9b9f3bc28d934"},{"post_id":"t3_1tss3et","title":"Do autonomous Ai agents always mean humans are replaced? As most companies are now investing in autonomous ai agents, will it mean humans are always replaced?","text":"<table> <tr><td> <a href=\"https://www.reddit.com/r/technology/comments/1tss3et/do_autonomous_ai_agents_always_mean_humans_are/\"> <img alt=\"Do autonomous Ai agents always mean humans are replaced? As most companies are now investing in autonomous ai agents, will it mean humans are always replaced?\" src=\"https://external-preview.redd.it/VH_kNTlZwj0bvA_ucyio8dIDRtBrdoxXM0iaszXjLKs.jpeg?width=640&amp;crop=smart&amp;auto=webp&amp;s=1bbe8512e13b46e6a91598065660486f125d1d35\" title=\"Do autonomous Ai agents always mean humans are replaced? As most companies are now investing in autonomous ai agents, will it mean humans are always replaced?\" /> </a> </td><td> &#32; submitted by &#32; <a href=\"https://www.reddit.com/user/Even-Wasabi7183\"> /u/Even-Wasabi7183 </a> <br /> <span><a href=\"https://fortune.com/2026/02/23/always-on-ai-agents-openclaw-claude-promise-work-while-sleeping-reality-problems-oversight-guardrails/\">[link]</a></span> &#32; <span><a href=\"https://www.reddit.com/r/technology/comments/1tss3et/do_autonomous_ai_agents_always_mean_humans_are/\">[comments]</a></span> </td></tr></table>","author_name":"/u/Even-Wasabi7183","created_utc":"2026-05-31T10:54:43+00:00","url":"https://www.reddit.com/r/technology/comments/1tss3et/do_autonomous_ai_agents_always_mean_humans_are/","category":"technology","image_url":"https://external-preview.redd.it/VH_kNTlZwj0bvA_ucyio8dIDRtBrdoxXM0iaszXjLKs.jpeg?auto=webp&s=1bbe8512e13b46e6a91598065660486f125d1d35"}]}
+HTTP 200
 
-GET http://localhost:5003/reddit/scaled/search?subreddit=technology&limit=2&tier=paid
-  → Paid-tier Reddit data without Nest JWT (tier is query param only)
+--- Scrapling fetch arbitrary URL ---
+{"results":[{"status":200,"url":"https://example.com/","text":"This domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more","links":["https://iana.org/domains/example"]}]}
+HTTP 200
 
-POST http://localhost:5004/scrape
-  Content-Type: application/json
-  {"url":"https://example.com","maxDepth":0}
-  → Crawl results without authentication
+--- Colly health (no auth) ---
+{"status":"running","redis":"ok","mongodb":"ok"}
+HTTP 200
 
-Reproduction script: analysis/scripts/04-test-gateway-direct.sh
-
-Sources:
-- new PakSentiment-data-gateway/main.py (no auth middleware)
-- colly-sidecar/cmd/router.go (public POST /scrape, /crawl)
+--- Colly scrape (no auth) ---
+{"success":true,"result":{"url":"https://example.com","status":200,"title":"","text":"This domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more","published_at":"0001-01-01T00:00:00Z","links":["https://iana.org/domains/example"],"cached_hit":true,"method":"headless-browser","engine":"scrapling","js_heavy":true,"scraped_at":"2026-05-31T17:52:47.223842+05:00"},"elapsed":"4.841397912s"}
+HTTP 200

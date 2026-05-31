@@ -1,18 +1,29 @@
 === VULN-02/03 Payment Escalation Tests ===
-API base: http://localhost:5002
-Timestamp: 2026-05-30T13:30:36Z
-Status: SERVICES OFFLINE (HTTP 000) — see STATIC-CODE-REVIEW-EVIDENCE.md
+API base: http://localhost:3000
+NestJS reachable: true
+Timestamp: 2026-05-31T12:52:36Z
 
-Expected behavior when API is online:
+--- Unauthenticated create-intent ---
+{"message":["property amount should not exist","property planName should not exist"],"error":"Bad Request","statusCode":400}
+HTTP 400
 
-1. POST /payments/create-intent (no JWT) → 201 with clientSecret
-2. POST /auth/register + login → JWT
-3. POST /payments/fulfill-subscription with body {"planName":"Premium Plan"}
-   Authorization: Bearer <token>
-   → {"success":true,"newTier":"premium"} WITHOUT any Stripe payment
+--- Register test user (may fail if exists) ---
+{"accessToken":"[REDACTED_JWT]","user":{"id":11,"fullName":"Sec Tester","email":"security.tester@paksentiment.local","isActive":true,"role":"free","subscriptionTier":"free","createdAt":"2026-05-31T12:52:36.804Z","updatedAt":"2026-05-31T12:52:36.804Z"}}
+HTTP 201
 
-This upgrades subscriptionTier in PostgreSQL with no payment verification.
+--- Login ---
+JWT obtained (redacted in report): eyJhbGciOiJIUzI1NiIs...[REDACTED]
 
-Reproduction script: analysis/scripts/03-test-payment-escalation.sh
+--- fulfill-subscription WITHOUT Stripe payment ---
+{"success":true,"newTier":"premium"}
+HTTP 201
 
-Source: main-server/src/modules/payments/payments.controller.ts
+--- Decode JWT payload (middle segment only) ---
+{
+  "sub": 11,
+  "email": "security.tester@paksentiment.local",
+  "role": "free",
+  "tier": "free",
+  "iat": 1780231956,
+  "exp": 1780235556
+}

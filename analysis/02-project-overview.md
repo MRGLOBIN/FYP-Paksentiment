@@ -7,32 +7,61 @@
 ## 2.2 System architecture
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "flowchart": {
+    "curve": "stepBefore",
+    "nodeSpacing": 70,
+    "rankSpacing": 90
+  },
+  "themeVariables": {
+    "primaryColor": "#1976d2",
+    "primaryTextColor": "#ffffff",
+    "lineColor": "#90caf9",
+    "fontFamily": "Inter, sans-serif"
+  }
+}}%%
+
 flowchart TB
-    subgraph client [Client Layer]
-        FE[Next.js Frontend :5001]
-    end
-    subgraph api [API Gateway Layer]
-        API[NestJS Main Server :5002]
-    end
-    subgraph data [Data Aggregation Layer]
-        GW[FastAPI Data Gateway :5003]
-        GO[Go Colly Sidecar :5004]
-        SDK[PakSentiment-scraper Python SDK]
-    end
-    subgraph storage [Data Storage]
-        PG[(PostgreSQL :5005)]
-        MG[(MongoDB :5006)]
-        RD[(Redis :5007)]
-    end
-    FE -->|REST + JWT| API
-    API --> PG
-    API --> MG
-    API -->|HTTP proxy| GW
-    API -->|HTTP proxy| GO
-    GW --> SDK
-    GW --> RD
-    GO --> MG
-    GO --> RD
+
+%% ================= CLIENT =================
+subgraph CLIENT[Client Layer]
+    FE[Next.js Frontend<br/>Port: 5001]
+end
+
+%% ================= API =================
+subgraph API_LAYER[API Gateway Layer]
+    API[NestJS API Gateway<br/>Port: 5002]
+end
+
+%% ================= DATA =================
+subgraph DATA[Data Aggregation Layer]
+    GW[FastAPI Gateway<br/>Port: 5003]
+    GO[Go Scraper Service<br/>Port: 5004]
+    SDK[Python Scraper SDK]
+end
+
+%% ================= STORAGE =================
+subgraph STORAGE[Data Storage Layer]
+    PG[(PostgreSQL<br/>Port: 5005)]
+    MG[(MongoDB<br/>Port: 5006)]
+    RD[(Redis<br/>Port: 5007)]
+end
+
+%% ================= FLOW =================
+FE -->|JWT / REST| API
+
+API --> PG
+API --> MG
+
+API -->|HTTP Proxy| GW
+API -->|HTTP Proxy| GO
+
+GW --> SDK
+GW --> RD
+
+GO --> MG
+GO --> RD
 ```
 
 ## 2.3 Component responsibilities

@@ -20,20 +20,30 @@ Ethical vulnerability assessment and penetration testing documentation for **Pak
 
 ## Evidence and scripts
 
-- [evidence/](evidence/) — curl logs and screenshots
-- [scripts/](scripts/) — reproducible test scripts
+- [results/](results/) — **Live test result markdown reports** (latest local run)
+- [evidence/](evidence/) — Raw curl logs and static code review
+- [scripts/](scripts/) — Reproducible test scripts (`local-env.sh` targets ports 3000/3001/8000/8081)
 
 ## Quick start (reproduce tests)
 
 ```bash
-# From repository root
-docker compose up -d   # or use start_servers.sh for local dev
+# Local dev ports (default): frontend :3001, NestJS :3000, gateway :8000, Colly :8081
+# NestJS requires PostgreSQL on :5432
 
 chmod +x analysis/scripts/*.sh
 ./analysis/scripts/run-all.sh
 ```
 
-Default URLs (Docker): frontend `:5001`, API `:5002`, gateway `:5003`, Colly `:5004`.
+See [results/00-test-run-summary.md](results/00-test-run-summary.md) for latest run output.
+
+## Compile to DOCX
+
+```bash
+cd analysis
+./build-docx.sh
+```
+
+Output: `analysis/docx/` (chapters) and `analysis/docx/results/` (live test reports).
 
 ## Ethics statement
 

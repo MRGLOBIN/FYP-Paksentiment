@@ -1,19 +1,25 @@
 === Auth Boundary Tests ===
-API base: http://localhost:5002
-Timestamp: 2026-05-30T13:30:36Z
-Status: SERVICES OFFLINE (HTTP 000)
+API base: http://localhost:3000
+NestJS reachable: true
+Timestamp: 2026-05-31T12:52:47Z
 
-Expected boundary behavior (code review):
+--- public root: GET / (no token) ---
+Hello World!
+HTTP 200
 
-| Route | No JWT | With JWT |
-|-------|--------|----------|
-| GET / | 200 | 200 |
-| GET /proxy/image?url=... | 200 (streams image) | 200 |
-| POST /raw-data/reddit | 401 Unauthorized | 200/201 |
-| GET /activity/me | 401 | 200 |
-| POST /payments/create-intent | 200/201 (PUBLIC) | 200/201 |
+--- open proxy: GET /proxy/image?url=https://example.com/favicon.ico (no token) ---
+Image fetch failed
+HTTP 404
 
-Raw-data module uses @UseGuards(AuthGuard) at controller level.
-ProxyController has NO guard.
+--- protected reddit: POST /raw-data/reddit (no token) ---
+{"message":"Unauthorized","statusCode":401}
+HTTP 401
 
-Reproduction: analysis/scripts/05-test-auth-boundaries.sh
+--- protected activity: GET /activity/me (no token) ---
+{"message":"Unauthorized","statusCode":401}
+HTTP 401
+
+--- public payment intent: POST /payments/create-intent (no token) ---
+{"message":["property amount should not exist","property planName should not exist"],"error":"Bad Request","statusCode":400}
+HTTP 400
+

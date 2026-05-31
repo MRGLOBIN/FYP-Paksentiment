@@ -3,29 +3,28 @@
 set -euo pipefail
 
 OUT_DIR="$(cd "$(dirname "$0")/../evidence" && pwd)"
-API_BASE="${NEST_API_URL:-http://localhost:5002}"
-LOCAL_API="${NEST_LOCAL_URL:-http://localhost:3000}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=local-env.sh
+source "$SCRIPT_DIR/local-env.sh"
 OUT_FILE="$OUT_DIR/VULN-01-open-proxy.txt"
 
 mkdir -p "$OUT_DIR"
 
-pick_api() {
-  for base in "$API_BASE" "$LOCAL_API"; do
-    if curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 "$base/" 2>/dev/null | grep -qE '^(200|404|401)'; then
-      echo "$base"
-      return 0
-    fi
-  done
-  echo "$API_BASE"
-}
-
-BASE=$(pick_api)
+BASE=$(pick_nest_api)
+NEST_UP=false
+is_up "$BASE/" && NEST_UP=true
 
 {
   echo "=== VULN-01 Open Proxy / SSRF Tests ==="
   echo "API base: $BASE"
+  echo "NestJS reachable: $NEST_UP"
   echo "Timestamp: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
   echo ""
+
+  if [[ "$NEST_UP" != "true" ]]; then
+    echo "SKIP: NestJS not running on $BASE (PostgreSQL required). See STATIC-CODE-REVIEW-EVIDENCE.md."
+    exit 0
+  fi
 
   test_url() {
     local label="$1"
@@ -36,7 +35,7 @@ BASE=$(pick_api)
     echo "Target URL: $target"
     echo "Request: GET $BASE/proxy/image?url=$encoded"
     curl -s -D - --connect-timeout 8 -o /dev/null \
-      "$BASE/proxy/image?url=$encoded" 2>&1 | head -20
+      "$BASE/proxy/image?url=$encoded" 2>&1 | head -20 || echo "(curl failed)"
     echo ""
   }
 

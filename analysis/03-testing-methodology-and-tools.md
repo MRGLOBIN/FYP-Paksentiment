@@ -75,7 +75,7 @@ Outputs saved under `analysis/evidence/`:
 - `STATIC-CODE-REVIEW-EVIDENCE.md` — code excerpts when services offline
 - Screenshots (manual): Swagger, Network tab for payment bypass — see [evidence/README.md](evidence/README.md)
 
-**Note:** During automated report generation, Docker was not running; dynamic tests returned HTTP `000`. Findings are **confirmed by static analysis** and are reproducible when the stack is started.
+**Note:** Latest live run (2026-05-31) used local ports. Gateway/Colly tests **confirmed** VULN-04/05/11. NestJS tests skipped — PostgreSQL not running on `:5432`. See [results/](../results/).
 
 ## 3.7 Limitations
 

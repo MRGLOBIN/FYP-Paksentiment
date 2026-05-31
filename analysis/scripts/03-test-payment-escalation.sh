@@ -3,32 +3,31 @@
 set -euo pipefail
 
 OUT_DIR="$(cd "$(dirname "$0")/../evidence" && pwd)"
-API_BASE="${NEST_API_URL:-http://localhost:5002}"
-LOCAL_API="${NEST_LOCAL_URL:-http://localhost:3000}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=local-env.sh
+source "$SCRIPT_DIR/local-env.sh"
 OUT_FILE="$OUT_DIR/VULN-02-payment-escalation.txt"
 TEST_EMAIL="${TEST_EMAIL:-security.tester@paksentiment.local}"
 TEST_PASSWORD="${TEST_PASSWORD:-SecureTest123!}"
 
 mkdir -p "$OUT_DIR"
 
-pick_api() {
-  for base in "$API_BASE" "$LOCAL_API"; do
-    code=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 "$base/" 2>/dev/null || echo "000")
-    if [[ "$code" =~ ^(200|404)$ ]]; then
-      echo "$base"
-      return 0
-    fi
-  done
-  echo "$API_BASE"
-}
-
-BASE=$(pick_api)
+BASE=$(pick_nest_api)
+NEST_UP=false
+is_up "$BASE/" && NEST_UP=true
 
 {
   echo "=== VULN-02/03 Payment Escalation Tests ==="
   echo "API base: $BASE"
+  echo "NestJS reachable: $NEST_UP"
   echo "Timestamp: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
   echo ""
+
+  if [[ "$NEST_UP" != "true" ]]; then
+    echo "SKIP: NestJS not running on $BASE (PostgreSQL required on :5432)."
+    echo "NOTE: Code review confirms fulfill-subscription accepts planName without payment proof."
+    exit 0
+  fi
 
   echo "--- Unauthenticated create-intent ---"
   curl -s -w "\nHTTP %{http_code}\n" -X POST "$BASE/payments/create-intent" \

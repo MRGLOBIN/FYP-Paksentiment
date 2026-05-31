@@ -1,0 +1,47 @@
+=== PakSentiment Port Recon ===
+Timestamp: 2026-05-31T12:39:42Z
+
+--- Frontend local (3001) — http://localhost:3001/ ---
+HTTP status: 200
+HTTP/1.1 200 OK
+content-length: 71
+content-type: application/json
+Date: Sun, 31 May 2026 12:39:42 GMT
+Connection: keep-alive
+
+--- NestJS local (3000) — http://localhost:3000/ ---
+HTTP status: 000000
+
+--- Swagger local (3000) — http://localhost:3000/api ---
+HTTP status: 000000
+
+--- FastAPI local (8000) — http://localhost:8000/ ---
+HTTP status: 200
+HTTP/1.1 405 Method Not Allowed
+date: Sun, 31 May 2026 12:39:42 GMT
+server: uvicorn
+allow: GET
+content-length: 31
+
+--- Colly local (8081) — http://localhost:8081/health ---
+HTTP status: 200
+HTTP/1.1 404 Not Found
+Content-Type: text/plain
+Date: Sun, 31 May 2026 12:39:43 GMT
+Content-Length: 18
+
+
+--- Frontend Docker (5001) — http://localhost:5001/ ---
+HTTP status: 000000
+
+--- NestJS Docker (5002) — http://localhost:5002/ ---
+HTTP status: 000000
+
+--- FastAPI Docker (5003) — http://localhost:5003/ ---
+HTTP status: 000000
+
+--- Colly Docker (5004) — http://localhost:5004/health ---
+HTTP status: 000000
+
+=== Docker containers (if available) ===
+(docker not running)

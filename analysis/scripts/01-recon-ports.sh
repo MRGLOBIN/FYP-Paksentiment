@@ -14,14 +14,15 @@ mkdir -p "$OUT_DIR"
   echo ""
 
   endpoints=(
-    "5001|Frontend|http://localhost:5001/"
-    "5002|NestJS API|http://localhost:5002/"
-    "5002|Swagger|http://localhost:5002/api"
-    "5003|FastAPI Gateway|http://localhost:5003/"
-    "5004|Colly Sidecar|http://localhost:5004/health"
+    "3001|Frontend local|http://localhost:3001/"
     "3000|NestJS local|http://localhost:3000/"
+    "3000|Swagger local|http://localhost:3000/api"
     "8000|FastAPI local|http://localhost:8000/"
     "8081|Colly local|http://localhost:8081/health"
+    "5001|Frontend Docker|http://localhost:5001/"
+    "5002|NestJS Docker|http://localhost:5002/"
+    "5003|FastAPI Docker|http://localhost:5003/"
+    "5004|Colly Docker|http://localhost:5004/health"
   )
 
   for entry in "${endpoints[@]}"; do

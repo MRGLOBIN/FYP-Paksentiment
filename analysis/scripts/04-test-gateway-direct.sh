@@ -3,28 +3,15 @@
 set -euo pipefail
 
 OUT_DIR="$(cd "$(dirname "$0")/../evidence" && pwd)"
-GW="${GATEWAY_URL:-http://localhost:5003}"
-GW_LOCAL="${GATEWAY_LOCAL_URL:-http://localhost:8000}"
-COLLY="${COLLY_URL:-http://localhost:5004}"
-COLLY_LOCAL="${COLLY_LOCAL_URL:-http://localhost:8081}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=local-env.sh
+source "$SCRIPT_DIR/local-env.sh"
 OUT_FILE="$OUT_DIR/VULN-04-gateway-direct.txt"
 
 mkdir -p "$OUT_DIR"
 
-pick() {
-  for u in "$@"; do
-    code=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 "$u" 2>/dev/null || echo "000")
-    if [[ "$code" =~ ^(200|404|307)$ ]]; then
-      echo "$u"
-      return 0
-    fi
-  done
-  echo "$1"
-}
-
-GW_BASE=$(pick "$GW" "$GW_LOCAL")
-COLLY_BASE=$(pick "$COLLY/health" "$COLLY_LOCAL/health")
-COLLY_BASE="${COLLY_BASE%/health}"
+GW_BASE=$(pick_gateway)
+COLLY_BASE=$(pick_colly)
 
 {
   echo "=== VULN-04/05 Internal API Direct Access ==="
@@ -38,8 +25,8 @@ COLLY_BASE="${COLLY_BASE%/health}"
   echo ""
 
   echo "--- Reddit scaled tier=paid (bypass Nest JWT) ---"
-  curl -s -w "\nHTTP %{http_code}\n" --connect-timeout 10 \
-    "$GW_BASE/reddit/scaled/search?subreddit=technology&limit=2&tier=paid" 2>&1 | head -40
+  curl -s -w "\nHTTP %{http_code}\n" --connect-timeout 30 \
+    "$GW_BASE/reddit/scaled/search?subreddit=technology&query=ai&limit=2&tier=paid" 2>&1 | head -60
   echo ""
 
   echo "--- Scrapling fetch arbitrary URL ---"
