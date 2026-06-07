@@ -28,6 +28,8 @@ export default function ChatPage() {
 
     return (
         <div className={styles.container}>
+            <div className="starsOverlay" />
+            <div className="gridOverlay" />
             <Navbar />
 
             <main className={styles.main}>
@@ -41,7 +43,7 @@ export default function ChatPage() {
                 ) : (
                     <>
                         <div className={styles.header}>
-                            <h1><PublicIcon fontSize="large" style={{ verticalAlign: 'middle', marginRight: '8px' }} /> Global AI Assistant</h1>
+                            <h1><PublicIcon fontSize="large" style={{ verticalAlign: 'middle', marginRight: '8px', color: 'var(--primary)' }} /> Global AI Assistant</h1>
                             <p>Chat in Spanish, French, Mandarin, Arabic, or English!</p>
                         </div>
 

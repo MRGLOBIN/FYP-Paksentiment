@@ -1,8 +1,9 @@
 .footer {
-  background: #2c3e50;
-  color: #a0aec0;
-  padding: 3rem 2rem 1.5rem;
+  background: var(--footer-bg);
+  color: var(--text-muted);
+  padding: 5rem 2rem 2rem;
   margin-top: auto;
+  border-top: 1px solid var(--border-color);
 }
 
 .footerContainer {
@@ -14,7 +15,7 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr 1fr;
   gap: 3rem;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
@@ -46,26 +47,34 @@
   border-radius: 8px;
   object-fit: contain;
   flex-shrink: 0;
+  border: 1px solid rgba(140, 69, 255, 0.2);
+  box-shadow: 0 0 8px rgba(140, 69, 255, 0.3);
 }
 
 .brandName {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--text-primary) 50%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
   margin: 0;
 }
 
 .brandDescription {
   font-size: var(--font-size-sm);
   line-height: 1.6;
-  color: #a0aec0;
+  color: var(--text-secondary);
   max-width: 300px;
 }
 
 .sectionTitle {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
 }
 
@@ -79,13 +88,14 @@
 
   li {
     a {
-      color: #a0aec0;
+      color: var(--text-secondary);
       text-decoration: none;
       font-size: var(--font-size-sm);
-      transition: color 0.2s ease;
+      transition: all 0.2s ease;
 
       &:hover {
-        color: var(--primary);
+        color: var(--text-primary);
+        text-shadow: 0 0 8px rgba(140, 69, 255, 0.5);
       }
     }
   }
@@ -100,40 +110,42 @@
   gap: 0.75rem;
 
   li {
-    color: #a0aec0;
+    color: var(--text-secondary);
     font-size: var(--font-size-sm);
 
     a {
-      color: #a0aec0;
+      color: var(--text-secondary);
       text-decoration: none;
-      transition: color 0.2s ease;
+      transition: all 0.2s ease;
 
       &:hover {
-        color: var(--primary);
+        color: var(--text-primary);
+        text-shadow: 0 0 8px rgba(140, 69, 255, 0.5);
       }
     }
   }
 }
 
 .footerBottom {
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border-color);
   text-align: center;
 }
 
 .copyright {
-  font-size: var(--font-size-sm);
-  color: #718096;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
   margin: 0;
+  letter-spacing: 0.02em;
 }
 
 @media (max-width: 640px) {
   .footer {
-    padding: 2rem 1rem 1rem;
+    padding: 3rem 1.5rem 1.5rem;
   }
 
   .footerGrid {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   .brandDescription {

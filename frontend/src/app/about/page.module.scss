@@ -14,16 +14,21 @@
 .hero {
   text-align: center;
   padding: 6rem 2rem;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
-  border-bottom: 1px solid var(--border);
+  background: var(--cta-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
 
   h1 {
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    background: var(--gradient-text);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
   }
 
   p {
@@ -33,6 +38,11 @@
     margin: 0 auto;
     line-height: 1.6;
   }
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
 }
 
 .section {
@@ -46,6 +56,8 @@
     margin-bottom: 3rem;
     text-align: center;
     font-weight: 700;
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
   }
 }
 
@@ -57,7 +69,7 @@
 
 .card {
   background: var(--card-bg);
-  border: 1px solid var(--border);
+  border: 1px solid var(--card-border);
   border-radius: 16px;
   padding: 2rem;
   transition: all 0.3s ease;
@@ -67,15 +79,19 @@
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+    box-shadow: 
+      0 12px 30px var(--box-shadow-hover),
+      0 0 15px rgba(140, 69, 255, 0.1);
+    border-color: rgba(140, 69, 255, 0.3);
   }
 
   .iconWrapper {
     width: 50px;
     height: 50px;
     border-radius: 12px;
-    background: rgba(16, 185, 129, 0.1);
-    color: #059669;
+    background: var(--primary-50);
+    color: var(--primary);
+    border: 1px solid var(--primary-100);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,6 +102,7 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: var(--text-primary);
+    font-family: var(--font-heading);
   }
 
   p {
@@ -95,7 +112,9 @@
 }
 
 .techSection {
-  background: var(--bg-secondary);
+  background: var(--background-secondary);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
   position: relative;
   overflow: hidden;
 }
@@ -110,16 +129,21 @@
   @extend .card;
   align-items: center;
   text-align: center;
-  background: var(--background);
+  background: var(--card-bg);
 
   .iconWrapper {
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
+    background: var(--primary-50);
+    color: var(--primary);
+    border: 1px solid var(--primary-100);
   }
 }
 
 .teamSection {
   text-align: center;
+
+  h2 {
+    font-family: var(--font-heading);
+  }
 
   p {
     max-width: 800px;

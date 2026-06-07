@@ -69,35 +69,35 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       palette: {
         mode,
         primary: {
-          main: '#10b981',
-          dark: '#059669',
-          light: '#34d399',
+          main: '#8c45ff',
+          dark: '#4a208a',
+          light: '#b894ff',
         },
         ...(mode === 'light'
           ? {
-              background: {
-                default: '#fafbfc',
-                paper: '#ffffff',
-              },
-              text: {
-                primary: '#0f172a',
-                secondary: '#475569',
-              },
-            }
+               background: {
+                 default: '#faf9ff',
+                 paper: '#ffffff',
+               },
+               text: {
+                 primary: '#0f0c1b',
+                 secondary: '#554f6c',
+               },
+             }
           : {
-              background: {
-                default: '#0c0f17',
-                paper: '#161b2e',
-              },
-              text: {
-                primary: '#e2e8f0',
-                secondary: '#94a3b8',
-              },
-            }),
+               background: {
+                 default: '#030014',
+                 paper: '#0a071e',
+               },
+               text: {
+                 primary: '#f5f5f7',
+                 secondary: '#b4b4b4',
+               },
+             }),
       },
       typography: {
         fontFamily:
-          "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          "'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
         h1: { fontWeight: 800, letterSpacing: '-0.025em' },
         h2: { fontWeight: 700, letterSpacing: '-0.02em' },
         h3: { fontWeight: 700, letterSpacing: '-0.015em' },

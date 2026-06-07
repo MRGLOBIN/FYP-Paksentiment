@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './DataSourcesSection.module.scss'
-import { Reddit, Twitter, YouTube, Public, RssFeed, Shield } from '@mui/icons-material'
+import { Reddit, YouTube, Public, RssFeed, Shield } from '@mui/icons-material'
 
 const SOURCES = [
     { name: 'Reddit', icon: <Reddit fontSize="inherit" />, description: 'Community discussions and subreddit trends' },

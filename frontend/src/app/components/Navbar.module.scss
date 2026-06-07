@@ -8,16 +8,17 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: var(--background);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid transparent;
+  background: var(--navbar-bg);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border-bottom: 1px solid var(--navbar-border);
   transition: all var(--transition-base);
   height: var(--nav-height);
 
   &.scrolled {
-    border-bottom-color: var(--border-color);
-    box-shadow: var(--shadow-sm);
+    background: var(--navbar-scrolled-bg);
+    border-bottom-color: rgba(140, 69, 255, 0.15);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05), 0 0 15px rgba(140, 69, 255, 0.03);
   }
 }
 
@@ -46,13 +47,19 @@
   border-radius: 8px;
   object-fit: contain;
   flex-shrink: 0;
+  border: 1px solid rgba(140, 69, 255, 0.25);
+  box-shadow: 0 0 8px rgba(140, 69, 255, 0.15);
 }
 
 .logoText {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--text-primary) 50%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
 }
 
 .navLinks {
@@ -67,21 +74,23 @@
 
 .navLink {
   text-decoration: none;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-weight: 500;
   font-size: var(--font-size-sm);
   padding: 0.5rem 0.875rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   transition: all var(--transition-fast);
 
   &:hover {
     color: var(--text-primary);
-    background: var(--primary-50);
+    background: rgba(140, 69, 255, 0.08);
   }
 
   &.active {
-    color: var(--primary);
-    background: var(--primary-50);
+    color: #ffffff;
+    background: var(--gradient-primary);
+    border: 1px solid rgba(140, 69, 255, 0.3);
+    box-shadow: 0 0 10px rgba(140, 69, 255, 0.15);
     font-weight: 600;
   }
 }
@@ -110,7 +119,7 @@
   color: var(--text-secondary);
   background: transparent;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   text-decoration: none;
   transition: all var(--transition-fast);
   display: inline-flex;
@@ -118,27 +127,28 @@
 
   &:hover {
     color: var(--text-primary);
-    background: var(--primary-50);
+    background: rgba(140, 69, 255, 0.05);
   }
 }
 
 .registerButton {
-  padding: 0.5rem 1.125rem;
+  padding: 0.5rem 1.25rem;
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: white;
   background: var(--gradient-primary);
-  border: none;
-  border-radius: var(--radius-md);
+  border: 1px solid rgba(140, 69, 255, 0.3);
+  border-radius: var(--radius-full);
   text-decoration: none;
   transition: all var(--transition-fast);
   display: inline-flex;
   align-items: center;
-  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 12px rgba(140, 69, 255, 0.2), inset 0 0 10px rgba(140, 69, 255, 0.4);
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    box-shadow: 0 0 18px rgba(140, 69, 255, 0.4), inset 0 0 10px rgba(140, 69, 255, 0.6);
+    border-color: rgba(140, 69, 255, 0.5);
   }
 }
 
@@ -318,6 +328,6 @@
   transition: all var(--transition-fast);
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    box-shadow: 0 4px 12px rgba(140, 69, 255, 0.35);
   }
 }

@@ -370,7 +370,7 @@ export default function AnalysisDashboard({ data }: AnalysisDashboardProps) {
                                 gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
                                 gap: 3,
                             }}>
-                                {mediaItems.map((item) => (
+                                {mediaItems.map((item: any) => (
                                     <Box
                                         key={item.id}
                                         sx={{

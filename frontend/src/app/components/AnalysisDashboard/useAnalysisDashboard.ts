@@ -459,7 +459,7 @@ export const useAnalysisDashboard = (data: AnalysisResult) => {
         data.posts?.forEach(p => {
             let src = 'Web'
             const url = p.url || ''
-            const metaSource = (p.metadata?.source || '').toLowerCase()
+            const metaSource = ((p.metadata as any)?.source || '').toLowerCase()
 
             if (url.includes('reddit.com') || p.subreddit) src = 'Reddit'
             else if (url.includes('youtube.com')) src = 'YouTube'
@@ -638,8 +638,8 @@ export const useAnalysisDashboard = (data: AnalysisResult) => {
         };
 
         // Use standardized media array from backend if available
-        if (data.media && Array.isArray(data.media) && data.media.length > 0) {
-            return data.media.map(m => ({ ...m, mediaUrl: formatMediaUrl(m.mediaUrl) }));
+        if ((data as any).media && Array.isArray((data as any).media) && (data as any).media.length > 0) {
+            return (data as any).media.map((m: any) => ({ ...m, mediaUrl: formatMediaUrl(m.mediaUrl) }));
         }
 
         const items: {
