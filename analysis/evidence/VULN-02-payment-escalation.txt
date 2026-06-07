@@ -1,0 +1,29 @@
+=== VULN-02/03 Payment Escalation Tests ===
+API base: http://localhost:3000
+NestJS reachable: true
+Timestamp: 2026-05-31T12:52:36Z
+
+--- Unauthenticated create-intent ---
+{"message":["property amount should not exist","property planName should not exist"],"error":"Bad Request","statusCode":400}
+HTTP 400
+
+--- Register test user (may fail if exists) ---
+{"accessToken":"[REDACTED_JWT]","user":{"id":11,"fullName":"Sec Tester","email":"security.tester@paksentiment.local","isActive":true,"role":"free","subscriptionTier":"free","createdAt":"2026-05-31T12:52:36.804Z","updatedAt":"2026-05-31T12:52:36.804Z"}}
+HTTP 201
+
+--- Login ---
+JWT obtained (redacted in report): eyJhbGciOiJIUzI1NiIs...[REDACTED]
+
+--- fulfill-subscription WITHOUT Stripe payment ---
+{"success":true,"newTier":"premium"}
+HTTP 201
+
+--- Decode JWT payload (middle segment only) ---
+{
+  "sub": 11,
+  "email": "security.tester@paksentiment.local",
+  "role": "free",
+  "tier": "free",
+  "iat": 1780231956,
+  "exp": 1780235556
+}

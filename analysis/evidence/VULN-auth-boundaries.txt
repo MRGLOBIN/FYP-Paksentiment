@@ -1,0 +1,25 @@
+=== Auth Boundary Tests ===
+API base: http://localhost:3000
+NestJS reachable: true
+Timestamp: 2026-05-31T12:52:47Z
+
+--- public root: GET / (no token) ---
+Hello World!
+HTTP 200
+
+--- open proxy: GET /proxy/image?url=https://example.com/favicon.ico (no token) ---
+Image fetch failed
+HTTP 404
+
+--- protected reddit: POST /raw-data/reddit (no token) ---
+{"message":"Unauthorized","statusCode":401}
+HTTP 401
+
+--- protected activity: GET /activity/me (no token) ---
+{"message":"Unauthorized","statusCode":401}
+HTTP 401
+
+--- public payment intent: POST /payments/create-intent (no token) ---
+{"message":["property amount should not exist","property planName should not exist"],"error":"Bad Request","statusCode":400}
+HTTP 400
+

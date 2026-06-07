@@ -61,6 +61,19 @@ export class SentimentProvider {
             }
         }
 
+        // ── 2. Fallback to FastAPI ──
+        if (pendingDocs.length > 0) {
+            try {
+                this.logger.log(`[Sentiment] Calling FastAPI fallback for ${pendingDocs.length} doc(s)`);
+                const fastApiResults = await this.analyzeSentimentWithFastApi(pendingDocs, customTags);
+                rawSentiments.push(...fastApiResults);
+                const successfulIds = new Set(fastApiResults.map(r => r.id));
+                pendingDocs = pendingDocs.filter(d => !successfulIds.has(d.id));
+            } catch (err) {
+                this.logger.error(`[Sentiment] FastAPI sentiment fallback failed: ${err.message}`);
+            }
+        }
+
 
 
         // ── Map back to original documents ──
@@ -281,6 +294,41 @@ JSON response:`;
         }
 
         return validResults;
+    }
+
+    /**
+     * Analyze sentiment using the FastAPI backend.
+     */
+    async analyzeSentimentWithFastApi(docs: { id: string; text: string; needsSummary?: boolean }[], customTags?: string): Promise<any[]> {
+        const payload = {
+            documents: docs.map(d => ({ id: d.id, text: d.text })),
+            custom_sentiments: customTags
+        };
+
+        const res = await firstValueFrom(
+            this.httpService.post(`${this.fastApiBaseUrl}/sentiment/analyze`, payload, {
+                timeout: 300000 // 5 minute timeout
+            })
+        );
+
+        const data = res.data;
+        const results: any[] = [];
+
+        if (data && Array.isArray(data.sentiment)) {
+            data.sentiment.forEach((s: any) => {
+                results.push({
+                    id: s.id,
+                    sentiment: s.sentiment || 'Neutral',
+                    confidence: typeof s.confidence === 'number' ? s.confidence : (parseFloat(s.confidence) || 0.5),
+                    topic: s.topic || 'General',
+                    summary: s.summary || '',
+                    generatedTitle: s.generatedTitle || null,
+                    engine: 'fastapi'
+                });
+            });
+        }
+
+        return results;
     }
 }
 

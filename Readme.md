@@ -1,86 +1,71 @@
 # PakSentiment
 
-> A comprehensive social media sentiment analysis platform focused on Pakistani social discourse
+> **DataInsight**: A comprehensive, high-performance social media sentiment analysis platform.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
-[![Go](https://img.shields.io/badge/Go-1.21+-00ADD8.svg)](https://golang.org/)
+[![Python](https://img.shields.io/badge/Python-3.12+-3776AB.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/downloads/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933.svg?style=flat&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Go](https://img.shields.io/badge/Go-1.21+-00ADD8.svg?style=flat&logo=go&logoColor=white)](https://golang.org/)
+[![NestJS](https://img.shields.io/badge/NestJS-10+-E0234E.svg?style=flat&logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 
-**Final Year Project (FYP) - AIR University**
+**Final Year Project (FYP) — Department of Creative Technologies, AIR University**
 
 ---
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Documentation](#documentation)
-- [API Documentation](#api-documentation)
-- [Team](#team)
-- [License](#license)
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [System Architecture](#-system-architecture)
+- [Tech Stack](#-tech-stack)
+- [Database Architecture (Dual Setup)](#-database-architecture-dual-setup)
+- [Project Directory Structure](#-project-directory-structure)
+- [Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Local Development Setup](#local-development-setup)
+  - [Dockerized Deployment](#dockerized-deployment)
+- [API & Swagger Documentation](#-api--swagger-documentation)
+- [Project Wiki & Reference Guides](#-project-wiki--reference-guides)
+- [Project Team](#-project-team)
+- [License](#-license)
 
 ---
 
 ## 🎯 Overview
 
-PakSentiment is a full-stack sentiment analysis platform designed to analyze social media discourse in Pakistan. The system aggregates data from multiple sources (Reddit, Twitter, YouTube, web pages, and Common Crawl), performs AI-powered sentiment classification with multi-language support (Urdu and English), and provides comprehensive analytics through an intuitive dashboard.
+**PakSentiment** (codenamed **DataInsight**) is an end-to-end, multi-tier social media scraper and sentiment analysis platform. It allows researchers, marketers, and developers to analyze public opinion across multiple sources (Reddit, Twitter/X, YouTube, web pages, RSS feeds, NewsAPI, and Common Crawl) using local and cloud-based Large Language Models (LLMs) and traditional NLP classification engines.
 
-The platform serves as a middleware layer connecting a modern frontend application to a sophisticated data gateway and AI services, ensuring a complete pipeline from data collection to advanced analytics and visualization.
-
-### Key Capabilities
-
-- **Multi-Source Data Collection**: Aggregate data from Reddit, Twitter, YouTube, web pages, and historical Common Crawl archives
-- **AI-Powered Analysis**: Leverage multiple AI engines (Ollama, Groq, HuggingFace) for sentiment classification
-- **Multi-Language Support**: Automatic language detection and translation for Urdu and English content
-- **Smart Search**: AI-driven multi-source search planning for comprehensive analysis
-- **Real-Time Analytics**: Interactive dashboard with KPIs, sentiment breakdowns, and topic analysis
-- **Secure Authentication**: JWT-based authentication with OAuth (Google) support
-- **Export Capabilities**: Export analysis results for further processing
+The platform employs a robust microservices architecture consisting of a **Next.js Frontend**, a **NestJS API Orchestrator (Main Server)**, a **FastAPI Data Gateway**, and a **Go Colly Sidecar** for high-throughput stealth crawling.
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-### Data Collection
-- **Reddit Integration**: Fetch posts and comments from specific subreddits
-- **Twitter/X Integration**: Collect tweets based on queries and hashtags
-- **YouTube Scraping**: Extract videos, comments, and transcripts
-- **Web Scraping**: Stealthy scraping with Scrapling and high-performance Colly crawler
-- **Common Crawl**: Access historical web data from Common Crawl archives
-- **Smart AI Search**: Multi-source intelligent search planning
+### 📡 High-Throughput Scrapers & Integrations
+*   **Reddit Scaling Engine**: Dual-mode extraction:
+    *   *Free Tier*: Uses standard public RSS feeds (no authentication or proxy overhead required).
+    *   *Paid Tier*: Utilizes JSON API scraping combined with rotated proxies for rich historical metadata.
+*   **YouTube Scraping**: Extracts video metadata, top comments, and retrieves transcripts for deep analysis.
+*   **Web Scraping & Crawling**: Uses **Scrapling** (stealth browser scraping) with a high-performance **Go Colly Sidecar** for parallel page extraction.
+*   **RSS & NewsAPI Integration**: Collects articles and trends from global news sources via custom RSS feeds and the NewsAPI service.
+*   **Other Platforms**: Pulls data from Stack Overflow, Hacker News, GDELT, Mastodon, and Google Trends.
+*   **Common Crawl**: Integrates with historical Common Crawl index queries.
 
-### Analysis & Processing
-- **Sentiment Classification**: Positive, Negative, and Neutral sentiment detection
-- **Confidence Scoring**: AI confidence levels for each classification
-- **Topic Detection**: Automatic topic extraction and categorization
-- **Multi-Language Support**: Urdu and English language detection and translation
-- **Chunk-Based Analysis**: Process large content in manageable chunks
-- **Rate Limiting**: Automatic retry logic for high-volume requests
+### 🧠 Sentiment & Topic Analytics
+*   **AI Sentiment Engine**: Leverages Ollama (local LLM inference), Groq (cloud LLM APIs), and Hugging Face pre-trained models to classify content (Positive, Negative, Neutral) with confidence metrics.
+*   **Urdu & English Analysis**: Automatic language detection and translation capabilities supporting both Roman Urdu, Urdu script, and English.
+*   **Smart Search**: AI-driven planner that parses user queries and drafts a multi-source extraction plan.
+*   **Fuzzy Cache Normalization**: Token-based Redis caching that returns instant sentiment stats for repeated or structurally similar queries.
 
-### User Interface
-- **Interactive Dashboard**: Real-time analytics and visualizations
-- **KPI Metrics**: Total documents, unique authors, top topics, average confidence
-- **Sentiment Breakdown**: Visual representation of sentiment distribution
-- **Export Functionality**: Download analysis results
-- **Session Management**: Track and retrieve analysis sessions
-- **Responsive Design**: Modern, mobile-friendly interface
-
-### Security & Authentication
-- **JWT Authentication**: Secure token-based authentication
-- **OAuth Integration**: Google OAuth support
-- **Password Management**: Secure password reset functionality
-- **Role-Based Access**: User authorization and access control
+### 🔐 User & Subscription Management
+*   **Role-Based Access Control (RBAC)**: Users are partitioned by Role (`free`, `premium`, `admin`) and Subscription Tier (`free`, `premium`, `super_premium`).
+*   **JSON Web Tokens (JWT)**: Security middleware enforcing token validation on API layers.
+*   **Dashboard Command Center**: Pulse charts, KPI statistics (Lifetime Analyses, Unique Authors, Top Sentiment Topics), and recent search replays.
 
 ---
 
-## 🏗️ Architecture
-
-PakSentiment employs a microservices architecture with clear separation of concerns:
+## 🏗️ System Architecture
 
 ```mermaid
 graph TB
@@ -88,166 +73,109 @@ graph TB
         A[Frontend - Next.js]
     end
     
-    subgraph "API Layer"
+    subgraph "API Gateway Layer (Main Server)"
         B[Main Server - NestJS]
     end
     
-    subgraph "Data Processing Layer"
+    subgraph "Data Aggregation Layer"
         C[Data Gateway - FastAPI]
         D[Colly Sidecar - Go]
         E[Scraper Library - Python]
     end
     
-    subgraph "Data Storage"
-        F[(PostgreSQL)]
-        G[(MongoDB)]
-        H[(Redis)]
+    subgraph "Data Storage & Cache"
+        F[(PostgreSQL 16)]
+        G[(MongoDB 7)]
+        H[(Redis 7)]
     end
     
-    subgraph "External Services"
+    subgraph "External Integration & AI"
         I[Social Media APIs]
-        J[AI Services]
-        K[Common Crawl]
+        J[AI Services - Ollama/Groq]
+        K[Common Crawl API]
     end
     
-    A --> B
-    B --> C
-    B --> F
-    B --> G
-    C --> D
-    C --> E
-    C --> I
-    C --> J
-    C --> K
-    D --> H
-    D --> G
+    A -->|GraphQL/REST| B
+    B -->|Proxy Ingestion| C
+    B -->|Relational Data| F
+    B -->|Logs & Cache Sync| G
+    C -->|Web Crawl Jobs| D
+    C -->|Social Scraping| E
+    C -->|API/Scraping| I
+    C -->|Llama/Gemma Models| J
+    C -->|Warc Queries| K
+    D -->|Cache Hits| H
+    D -->|Persist Output| G
 ```
-
-### Component Overview
-
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| **Frontend** | Next.js, React, TypeScript | User interface and visualization |
-| **Main Server** | NestJS, TypeScript | Authentication, API gateway, business logic |
-| **Data Gateway** | FastAPI, Python | Data aggregation, AI orchestration |
-| **Colly Sidecar** | Go, Colly | High-performance web crawling |
-| **Scraper Library** | Python, asyncio | Multi-platform data scraping |
-| **PostgreSQL** | SQL Database | User data and configuration |
-| **MongoDB** | NoSQL Database | Posts, analytics, and crawl results |
-| **Redis** | Cache | Page caching and session management |
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- **Framework**: Next.js 14+ with App Router
-- **Language**: TypeScript
-- **UI Library**: React 18+
-- **Styling**: Tailwind CSS / CSS Modules
-- **State Management**: React Hooks
-- **HTTP Client**: Axios / Fetch API
-
-### Backend - Main Server
-- **Framework**: NestJS
-- **Language**: TypeScript
-- **Authentication**: JWT, Passport.js, OAuth 2.0
-- **ORM**: TypeORM / Prisma
-- **API Documentation**: Swagger/OpenAPI
-- **Validation**: class-validator
-
-### Backend - Data Gateway
-- **Framework**: FastAPI
-- **Language**: Python 3.12+
-- **Async Runtime**: asyncio, httpx
-- **Data Validation**: Pydantic, msgspec
-- **Configuration**: Dynaconf
-- **Scraping**: Scrapling, BeautifulSoup, jusText
-
-### Backend - Colly Sidecar
-- **Language**: Go 1.21+
-- **Framework**: Gin / Fiber
-- **Scraping**: Colly
-- **Content Extraction**: go-readability
-
-### Databases & Cache
-- **PostgreSQL 16**: User authentication and configuration
-- **MongoDB 7**: Posts, analytics, and crawl data
-- **Redis 7**: Caching and session storage
-
-### AI & ML Services
-- **Ollama**: Local LLM inference
-- **Groq**: Cloud-based LLM API
-- **HuggingFace**: Pre-trained models and transformers
-
-### DevOps & Deployment
-- **Containerization**: Docker, Docker Compose
-- **Package Management**: npm/yarn (Node.js), uv/pip (Python), go mod (Go)
-- **Version Control**: Git, GitHub
-- **CI/CD**: GitHub Actions
+*   **Frontend**: Next.js 14+ (App Router), React 18+, Tailwind CSS, Recharts, Framer Motion.
+*   **Main Server**: NestJS, TypeScript, TypeORM, Passport.js (JWT, Google OAuth), Swagger UI.
+*   **Data Gateway**: FastAPI, Python 3.12+, Pydantic, Dynaconf, Scrapling, Trafilatura, jusText.
+*   **Colly Sidecar**: Go 1.21+, Gin, Colly (high-speed crawler), go-readability.
+*   **Databases & Caches**:
+    *   **PostgreSQL 16**: User credentials, identity providers, and API keys.
+    *   **MongoDB 7**: Crawl jobs, scraped documents, system logs, session data, and analytics cache.
+    *   **Redis 7**: Scraped page cache and fuzzy text lookup keys.
 
 ---
 
-## 📁 Project Structure
+## 🗄️ Database Architecture (Dual Setup)
+
+The application utilizes a **hybrid database model** to handle core relational operations and heavy document storage separately. Check out the implementation in the main [AppModule](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/app.module.ts).
+
+### Relational Schema (PostgreSQL)
+Manages user accounts, authentication methods, configurations, and API keys:
+1.  **[UserEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/user.entity.ts) (`users`)**: Handles profile info, user state, system role, and billing status.
+2.  **[IdentityEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/identity.entity.ts) (`identities`)**: Coordinates login credentials for local and OAuth (Google, GitHub) providers.
+3.  **[UserPreferenceEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/user-preference.entity.ts) (`user_preferences`)**: UI themes and default dashboard platforms.
+4.  **[ApiKeyEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/api-key.entity.ts) (`api_keys`)**: Access tokens generated for custom API integration.
+5.  **[UserActivityEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/user-activity.entity.ts) (`user_activities`)**: System event logs mapping back to user IDs.
+6.  **[SystemConfigEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/system-config.entity.ts) (`system_configs`)**: System-wide feature toggles.
+
+### Document Schema (MongoDB)
+Stores high-volume scraped posts, analytical models, and crawlers outputs:
+1.  **[ScrapedDocumentEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/mongo/scraped-document.entity.ts) (`scraped_documents`)**: Extracted text fragments, cleaning methods (`justext`/`trafilatura`), and sentiment confidence scores.
+2.  **[CrawlJobEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/mongo/crawl-job.entity.ts) (`crawl_jobs`)**: Crawler batch tracking containing scraped URLs, titles, and cached web states.
+3.  **[AnalysisSessionEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/mongo/analysis-session.entity.ts) (`analysis_sessions`)**: Groups a list of MongoDB document IDs analyzed under a user query.
+4.  **[AnalyticsCacheEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/mongo/analytics-cache.entity.ts) (`analytics_cache`)**: Cached positive/negative/neutral ratios and keyword frequencies.
+5.  **[SystemLogEntity](file:///Users/mrgoblin/workspace/uni/fyp/new_current/main-server/src/database/entities/mongo/system-log.entity.ts) (`system_logs`)**: Centralized error reporting and component logs.
+
+---
+
+## 📁 Project Directory Structure
 
 ```
 paksentiment/
-├── frontend/                      # Next.js frontend application
-│   ├── src/
-│   │   ├── app/                  # App router pages
-│   │   ├── components/           # React components
-│   │   ├── hooks/                # Custom React hooks
-│   │   └── types/                # TypeScript type definitions
-│   ├── public/                   # Static assets
+├── frontend/                      # Next.js 14 Web Application
+│   ├── src/app/                   # App Router Layouts, Pages, and Styling
+│   ├── src/components/            # Dashboard Analytics & Charts
 │   └── Dockerfile
 │
-├── main-server/                   # NestJS main server
-│   ├── src/
-│   │   ├── auth/                 # Authentication module
-│   │   ├── users/                # User management
-│   │   ├── raw-data/             # Data proxy endpoints
-│   │   └── swagger.ts            # API documentation
-│   ├── test/                     # E2E tests
+├── main-server/                   # NestJS API Orchestrator (Main Server)
+│   ├── src/database/              # TypeORM Entities (Postgres & MongoDB Models)
+│   ├── src/modules/               # Auth, Activity, Payments, and Raw Data Modules
 │   └── Dockerfile
 │
-├── new PakSentiment-data-gateway/ # FastAPI data gateway
-│   ├── services/
-│   │   ├── scrapling_service.py  # Web scraping service
-│   │   ├── reddit_service.py     # Reddit integration
-│   │   ├── twitter_service.py    # Twitter integration
-│   │   └── youtube_service.py    # YouTube integration
-│   ├── models/                   # Data models
+├── new PakSentiment-data-gateway/ # FastAPI Data Ingestion Gateway
+│   ├── services/                  # Reddit, Scrapling, YouTube, and AI connectors
+│   ├── config/                    # API credentials (secrets.toml)
 │   └── Dockerfile
 │
-├── colly-sidecar/                 # Go web crawler
-│   ├── cmd/                      # Command entry points
-│   ├── crawler/                  # Crawler logic
-│   │   ├── crawler.go
-│   │   ├── extractor.go
-│   │   ├── readability.go
-│   │   └── scrapling.go
-│   ├── cache/                    # Redis cache integration
+├── colly-sidecar/                 # Go High-Performance Web Crawler
+│   ├── cmd/                       # Entry point main.go
+│   ├── crawler/                   # Colly spider pipelines and content cleaners
 │   └── Dockerfile
 │
-├── PakSentiment-scraper/          # Python scraper library
-│   ├── src/paksentiment_scraper/
-│   │   ├── youtube_service.py
-│   │   ├── reddit_service.py
-│   │   ├── twitter_service.py
-│   │   ├── commoncrawl_service.py
-│   │   ├── scrapling_service.py
-│   │   └── models.py
-│   └── pyproject.toml
+├── PakSentiment-scraper/          # Shared Python Scraper Engine SDK
+│   └── src/paksentiment_scraper/  # Library models and service integrations
 │
-├── architecture/                  # Architecture documentation
-│   ├── class-diagram.md
-│   ├── data-schema.md
-│   └── scraper-library-diagram.md
-│
-├── docs/                         # Additional documentation
-├── docker-compose.yml            # Docker orchestration
-├── pyproject.toml                # Python workspace config
-└── Project WIKI.md               # Comprehensive project wiki
+├── architecture/                  # Class diagrams and system schema diagrams
+├── docs/                          # In-depth architectural designs & proposals
+└── Project WIKI.md               # Detailed system manuals & reference documentation
 ```
 
 ---
@@ -255,49 +183,44 @@ paksentiment/
 ## 🚀 Getting Started
 
 ### Prerequisites
+Make sure you have installed:
+*   **Node.js** v18 or later
+*   **Python** 3.12+ (Astral `uv` is recommended)
+*   **Go** 1.21+
+*   **Docker** & **Docker Compose**
+*   **Ollama** (for local LLM execution: `ollama run llama3`)
 
-- **Node.js** 18+ and npm/yarn
-- **Python** 3.12+
-- **Go** 1.21+
-- **Docker** and Docker Compose (for containerized deployment)
-- **PostgreSQL** 16+
-- **MongoDB** 7+
-- **Redis** 7+
+---
 
 ### Local Development Setup
 
 #### 1. Clone the Repository
-
 ```bash
 git clone https://github.com/MRGLOBIN/FYP-Paksentiment.git
 cd FYP-Paksentiment
 ```
 
-#### 2. Environment Configuration
-
-Create `.env` files based on the provided examples:
-
+#### 2. Configuration Setup
+Create local configurations from sample files:
 ```bash
-# Root directory
+# Root docker config
 cp .env.docker.example .env.docker
 
-# Main Server
+# Main Server (NestJS)
 cp main-server/.env.example main-server/.env
 
-# Frontend
+# Frontend (Next.js)
 cp frontend/.env.example frontend/.env
 ```
 
-Configure the following environment variables:
-
-**Main Server (.env)**
+Configure your credentials inside `main-server/.env`:
 ```env
 PORT=3000
 NODE_ENV=development
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
-POSTGRES_USER=paksentiment
-POSTGRES_PASSWORD=your_password
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
 POSTGRES_DB=paksentiment
 MONGO_URI=mongodb://localhost:27017
 MONGO_DB=paksentiment
@@ -305,12 +228,11 @@ REDIS_URL=redis://localhost:6379
 FAST_API_BASE_URL=http://localhost:8000
 COLLY_SIDECAR_URL=http://localhost:8081
 OLLAMA_URL=http://localhost:11434
-JWT_SECRET=your_jwt_secret
+JWT_SECRET=your_secret_key
 JWT_EXPIRES_IN=1h
 ```
 
-**Data Gateway**
-Configure API keys in `new PakSentiment-data-gateway/config/.secrets.toml`:
+Configure data API credentials in `new PakSentiment-data-gateway/config/.secrets.toml`:
 ```toml
 [default]
 YOUTUBE_API_KEY = "your_youtube_api_key"
@@ -320,263 +242,119 @@ TWITTER_BEARER_TOKEN = "your_twitter_bearer_token"
 ```
 
 #### 3. Install Dependencies
-
-**Frontend**
 ```bash
-cd frontend
-npm install
-# or
-yarn install
-```
+# Next.js Frontend
+cd frontend && npm install && cd ..
 
-**Main Server**
-```bash
-cd main-server
-npm install
-# or
-yarn install
-```
+# NestJS Main Server
+cd main-server && npm install && cd ..
 
-**Data Gateway & Scraper Library**
-```bash
-# Install uv (Python package manager)
+# Python Data Gateway & Scraper SDK (using uv)
 curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Install dependencies
 uv sync
+
+# Go Crawler
+cd colly-sidecar && go mod tidy && cd ..
 ```
 
-**Colly Sidecar**
-```bash
-cd colly-sidecar
-go mod tidy
-```
-
-#### 4. Start Databases
-
-**Using Docker**
+#### 4. Spin up Local Databases (PostgreSQL, MongoDB, Redis)
+Using Docker Compose:
 ```bash
 docker-compose up postgres mongo redis -d
 ```
 
-**Or install locally** (PostgreSQL, MongoDB, Redis)
+#### 5. Launch Application services
 
-#### 5. Run Services
+*   **Terminal 1 - FastAPI Gateway**:
+    ```bash
+    cd "new PakSentiment-data-gateway"
+    uv run uvicorn main:app --reload --port 8000
+    ```
+*   **Terminal 2 - Go Crawler Sidecar**:
+    ```bash
+    cd colly-sidecar
+    go run main.go
+    ```
+*   **Terminal 3 - NestJS Orchestrator**:
+    ```bash
+    cd main-server
+    npm run start:dev
+    ```
+*   **Terminal 4 - Next.js Dashboard**:
+    ```bash
+    cd frontend
+    npm run dev
+    ```
 
-**Terminal 1 - Data Gateway**
-```bash
-cd "new PakSentiment-data-gateway"
-uv run uvicorn main:app --reload --port 8000
-```
+You can access the UI at `http://localhost:3001` and interactive Swagger docs at `http://localhost:3000/api`.
 
-**Terminal 2 - Colly Sidecar**
-```bash
-cd colly-sidecar
-go run main.go
-```
+---
 
-**Terminal 3 - Main Server**
-```bash
-cd main-server
-npm run start:dev
-```
+### Dockerized Deployment
 
-**Terminal 4 - Frontend**
-```bash
-cd frontend
-npm run dev
-```
-
-#### 6. Access the Application
-
-- **Frontend**: http://localhost:3001
-- **Main Server API**: http://localhost:3000
-- **API Documentation**: http://localhost:3000/api
-- **Data Gateway**: http://localhost:8000
-- **Colly Sidecar**: http://localhost:8081
-
-### Docker Deployment
-
-For a complete containerized deployment:
+To spin up the entire cluster (Frontend, Backend servers, Data Gateways, Databases, Caches) with a single command:
 
 ```bash
-# Build and start all services
-docker-compose up --build
+# Build and run all services
+docker-compose up --build -d
 
-# Run in detached mode
-docker-compose up -d
-
-# View logs
+# Check cluster logs
 docker-compose logs -f
 
-# Stop all services
+# Terminate cluster
 docker-compose down
 ```
 
-**Service Ports (Docker)**
-- Frontend: http://localhost:5001
-- Main Server: http://localhost:5002
-- Data Gateway: http://localhost:5003
-- Colly Sidecar: http://localhost:5004
-- PostgreSQL: localhost:5005
-- MongoDB: localhost:5006
-- Redis: localhost:5007
+#### Network Ports in Docker Setup
+*   **Frontend UI**: http://localhost:5001
+*   **Main Server (NestJS)**: http://localhost:5002
+*   **Data Gateway (FastAPI)**: http://localhost:5003
+*   **Colly Sidecar (Go)**: http://localhost:5004
+*   **PostgreSQL**: `localhost:5005`
+*   **MongoDB**: `localhost:5006`
+*   **Redis**: `localhost:5007`
 
 ---
 
-## 📚 Documentation
+## 📖 API & Swagger Documentation
 
-Comprehensive documentation is available in the repository:
+The NestJS gateway features interactive **Swagger/OpenAPI** specs mapping all analytical and user endpoints:
 
-- **[Project WIKI](./Project%20WIKI.md)**: Complete system documentation with architecture details, API references, and implementation guides
-- **[Architecture Diagrams](./architecture/)**: Class diagrams, data schemas, and system architecture
-- **[Scraper Library](./PakSentiment-scraper/README.md)**: Documentation for the Python scraper library
-- **[Colly Sidecar](./colly-sidecar/README.md)**: Go crawler service documentation
+*   **Local URL**: [http://localhost:3000/api](http://localhost:3000/api)
+*   **Dockerized URL**: [http://localhost:5002/api](http://localhost:5002/api)
 
-### Key Documentation Sections
-
-The [Project WIKI](./Project%20WIKI.md) includes:
-
-1. **Project Introduction**: Overview and system architecture
-2. **Main Server Architecture**: NestJS backend details
-3. **Data Gateway Architecture**: FastAPI service documentation
-4. **Crawler Sidecar Architecture**: Go Colly implementation
-5. **Sentiment Analysis Pipeline**: AI integration and processing
-6. **User Authentication & Management**: Security implementation
-7. **Data Collection Mechanisms**: Multi-source data aggregation
-8. **Database Schemas & Storage**: Data models and storage strategy
-9. **Analytics Dashboard & UI**: Frontend implementation
-10. **AI Models & Services**: AI service integration
-11. **Local Development & Deployment**: Setup and deployment guides
+> [!IMPORTANT]
+> To execute data analysis endpoints, sign up or log in first. Obtain a JWT token from `/auth/login-with-email-password` or `/auth/google` and authorize Swagger using the header:
+> `Authorization: Bearer <your_jwt_token>`
 
 ---
 
-## 📖 API Documentation
+## 📚 Project Wiki & Reference Guides
 
-### Interactive API Documentation
-
-The Main Server provides interactive Swagger/OpenAPI documentation:
-
-**URL**: http://localhost:3000/api (or http://localhost:5002/api in Docker)
-
-### Authentication
-
-Most endpoints require JWT authentication. Obtain a token by:
-
-1. **Register**: `POST /auth/register`
-2. **Login**: `POST /auth/login-with-email-password`
-3. **OAuth**: `POST /auth/google` (Google OAuth)
-
-Include the token in subsequent requests:
-```
-Authorization: Bearer <your_jwt_token>
-```
-
-### Key Endpoints
-
-#### Authentication
-- `POST /auth/register` - Register new user
-- `POST /auth/login-with-email-password` - Login with credentials
-- `POST /auth/forgot-password` - Request password reset
-- `POST /auth/google` - Google OAuth login
-
-#### Data Collection & Analysis
-- `POST /raw-data/reddit/sentiment` - Analyze Reddit data
-- `POST /raw-data/twitter/sentiment` - Analyze Twitter data
-- `POST /raw-data/web` - Analyze web pages
-- `POST /raw-data/smart` - AI-powered multi-source search
-- `GET /raw-data/session/:sessionId` - Retrieve analysis session
-
-#### Health & Monitoring
-- `GET /` - API health check
-- `GET /health` - Service health status
-
-### Example Request
-
-```bash
-# Login
-curl -X POST http://localhost:3000/auth/login-with-email-password \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "user@example.com",
-    "password": "your_password"
-  }'
-
-# Analyze Reddit sentiment
-curl -X POST http://localhost:3000/raw-data/reddit/sentiment \
-  -H "Authorization: Bearer <your_token>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "subreddit": "pakistan",
-    "query": "politics",
-    "limit": 50
-  }'
-```
+For in-depth architectural and developer guidelines, read the local resources:
+*   **[Project WIKI](./Project%20WIKI.md)**: Details the complete implementation history, modules configuration, database design, and pipeline details.
+*   **[Architecture Diagrams](./architecture/)**: Technical UML files, class hierarchies, and entity schemas.
+*   **[Scraper SDK Documentation](./PakSentiment-scraper/README.md)**: Guide on how to consume the Python Scraping library independently.
+*   **[Go Crawler Details](./colly-sidecar/README.md)**: Sidecar REST endpoints and cache implementation details.
 
 ---
 
-## 👥 Team
+## 👥 Project Team
 
-This project was developed as a Final Year Project (FYP) at **AIR University** by a dedicated team of students.
+This system was designed and implemented for a **Final Year Project (FYP)** in Computer Science at **AIR University**:
 
-### Contributors
-
-- **Team Lead**: [Your Name]
-- **Backend Development**: [Team Member Names]
-- **Frontend Development**: [Team Member Names]
-- **AI/ML Integration**: [Team Member Names]
-- **DevOps & Deployment**: [Team Member Names]
-
-### Supervisor
-
-- **Project Supervisor**: [Supervisor Name]
-- **Department**: Computer Science
-- **Institution**: AIR University
+*   **Team Lead & Backend Developer**: Muhammad Asim ([GitHub](https://github.com/MRGLOBIN)) — *Email: asimqwe2@gmail.com*
+*   **Team Members / Contributors**: `[Team Member Names / Contact Info]`
+*   **Project Supervisor**: `[Supervisor Name / Contact Info]`
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **AIR University** for providing the opportunity and resources
-- **Open Source Community** for the amazing tools and libraries
-- **Social Media Platforms** for providing APIs and data access
-- **AI Service Providers** (Ollama, Groq, HuggingFace) for AI capabilities
-
----
-
-## 📞 Contact & Support
-
-For questions, issues, or contributions:
-
-- **GitHub Issues**: [Create an issue](https://github.com/MRGLOBIN/FYP-Paksentiment/issues)
-- **Email**: [Your University Email]
-- **Documentation**: See [Project WIKI](./Project%20WIKI.md)
-
----
-
-## 🔮 Future Enhancements
-
-- [ ] Real-time streaming data collection
-- [ ] Advanced visualization and reporting
-- [ ] Multi-user collaboration features
-- [ ] Mobile application (iOS/Android)
-- [ ] Enhanced AI models for Urdu sentiment analysis
-- [ ] Integration with more social media platforms
-- [ ] Automated report generation
-- [ ] API rate limiting and usage analytics
+This repository is licensed under the **MIT License**. Check out the [LICENSE](LICENSE) file for complete details.
 
 ---
 
 <div align="center">
-
-**Built with ❤️ by AIR University FYP Team**
-
-[⬆ Back to Top](#paksentiment)
-
+  <sub>Built with ❤️ by the AIR University FYP Team</sub>
 </div>

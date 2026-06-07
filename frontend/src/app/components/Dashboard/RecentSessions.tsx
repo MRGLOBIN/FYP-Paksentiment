@@ -60,6 +60,11 @@ export default function RecentSessions({ activities, loading }: RecentSessionsPr
         if (action.includes('WEB')) return { name: 'Web', color: 'var(--source-web)' }
         if (action.includes('COMMONCRAWL')) return { name: 'History', color: 'var(--source-history)' }
         if (action.includes('SMART')) return { name: 'AI Search', color: 'var(--source-ai)' }
+        if (action.includes('HACKERNEWS')) return { name: 'Hacker News', color: '#ff6600' }
+        if (action.includes('NEWSAPI')) return { name: 'NewsAPI', color: '#00b4d8' }
+        if (action.includes('NEWSDATA')) return { name: 'NewsData', color: '#4f46e5' }
+        if (action.includes('GOOGLETRENDS')) return { name: 'Google Trends', color: '#4285F4' }
+        if (action.includes('STACKOVERFLOW')) return { name: 'Stack Overflow', color: '#f48024' }
         return { name: 'Unknown', color: 'var(--text-muted)' }
     }
 

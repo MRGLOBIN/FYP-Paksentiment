@@ -1,71 +1,71 @@
 /* ═══════════════════════════════════════════════════════════
-   DataInsight — Global Design System
-   Modern, elegant, startup-grade UI foundation
+   DataInsight — Global Design System (Airoverflow Cosmos Migration)
+   Modern, elegant, space-grade UI foundation
    ═══════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* ── Brand Colors ── */
-  --primary: #10b981;
-  --primary-dark: #059669;
-  --primary-light: #34d399;
-  --primary-50: rgba(16, 185, 129, 0.06);
-  --primary-100: rgba(16, 185, 129, 0.12);
-  --primary-200: rgba(16, 185, 129, 0.2);
-  --primary-hover: #059669;
-  --primary-hover-dark: #047857;
+  /* ── Brand Colors (Premium Violet) ── */
+  --primary: #8c45ff;
+  --primary-dark: #4a208a;
+  --primary-light: #b894ff;
+  --primary-50: rgba(140, 69, 255, 0.06);
+  --primary-100: rgba(140, 69, 255, 0.12);
+  --primary-200: rgba(140, 69, 255, 0.2);
+  --primary-hover: #7c3aed;
+  --primary-hover-dark: #6d28d9;
 
   /* ── Accent ── */
   --accent: #6366f1;
   --accent-light: #818cf8;
 
-  /* ── Surfaces ── */
-  --background: #fafbfc;
-  --background-secondary: #f1f5f9;
-  --foreground: #0f172a;
+  /* ── Surfaces (Cosmos Light-Violet Vibe) ── */
+  --background: #faf9ff;
+  --background-secondary: #f3f0ff;
+  --foreground: #0f0c1b;
   --card-bg: #ffffff;
-  --card-bg-hover: #f8fafc;
-  --card-border: #e2e8f0;
-  --secondary-bg: #f1f5f9;
+  --card-bg-hover: #fcfbff;
+  --card-border: rgba(140, 69, 255, 0.12);
+  --secondary-bg: #f3f0ff;
 
   /* ── Text ── */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-primary: #0f0c1b;
+  --text-secondary: #554f6c;
+  --text-muted: #9a95b0;
   --text-inverse: #ffffff;
 
   /* ── Borders & Dividers ── */
-  --border-color: #e2e8f0;
-  --border: #e2e8f0;
-  --border-light: #f1f5f9;
-  --divider: #e2e8f0;
+  --border-color: rgba(140, 69, 255, 0.1);
+  --border: rgba(140, 69, 255, 0.1);
+  --border-light: rgba(140, 69, 255, 0.05);
+  --divider: rgba(140, 69, 255, 0.1);
 
   /* ── Shadows ── */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-xs: 0 1px 2px rgba(140, 69, 255, 0.02);
+  --shadow-sm: 0 2px 4px rgba(140, 69, 255, 0.04), 0 1px 2px rgba(140, 69, 255, 0.02);
   --shadow-md:
-    0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    0 4px 10px rgba(140, 69, 255, 0.05), 0 2px 4px rgba(140, 69, 255, 0.03);
   --shadow-lg:
-    0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    0 10px 20px rgba(140, 69, 255, 0.06), 0 4px 6px rgba(140, 69, 255, 0.04);
   --shadow-xl:
-    0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-  --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.15);
-  --shadow-card-hover: 0 12px 24px -4px rgba(0, 0, 0, 0.1);
-  --box-shadow: rgba(0, 0, 0, 0.06);
-  --box-shadow-hover: rgba(16, 185, 129, 0.3);
+    0 20px 30px rgba(140, 69, 255, 0.08), 0 8px 10px rgba(140, 69, 255, 0.04);
+  --shadow-glow: 0 0 20px rgba(140, 69, 255, 0.12);
+  --shadow-card-hover: 0 12px 28px rgba(140, 69, 255, 0.08);
+  --box-shadow: rgba(140, 69, 255, 0.03);
+  --box-shadow-hover: rgba(140, 69, 255, 0.15);
 
   /* ── Semantic Colors ── */
   --success: #10b981;
-  --error-color: #ef4444;
-  --error: #ef4444;
+  --error-color: #f43f5e;
+  --error: #f43f5e;
   --warning: #f59e0b;
   --info: #3b82f6;
 
   /* ── Source Colors ── */
   --source-reddit: #FF4500;
   --source-twitter: #1DA1F2;
-  --source-web: #10b981;
+  --source-web: #8c45ff;
   --source-history: #8B5CF6;
   --source-ai: #EAB308;
   --source-youtube: #FF0000;
@@ -90,7 +90,8 @@
 
   /* ── Typography Scale ── */
   --font-sans:
-    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Bricolage Grotesque', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.8125rem;
@@ -108,132 +109,245 @@
   --nav-height: 64px;
 
   /* ── Gradients ── */
-  --gradient-primary: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-primary: linear-gradient(135deg, #8c45ff 0%, #4a208a 100%);
   --gradient-hero: linear-gradient(135deg,
-      #0f172a 0%,
-      #1e293b 50%,
-      #0f172a 100%);
+      #faf9ff 0%,
+      #f3f0ff 50%,
+      #faf9ff 100%);
   --gradient-card: linear-gradient(180deg,
       rgba(255, 255, 255, 0) 0%,
-      rgba(16, 185, 129, 0.02) 100%);
+      rgba(140, 69, 255, 0.01) 100%);
   --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
 
   --disabled-bg: #cbd5e1;
+
+  /* ── Space Cosmos Design Variables (Light Theme) ── */
+  --planet-bg: radial-gradient(50% 50% at 16.8% 18.3%, #ffffff 0%, #dcd0ff 45%, #b894ff 100%);
+  --planet-shadow: -15px -15px 40px rgba(255, 255, 255, 0.75), -15px -15px 60px rgba(140, 69, 255, 0.1), 0 0 40px rgba(140, 69, 255, 0.25);
+  --orbit-border: rgba(140, 69, 255, 0.15);
+  --orbit-dashed-border: rgba(140, 69, 255, 0.25);
+  --orbit-dot-color: #8c45ff;
+  --gradient-text: linear-gradient(to bottom, #0f0c1b 30%, #554f6c 100%);
+  --dashboard-bg: #ffffff;
+  --dashboard-border: rgba(140, 69, 255, 0.12);
+  --dashboard-header-bg: rgba(140, 69, 255, 0.04);
+  --cta-bg: linear-gradient(135deg, #faf9ff 0%, #f3f0ff 50%, #e8e4f5 100%);
+  --footer-bg: #faf9ff;
+  --star-color: #8c45ff;
+  --stars-opacity: 0.15;
+  --grid-color: rgba(140, 69, 255, 0.03);
+  --navbar-bg: rgba(255, 255, 255, 0.45);
+  --navbar-scrolled-bg: rgba(255, 255, 255, 0.75);
+  --navbar-border: rgba(140, 69, 255, 0.08);
 }
 
-/* ── Dark Theme ── */
+/* ── Dark Theme (Default Space Theme) ── */
 [data-theme='dark'] {
-  --background: #0c0f17;
-  --background-secondary: #131825;
-  --foreground: #e2e8f0;
-  --card-bg: #161b2e;
-  --card-bg-hover: #1c2340;
-  --card-border: #232d46;
-  --secondary-bg: #131825;
+  --background: #030014;
+  --background-secondary: #0a071e;
+  --foreground: #f5f5f7;
+  --card-bg: #0d0b21;
+  --card-bg-hover: #14122d;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --secondary-bg: #0a071e;
 
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #f5f5f7;
+  --text-secondary: #b4b4b4;
+  --text-muted: #7a7a7a;
 
-  --border-color: #232d46;
-  --border: #232d46;
-  --border-light: #1e293b;
-  --divider: #1e293b;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.04);
+  --divider: rgba(255, 255, 255, 0.08);
 
-  /* ── Source Colors (Dark Theme) ── */
-  --source-reddit: #FF4500;
-  --source-twitter: #1DA1F2;
-  --source-web: #10b981;
-  --source-history: #8B5CF6;
-  --source-ai: #EAB308;
-  --source-youtube: #FF0000;
-
-  /* ── Sentiment Colors (Dark Theme) ── */
-  --sentiment-positive: #10b981;
-  --sentiment-negative: #f43f5e;
-  --sentiment-neutral: #94a3b8;
-  --sentiment-mixed: #f59e0b;
-
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md:
-    0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
   --shadow-lg:
-    0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+    0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
   --shadow-xl:
-    0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
-  --shadow-glow: 0 0 30px rgba(16, 185, 129, 0.12);
-  --shadow-card-hover: 0 12px 24px -4px rgba(0, 0, 0, 0.4);
-  --box-shadow: rgba(0, 0, 0, 0.3);
-  --box-shadow-hover: rgba(16, 185, 129, 0.4);
+    0 20px 25px -5px rgba(0, 0, 0, 0.8), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(140, 69, 255, 0.18);
+  --shadow-card-hover: 0 12px 24px -4px rgba(0, 0, 0, 0.7);
+  --box-shadow: rgba(0, 0, 0, 0.5);
+  --box-shadow-hover: rgba(140, 69, 255, 0.4);
 
   --gradient-hero: linear-gradient(135deg,
-      #0c0f17 0%,
-      #131825 50%,
-      #0c0f17 100%);
+      #030014 0%,
+      #0a071e 50%,
+      #030014 100%);
   --gradient-card: linear-gradient(180deg,
-      rgba(22, 27, 46, 0) 0%,
-      rgba(16, 185, 129, 0.03) 100%);
+      rgba(255, 255, 255, 0) 0%,
+      rgba(140, 69, 255, 0.03) 100%);
 
   --disabled-bg: #334155;
+
+  /* ── Space Cosmos Design Variables (Dark Theme) ── */
+  --planet-bg: radial-gradient(50% 50% at 16.8% 18.3%, #ffffff 0%, #b894ff 37.7%, #180042 100%);
+  --planet-shadow: -20px -20px 50px rgba(255, 255, 255, 0.25), -20px -20px 80px rgba(255, 255, 255, 0.05), 0 0 60px rgba(140, 69, 255, 0.45);
+  --orbit-border: rgba(255, 255, 255, 0.08);
+  --orbit-dashed-border: rgba(255, 255, 255, 0.12);
+  --orbit-dot-color: #ffffff;
+  --gradient-text: linear-gradient(to bottom, #ffffff 40%, #c4b5fd 100%);
+  --dashboard-bg: #030014;
+  --dashboard-border: rgba(255, 255, 255, 0.08);
+  --dashboard-header-bg: rgba(255, 255, 255, 0.02);
+  --cta-bg: linear-gradient(135deg, #030014 0%, #0a071e 50%, #150e27 100%);
+  --footer-bg: #020010;
+  --star-color: #ffffff;
+  --stars-opacity: 0.35;
+  --grid-color: rgba(255, 255, 255, 0.02);
+  --navbar-bg: rgba(3, 0, 20, 0.45);
+  --navbar-scrolled-bg: rgba(3, 0, 20, 0.85);
+  --navbar-border: rgba(255, 255, 255, 0.04);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --background: #0c0f17;
-    --background-secondary: #131825;
-    --foreground: #e2e8f0;
-    --card-bg: #161b2e;
-    --card-bg-hover: #1c2340;
-    --card-border: #232d46;
-    --secondary-bg: #131825;
+    --background: #030014;
+    --background-secondary: #0a071e;
+    --foreground: #f5f5f7;
+    --card-bg: #0d0b21;
+    --card-bg-hover: #14122d;
+    --card-border: rgba(255, 255, 255, 0.08);
+    --secondary-bg: #0a071e;
 
-    --text-primary: #e2e8f0;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    --text-primary: #f5f5f7;
+    --text-secondary: #b4b4b4;
+    --text-muted: #7a7a7a;
 
-    --border-color: #232d46;
-    --border: #232d46;
-    --border-light: #1e293b;
-    --divider: #1e293b;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-light: rgba(255, 255, 255, 0.04);
+    --divider: rgba(255, 255, 255, 0.08);
 
-    /* ── Source Colors (Dark Theme) ── */
-    --source-reddit: #FF4500;
-    --source-twitter: #1DA1F2;
-    --source-web: #10b981;
-    --source-history: #8B5CF6;
-    --source-ai: #EAB308;
-    --source-youtube: #FF0000;
-
-    /* ── Sentiment Colors (Dark Theme) ── */
-    --sentiment-positive: #10b981;
-    --sentiment-negative: #f43f5e;
-    --sentiment-neutral: #94a3b8;
-    --sentiment-mixed: #f59e0b;
-
-    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.4);
     --shadow-md:
-      0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+      0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
     --shadow-lg:
-      0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+      0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
     --shadow-xl:
-      0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
-    --shadow-glow: 0 0 30px rgba(16, 185, 129, 0.12);
-    --shadow-card-hover: 0 12px 24px -4px rgba(0, 0, 0, 0.4);
-    --box-shadow: rgba(0, 0, 0, 0.3);
-    --box-shadow-hover: rgba(16, 185, 129, 0.4);
+      0 20px 25px -5px rgba(0, 0, 0, 0.8), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 30px rgba(140, 69, 255, 0.18);
+    --shadow-card-hover: 0 12px 24px -4px rgba(0, 0, 0, 0.7);
+    --box-shadow: rgba(0, 0, 0, 0.5);
+    --box-shadow-hover: rgba(140, 69, 255, 0.4);
 
     --gradient-hero: linear-gradient(135deg,
-        #0c0f17 0%,
-        #131825 50%,
-        #0c0f17 100%);
+        #030014 0%,
+        #0a071e 50%,
+        #030014 100%);
     --gradient-card: linear-gradient(180deg,
-        rgba(22, 27, 46, 0) 0%,
-        rgba(16, 185, 129, 0.03) 100%);
+        rgba(255, 255, 255, 0) 0%,
+        rgba(140, 69, 255, 0.03) 100%);
 
     --disabled-bg: #334155;
+
+    /* ── Space Cosmos Design Variables (Dark Theme) ── */
+    --planet-bg: radial-gradient(50% 50% at 16.8% 18.3%, #ffffff 0%, #b894ff 37.7%, #180042 100%);
+    --planet-shadow: -20px -20px 50px rgba(255, 255, 255, 0.25), -20px -20px 80px rgba(255, 255, 255, 0.05), 0 0 60px rgba(140, 69, 255, 0.45);
+    --orbit-border: rgba(255, 255, 255, 0.08);
+    --orbit-dashed-border: rgba(255, 255, 255, 0.12);
+    --orbit-dot-color: #ffffff;
+    --gradient-text: linear-gradient(to bottom, #ffffff 40%, #c4b5fd 100%);
+    --dashboard-bg: #030014;
+    --dashboard-border: rgba(255, 255, 255, 0.08);
+    --dashboard-header-bg: rgba(255, 255, 255, 0.02);
+    --cta-bg: linear-gradient(135deg, #030014 0%, #0a071e 50%, #150e27 100%);
+    --footer-bg: #020010;
+    --star-color: #ffffff;
+    --stars-opacity: 0.35;
+    --grid-color: rgba(255, 255, 255, 0.02);
+    --navbar-bg: rgba(3, 0, 20, 0.45);
+    --navbar-scrolled-bg: rgba(3, 0, 20, 0.85);
+    --navbar-border: rgba(255, 255, 255, 0.04);
   }
+}
+
+/* ── Space Utilities & Backgrounds ── */
+.spaceBackground {
+  position: relative;
+  background-color: var(--background);
+  color: var(--text-primary);
+  overflow: hidden;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.starsOverlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, var(--star-color), rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 60px 80px, var(--star-color), rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 120px 140px, var(--primary-light), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 180px 40px, var(--star-color), rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 220px 190px, var(--primary-light), rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 280px 100px, var(--star-color), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 320px 240px, var(--star-color), rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 380px 120px, var(--primary-light), rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 450px 30px, var(--star-color), rgba(0,0,0,0));
+  background-size: 400px 400px;
+  background-repeat: repeat;
+  opacity: var(--stars-opacity);
+  pointer-events: none;
+  animation: scrollStars 150s linear infinite;
+  z-index: 1;
+  transition: opacity var(--transition-base);
+}
+
+.starsOverlayImg {
+  background-image: url('/stars.png') !important;
+  background-size: repeat !important;
+}
+
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 2;
+  transition: background-image var(--transition-base);
+}
+
+.gridOverlayImg {
+  background-image: url('/grid-lines.png') !important;
+  background-size: 128px 128px !important;
+}
+
+.radialGlow {
+  position: absolute;
+  background: radial-gradient(75% 75% at center center, rgba(140, 69, 255, 0.35) 15%, rgba(14, 0, 36, 0.35) 78%, transparent);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ── Typography & Gradients ── */
+.fontHeading {
+  font-family: var(--font-heading);
+}
+
+.textGradient {
+  background: linear-gradient(to bottom, #ffffff 30%, #a3a3a3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.textGradientPurple {
+  background: linear-gradient(135deg, #ffffff 40%, #b894ff 70%, #8c45ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes scrollStars {
+  from { background-position: 0 0; }
+  to { background-position: 0 -1000px; }
 }
 
 /* ── Reset & Base ── */

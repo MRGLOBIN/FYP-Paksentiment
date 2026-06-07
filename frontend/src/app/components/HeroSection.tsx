@@ -5,6 +5,14 @@ import styles from './HeroSection.module.scss'
 export default function HeroSection() {
   return (
     <section className={styles.hero}>
+      {/* Cosmic space effects */}
+      <div className="starsOverlay" />
+      <div className="gridOverlay" />
+      <div className={styles.planet} />
+      <div className={`${styles.orbit} ${styles.orbit1}`} />
+      <div className={`${styles.orbit} ${styles.orbit2}`} />
+      <div className={`${styles.orbit} ${styles.orbit3}`} />
+
       <div className={styles.heroContent}>
         <div className={styles.textContent}>
           <h1 className={styles.title}>

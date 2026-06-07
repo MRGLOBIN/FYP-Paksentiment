@@ -100,46 +100,54 @@ class RedditScaledService:
     ) -> List[Dict[str, Any]]:
         """
         Attempts to fetch data from the primary source for the tier,
-        falling back through the chain on failure.
+        falling back through the chain on failure (exceptions).
+        Does not fall back to other clients if a client succeeds but returns 0 results.
         """
         errors = []
+        json_succeeded = False
+        posts = []
 
         # --- Primary: tier-specific source ---
         if tier == "paid":
             try:
                 logger.info(f"[Paid] Fetching via JSON endpoint: r/{subreddit} q={query}")
                 posts = await self.json_client.fetch_submissions(subreddit, query, limit)
+                json_succeeded = True
                 if posts:
                     return posts
             except Exception as e:
                 errors.append(f"JSON: {e}")
                 logger.warning(f"JSON endpoint failed, falling back: {e}")
 
-        if tier == "free" or (tier == "paid" and errors):
+        # Fallback to RSS if paid JSON failed or if tier is free
+        rss_succeeded = False
+        if tier == "free" or (tier == "paid" and not json_succeeded):
             try:
                 logger.info(f"[{'Free' if tier == 'free' else 'Fallback'}] Fetching via RSS: r/{subreddit}")
                 posts = await self.rss_client.fetch_search_results(query, subreddit)
+                rss_succeeded = True
                 if posts:
                     return posts[:limit]
             except Exception as e:
                 errors.append(f"RSS: {e}")
                 logger.warning(f"RSS feed failed, falling back: {e}")
 
-        # --- Last resort: official API (rate-limited) ---
-        try:
-            logger.info(f"[Fallback] Fetching via asyncpraw: r/{subreddit} q={query}")
-            posts = await self.api_client.fetch_submissions(subreddit, query, limit)
-            if posts:
-                return posts
-        except Exception as e:
-            errors.append(f"API: {e}")
-            logger.error(f"All sources failed: {errors}")
+        # Last resort fallback to official API only if both JSON and RSS failed (i.e. raised exceptions)
+        if not json_succeeded and not rss_succeeded:
+            try:
+                logger.info(f"[Fallback] Fetching via asyncpraw: r/{subreddit} q={query}")
+                posts = await self.api_client.fetch_submissions(subreddit, query, limit)
+                if posts:
+                    return posts
+            except Exception as e:
+                errors.append(f"API: {e}")
+                logger.error(f"All sources failed: {errors}")
 
-        if errors:
-            raise HTTPException(
-                status_code=502,
-                detail=f"All Reddit sources failed: {'; '.join(errors)}",
-            )
+            if errors:
+                raise HTTPException(
+                    status_code=502,
+                    detail=f"All Reddit sources failed: {'; '.join(errors)}",
+                )
 
         return []
 

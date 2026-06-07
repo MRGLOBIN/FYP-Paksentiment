@@ -6,6 +6,8 @@ import styles from './CTASection.module.scss'
 export default function CTASection() {
     return (
         <section className={styles.cta}>
+            <div className="starsOverlay" />
+            <div className="gridOverlay" />
             <div className={styles.container}>
                 <h2 className={styles.title}>Ready to Get Started?</h2>
                 <p className={styles.subtitle}>

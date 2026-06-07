@@ -1,0 +1,7 @@
+=== VULN-01 Open Proxy / SSRF Tests ===
+API base: http://localhost:5002
+Timestamp: 2026-05-31T12:38:38Z
+
+--- Public image (control) ---
+Target URL: https://www.google.com/favicon.ico
+Request: GET http://localhost:5002/proxy/image?url=https%3A%2F%2Fwww.google.com%2Ffavicon.ico

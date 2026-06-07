@@ -20,12 +20,16 @@ export default function AboutPage() {
             <main className={styles.mainContent}>
                 {/* Hero Section */}
                 <section className={styles.hero}>
-                    <h1>About DataInsight</h1>
-                    <p>
-                        An advanced AI-powered platform designed to analyze the global
-                        pulse. Utilizing state-of-the-art machine learning to
-                        decode public sentiment across social media and the web.
-                    </p>
+                    <div className="starsOverlay" />
+                    <div className="gridOverlay" />
+                    <div className={styles.heroContent}>
+                        <h1>About DataInsight</h1>
+                        <p>
+                            An advanced AI-powered platform designed to analyze the global
+                            pulse. Utilizing state-of-the-art machine learning to
+                            decode public sentiment across social media and the web.
+                        </p>
+                    </div>
                 </section>
 
                 {/* Mission Section */}
@@ -91,7 +95,7 @@ export default function AboutPage() {
                 {/* Team / Context */}
                 <section className={styles.section}>
                     <div className={styles.teamSection}>
-                        <School fontSize="large" style={{ color: '#059669', marginBottom: '1rem' }} />
+                        <School fontSize="large" style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
                         <h2>Final Year Project</h2>
                         <p>
                             DataInsight is developed as a Final Year Project (FYP) for university,

@@ -16,7 +16,7 @@ interface TierGateProps {
 export default function TierGate({ requiredTier, children, fallback, hideEntirely = false }: TierGateProps) {
     const { user } = useAuthStore()
     const currentTier = user?.subscriptionTier || 'free'
-    const isAdmin = user?.role === 'admin'
+    const isAdmin = (user as any)?.role === 'admin'
 
     // Hierarchy of tiers
     const tierWeight = {

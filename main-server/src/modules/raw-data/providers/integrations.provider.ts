@@ -50,7 +50,7 @@ export class IntegrationsProvider extends AbstractDataProvider {
       }
     } catch (e) {
       this.logger.error(`[Integrations] Failed to fetch from ${platform}: ${e.message}`);
-      throw new Error(`Failed to fetch from ${platform} integration.`);
+      return { source: platform, count: 0, posts: [], sentiment: [], warning: `Upstream integration error: ${e.message}` };
     }
 
     if (pages.length === 0) {
@@ -82,9 +82,10 @@ export class IntegrationsProvider extends AbstractDataProvider {
         }
       }
 
+      const docId = crypto.randomUUID();
       return {
-        id: crypto.randomUUID(),
-        post_id: crypto.randomUUID(),
+        id: docId,
+        post_id: docId,
         title,
         content,
         author,
@@ -114,6 +115,9 @@ export class IntegrationsProvider extends AbstractDataProvider {
       return { source: platform, count: 0, posts: [], sentiment: [] };
     }
 
+    // Store raw posts in the database
+    await this.storeRaw(platform, validPosts, 'article');
+
     // Step 3: Run Sentiment Analysis via Ollama Batching (no summarization for HN/SO)
     this.logger.log(`[Integrations] Running sentiment analysis on ${validPosts.length} items`);
     const sentimentResults = await this.sentimentProvider.analyzeSentiment(
@@ -134,11 +138,16 @@ export class IntegrationsProvider extends AbstractDataProvider {
       const orig = pages.find((pg) => pg.url === p.url);
       if (orig && orig.confidence) {
         // If the sidecar natively provided a confidence score (like Trends)
-        const sentMatch = sentimentResults.find((s) => s.post_id === p.post_id);
+        const sentMatch = sentimentResults.find((s) => s.id === p.id);
         if (sentMatch) {
           sentMatch.confidence = orig.confidence;
         }
       }
+    }
+
+    // Store processed sentiment results in the database
+    if (sentimentResults.length > 0) {
+      await this.storeProcessed(platform, validPosts, [], sentimentResults);
     }
 
     // Step 4: Save Session

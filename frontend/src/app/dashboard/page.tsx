@@ -56,6 +56,11 @@ export default function DashboardPage() {
             if (a.action.includes('WEB')) sources.add('web')
             if (a.action.includes('COMMONCRAWL')) sources.add('commoncrawl')
             if (a.action.includes('SMART')) sources.add('ai')
+            if (a.action.includes('HACKERNEWS')) sources.add('hackernews')
+            if (a.action.includes('NEWSAPI')) sources.add('newsapi')
+            if (a.action.includes('NEWSDATA')) sources.add('newsdata')
+            if (a.action.includes('GOOGLETRENDS')) sources.add('googletrends')
+            if (a.action.includes('STACKOVERFLOW')) sources.add('stackoverflow')
         })
 
         return {

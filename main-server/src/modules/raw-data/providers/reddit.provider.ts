@@ -6,6 +6,7 @@ import * as crypto from 'crypto';
 import { AnalysisSessionEntity } from '../../../database/entities/mongo/analysis-session.entity';
 import { PostStorageService } from '../post-storage.service';
 import { AbstractDataProvider } from './abstract-data.provider';
+import { SentimentProvider } from './sentiment.provider';
 import {
   RedditRawDataQueryDto,
   RedditSentimentQueryDto,
@@ -22,6 +23,7 @@ export class RedditProvider extends AbstractDataProvider {
     postStorage: PostStorageService,
     @InjectRepository(AnalysisSessionEntity, 'mongo')
     sessionRepo: MongoRepository<AnalysisSessionEntity>,
+    private readonly sentimentProvider: SentimentProvider,
   ) {
     super(httpService, postStorage, sessionRepo, RedditProvider.name);
   }
@@ -42,6 +44,17 @@ export class RedditProvider extends AbstractDataProvider {
         },
       },
     );
+
+    if (response.posts) {
+      response.posts = response.posts.map((p: any) => {
+        const id = p.post_id || p.id || crypto.randomUUID();
+        return {
+          ...p,
+          id: String(id),
+          post_id: String(id),
+        };
+      });
+    }
 
     await this.storeRaw('reddit', response.posts ?? [], 'social_post');
 
@@ -64,31 +77,44 @@ export class RedditProvider extends AbstractDataProvider {
     query: RedditSentimentQueryDto,
     userId?: number,
   ): Promise<RedditSentimentResponse> {
-    const params: Record<string, any> = {
-      subreddit: query.subreddit,
-      query: query.query,
-      limit: query.limit,
-    };
-
-    if (query.sentiments) {
-      params.sentiments = query.sentiments;
-    }
-
-    if (query.customTags) {
-      params.custom_sentiments = query.customTags;
-    }
-
-    const response = await this.proxyRequest<RedditSentimentResponse>(
-      '/reddit/sentiment',
-      { params },
+    const rawResponse = await this.proxyRequest<RedditRawDataResponse>(
+      '/reddit/search',
+      {
+        params: {
+          subreddit: query.subreddit,
+          query: query.query,
+          limit: query.limit,
+        },
+      },
     );
 
-    await this.storeRaw('reddit', response.posts ?? [], 'social_post');
+    const posts = (rawResponse.posts ?? []).map((p: any) => {
+      const id = p.post_id || p.id || crypto.randomUUID();
+      return {
+        ...p,
+        id: String(id),
+        post_id: String(id),
+      };
+    });
+
+    const sentiment = await this.sentimentProvider.analyzeSentiment(
+      posts,
+      query.customTags,
+    );
+
+    const response: RedditSentimentResponse = {
+      posts,
+      translations: [],
+      sentiment,
+      count: posts.length,
+    };
+
+    await this.storeRaw('reddit', posts, 'social_post');
     await this.storeProcessed(
       'reddit',
-      response.posts ?? [],
-      response.translations ?? [],
-      response.sentiment ?? [],
+      posts,
+      [],
+      sentiment,
     );
 
     if (userId) {
@@ -99,7 +125,7 @@ export class RedditProvider extends AbstractDataProvider {
         userId,
         query.query,
         'reddit_sentiment',
-        response.posts ?? [],
+        posts,
       );
     }
 
@@ -129,6 +155,17 @@ export class RedditProvider extends AbstractDataProvider {
       },
     );
 
+    if (response.posts) {
+      response.posts = response.posts.map((p: any) => {
+        const id = p.post_id || p.id || crypto.randomUUID();
+        return {
+          ...p,
+          id: String(id),
+          post_id: String(id),
+        };
+      });
+    }
+
     await this.storeRaw('reddit', response.posts ?? [], 'social_post');
 
     if (userId) {
@@ -154,31 +191,45 @@ export class RedditProvider extends AbstractDataProvider {
     userId?: number,
     tier: string = 'free',
   ): Promise<RedditSentimentResponse> {
-    const params: Record<string, any> = {
-      subreddit: query.subreddit,
-      query: query.query,
-      limit: query.limit,
-      tier,
-    };
-
-    if (query.sentiments) {
-      params.sentiments = query.sentiments;
-    }
-    if (query.customTags) {
-      params.custom_sentiments = query.customTags;
-    }
-
-    const response = await this.proxyRequest<RedditSentimentResponse>(
-      '/reddit/scaled/sentiment',
-      { params },
+    const rawResponse = await this.proxyRequest<RedditRawDataResponse>(
+      '/reddit/scaled/search',
+      {
+        params: {
+          subreddit: query.subreddit,
+          query: query.query,
+          limit: query.limit,
+          tier,
+        },
+      },
     );
 
-    await this.storeRaw('reddit', response.posts ?? [], 'social_post');
+    const posts = (rawResponse.posts ?? []).map((p: any) => {
+      const id = p.post_id || p.id || crypto.randomUUID();
+      return {
+        ...p,
+        id: String(id),
+        post_id: String(id),
+      };
+    });
+
+    const sentiment = await this.sentimentProvider.analyzeSentiment(
+      posts,
+      query.customTags,
+    );
+
+    const response: RedditSentimentResponse = {
+      posts,
+      translations: [],
+      sentiment,
+      count: posts.length,
+    };
+
+    await this.storeRaw('reddit', posts, 'social_post');
     await this.storeProcessed(
       'reddit',
-      response.posts ?? [],
-      response.translations ?? [],
-      response.sentiment ?? [],
+      posts,
+      [],
+      sentiment,
     );
 
     if (userId) {
@@ -189,7 +240,7 @@ export class RedditProvider extends AbstractDataProvider {
         userId,
         query.query,
         `reddit_scaled_sentiment_${tier}`,
-        response.posts ?? [],
+        posts,
       );
     }
 

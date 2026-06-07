@@ -1,34 +1,38 @@
-$primary: #059669;
-$bg-section: var(--background);
-$text-primary: var(--foreground);
-$text-muted: var(--text-muted);
-$border: var(--border-color);
-
 .sources {
-    background-color: $bg-section;
-    padding: 5rem 2rem;
+    background-color: var(--background);
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+    z-index: 5;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
 }
 
 .title {
-    font-size: 2.5rem;
+    font-family: var(--font-heading);
+    font-size: 2.75rem;
     font-weight: 800;
-    color: $text-primary;
     margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .subtitle {
-    font-size: 1.125rem;
-    color: $text-muted;
+    font-size: 1.15rem;
+    color: var(--text-secondary);
 }
 
 .sourcesGrid {
@@ -36,41 +40,57 @@ $border: var(--border-color);
     flex-wrap: wrap;
     justify-content: center;
     gap: 1.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
 }
 
 .sourceCard {
     background: var(--card-bg);
-    border: 1px solid $border;
-    border-radius: 12px;
-    padding: 1.5rem 2rem;
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2.25rem 1.75rem;
     text-align: center;
-    min-width: 180px;
-    transition: all 0.2s ease;
+    width: 250px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
     &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        border-color: $primary;
+        transform: translateY(-4px);
+        background: var(--card-bg-hover);
+        border-color: rgba(140, 69, 255, 0.3);
+        box-shadow: 
+            0 12px 40px var(--box-shadow-hover),
+            0 0 25px rgba(140, 69, 255, 0.15);
+
+        .icon {
+            color: var(--primary);
+            filter: drop-shadow(0 0 10px rgba(140, 69, 255, 0.6));
+        }
     }
 }
 
 .icon {
-    font-size: 2.5rem;
-    display: block;
-    margin-bottom: 0.75rem;
+    font-size: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--primary-light);
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 6px rgba(140, 69, 255, 0.3));
 }
 
 .sourceName {
-    font-size: 1.125rem;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
     font-weight: 700;
-    color: $text-primary;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
 
 .sourceDesc {
-    font-size: 0.85rem;
-    color: $text-muted;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
     line-height: 1.5;
 }
 
@@ -78,20 +98,28 @@ $border: var(--border-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
-    background: rgba(5, 150, 105, 0.08);
-    border-radius: 12px;
+    gap: 0.85rem;
+    padding: 1.25rem 2rem;
+    background: rgba(140, 69, 255, 0.05);
+    border: 1px solid rgba(140, 69, 255, 0.15);
+    border-radius: 16px;
     max-width: 700px;
     margin: 0 auto;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 
     .shieldIcon {
         font-size: 1.5rem;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     p {
         font-size: 0.9rem;
-        color: $text-muted;
+        color: var(--text-secondary);
         margin: 0;
+        line-height: 1.5;
     }
 }
