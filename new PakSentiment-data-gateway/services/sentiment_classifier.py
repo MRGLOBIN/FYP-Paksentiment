@@ -176,11 +176,18 @@ class AnalysisModelSentimentClassifier:
     enabling sub-second CPU inference speeds via C++/Metal/Accelerate.
     """
     def __init__(self):
-        import httpx
-        self._model_name = "llama3.2:1b"
-        self._url = "http://localhost:11434/api/generate"
-        # We initialize the client per-request or globally in process_batch to avoid unclosed sessions
-        print(f"✅ Analysis Model routing configured to Ollama: {self._model_name}")
+        import os
+        from config import settings
+        
+        # Read from environment variables or settings, fall back to localhost defaults
+        ollama_url = os.environ.get("OLLAMA_URL") or settings.get("OLLAMA_URL") or "http://localhost:11434"
+        if ollama_url.endswith("/"):
+            ollama_url = ollama_url[:-1]
+            
+        self._url = f"{ollama_url}/api/generate"
+        self._model_name = os.environ.get("OLLAMA_MODEL") or settings.get("OLLAMA_MODEL") or "llama3.2:1b"
+        
+        print(f"✅ Analysis Model routing configured to Ollama at {self._url} (model: {self._model_name})")
 
     def _truncate_text(self, text: str, max_words: int = 100) -> str:
         words = text.split()

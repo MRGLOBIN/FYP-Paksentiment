@@ -1,6 +1,43 @@
 import asyncio
 import logging
 from typing import List, Dict, Any
+
+# Patch urllib3.util.Retry for compatibility between pytrends and urllib3 v2.0+
+def patch_retry(retry_class):
+    orig_init = retry_class.__init__
+    if getattr(orig_init, "_patched", False):
+        return
+    def patched_init(self, *args, **kwargs):
+        if 'method_whitelist' in kwargs:
+            kwargs['allowed_methods'] = kwargs.pop('method_whitelist')
+        orig_init(self, *args, **kwargs)
+    patched_init._patched = True
+    retry_class.__init__ = patched_init
+
+try:
+    from urllib3.util import Retry
+    patch_retry(Retry)
+except Exception:
+    pass
+
+try:
+    from urllib3.util.retry import Retry
+    patch_retry(Retry)
+except Exception:
+    pass
+
+try:
+    from requests.packages.urllib3.util import Retry  # type: ignore
+    patch_retry(Retry)
+except Exception:
+    pass
+
+try:
+    from requests.packages.urllib3.util.retry import Retry  # type: ignore
+    patch_retry(Retry)
+except Exception:
+    pass
+
 from pytrends.request import TrendReq
 
 logger = logging.getLogger("uvicorn")
