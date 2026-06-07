@@ -1,0 +1,2697 @@
+Faculty of Computing and AI, Air University, Islamabad
+Department of Creative Technologies
+Software Engineering
+PakSentiment
+By
+Muhammad Asim 221794
+Muhammad Ahmed 221784
+Muhammad Usman 221772
+SupervisorDr. Imran Ihsan
+
+
+Bachelor of Science in Software Engineering (2022-2026)
+The candidate confirms that the work submitted is their own and appropriate credit has been given where reference has been made to the work of others.
+
+
+Faculty of Computing and AI, Air University, Islamabad
+Department of Creative Technologies
+Software Engineering
+PakSentiment
+A project presented to
+AIR University, Islamabad
+In partial fulfillment
+of the requirement for the degree of
+Bachelors of Science in Software Engineering (2022-2026)
+By
+Muhammad Asim221794
+Muhammad Ahmed221784
+Muhammad Usman221772
+DECLARATION
+
+
+We hereby declare that this software, neither whole nor as a part has been copied out from any source. It is further declared that we have developed this software and accompanied report entirely on the basis of our personal efforts. If any part of this project is proved to be copied out from any source or found to be reproduction of some other, we will stand by the consequences. No Portion of the work presented has been submitted of any application for any other degree or qualification of this or any other university or institute of learning.
+Muhammad Asim                                                                                  Muhammad Ahmed
+---------------------------                                                                        ---------------------------
+Muhammad Usman
+---------------------------
+CERTIFICATE OF APPROVAL
+It is to certify that the final year project of BS (SE) “PakSentiment” was developed by Muhammad Asim (221794), Muhammad Ahmed (221784) and Muhammad Usman (221772) under the supervision of “Prof. Dr. Imran Ihsan” and that in (their/his/her) opinion; it is fully adequate, in scope and quality for the degree of Bachelors of Science in Software Engineering.
+
+
+---------------------------------------
+Dr. Imran Ihsan (Supervisor) 
+---------------------------------------
+External Examiner
+---------------------------------------
+Head of Department
+(Department of Creative Technologies)
+Executive Summary
+PakSentiment is an AI-powered multilingual sentiment analysis platform developed to analyze public opinion from Pakistani social media and digital platforms. The system focuses on collecting, processing, translating, and analyzing textual data from sources such as Twitter, Reddit, online forums, and web platforms. The main objective of the project is to help policymakers, researchers, NGOs, analysts, and businesses understand public sentiment related to social, political, and economic issues in Pakistan.
+Traditional methods of public opinion analysis, such as surveys and manual monitoring, are often time-consuming, costly, and limited in scale. Existing international sentiment analysis platforms mainly focus on English language content and provide limited support for regional Pakistani languages such as Urdu, Punjabi, Pashto, and Roman Urdu. PakSentiment addresses this gap by providing localized multilingual sentiment analysis specifically designed for the Pakistani environment.
+The system uses modern Artificial Intelligence (AI), Natural Language Processing (NLP), and Machine Learning (ML) techniques to classify social media posts into positive, negative, and neutral sentiments. The project includes several modules such as data collection, data filtration, translation, sentiment analysis, model evaluation, visualization, and service management. Data is collected automatically through APIs and web scraping tools, then cleaned and preprocessed before analysis. Translation models are used to standardize multilingual content into a consistent format for accurate sentiment classification.
+PakSentiment follows a modular and scalable architecture using technologies such as Next.js, NestJS, FastAPI, Go, MongoDB, PostgreSQL, Redis, Docker, and LLaMA-based AI models. The system provides interactive dashboards and visualization tools that display sentiment trends, public reactions, and analytical summaries in real time. Users can also generate reports in formats such as PDF and CSV for research and decision-making purposes.
+The project contributes significantly to the fields of Software Engineering, Artificial Intelligence, Data Mining, and Web Development by integrating concepts learned during the BS Software Engineering program. PakSentiment aims to transform large volumes of unstructured social media data into meaningful insights that can support governance, research, public policy evaluation, business intelligence, and social trend monitoring in Pakistan.
+
+
+Acknowledgement
+All praise is to Almighty Allah who bestowed upon us a minute portion of His boundless knowledge by virtue of which we were able to accomplish this challenging task.
+We are greatly indebted to our project supervisor “Prof. Dr. Imran Ihsan”. Without their personal supervision, advice and valuable guidance, completion of this project would have been doubtful. We are grateful to them for their encouragement and continual help during this work.
+And we are also thankful to our parents and family who have been a constant source of encouragement for us and brought us with the values of honesty & hard work.
+Muhammad Asim                                                                                  Muhammad Ahmed
+---------------------------                                                                        ---------------------------
+Muhammad Usman
+---------------------------
+Abbreviations
+AI
+Artificial Intelligence
+NLP
+Natural Language Processing
+ML
+Machine Learning
+API
+Application Programming Interface
+UI
+User Interface
+UX
+User Experience
+CSV
+Comma Separated Values
+PDF
+Portable Document Format
+SRS
+Software Requirements Specification
+SDD
+Software Design Document
+SDS
+Software Design Specification
+OOP
+Object-Oriented Programming
+SQL
+Structured Query Language
+DBMS
+Database Management System
+JSON
+JavaScript Object Notation
+REST
+Representational State Transfer
+HTTP
+HyperText Transfer Protocol
+HTTPS
+HyperText Transfer Protocol Secure
+TLS
+Transport Layer Security
+AES
+Advanced Encryption Standard
+RBAC
+Role-Based Access Control
+OAuth
+Open Authorization
+UUID
+Universally Unique Identifier
+CRUD
+Create, Read, Update, Delete
+IDE
+Integrated Development Environment
+SSR
+Server Side Rendering
+SSG
+Static Site Generation
+LLM
+Large Language Model
+BLEU
+Bilingual Evaluation Understudy
+TER
+Translation Edit Rate
+MTBF
+Mean Time Between Failures
+RTO
+Recovery Time Objective
+WCAG
+Web Content Accessibility Guidelines
+PII
+Personally Identifiable Information
+AWS
+Amazon Web Services
+KPI
+Key Performance Indicator
+CSV
+Comma Separated Values
+JWT
+JSON Web Token
+ORM
+Object Relational Mapping
+SDK
+Software Development Kit
+SEO
+Search Engine Optimization
+URL
+Uniform Resource Locator
+URI
+Uniform Resource Identifier
+GPU
+Graphics Processing Unit
+CPU
+Central Processing Unit
+ETL
+Extract, Transform, Load
+CDN
+Content Delivery Network
+CRUD
+Create, Read, Update, Delete
+F1-Score
+Harmonic Mean of Precision and Recall
+CI/CD
+Continuous Integration / Continuous Deployment
+NMT
+Neural Machine Translation
+LTS
+Long Term Support
+NoSQL
+Non-Relational Database System
+UTF
+Unicode Transformation Format
+ISO
+International Organization for Standardization
+Top of Form
+Bottom of Form
+
+
+Table of Contents
+ TOC \o "1-3" \h \z \u 1Introduction PAGEREF _Toc224007673 \h 12
+1.1Vision Statement PAGEREF _Toc224007674 \h 12
+1.2Related System Analysis/Literature Review PAGEREF _Toc224007675 \h 12
+1.2.1Brandwatch PAGEREF _Toc224007676 \h 12
+1.2.2Hootsuite Insights PAGEREF _Toc224007677 \h 12
+1.2.3Google Cloud Natural Language API PAGEREF _Toc224007678 \h 12
+1.2.4IBM Watson Natural Language Understanding PAGEREF _Toc224007679 \h 12
+1.3Project Deliverables PAGEREF _Toc224007680 \h 13
+1.4System Limitations/Constraints PAGEREF _Toc224007681 \h 13
+1.5Tools and Technologies PAGEREF _Toc224007682 \h 14
+1.6Relevance to Course Modules PAGEREF _Toc224007683 \h 14
+2Problem Definition PAGEREF _Toc224007684 \h 16
+2.1Problem Statement PAGEREF _Toc224007687 \h 16
+2.2Problem Solution PAGEREF _Toc224007688 \h 16
+2.3Objectives of the Proposed System PAGEREF _Toc224007689 \h 17
+2.4Scope PAGEREF _Toc224007690 \h 17
+2.5Modules PAGEREF _Toc224007691 \h 17
+2.5.1Module 1: Data Collection PAGEREF _Toc224007692 \h 17
+2.5.2Module 2: Data Filtration PAGEREF _Toc224007693 \h 18
+2.5.3Module 3: Translation PAGEREF _Toc224007694 \h 18
+2.5.4Module 4: Sentiment Analysis PAGEREF _Toc224007695 \h 18
+2.5.5Module 5: Model Evaluation PAGEREF _Toc224007696 \h 18
+2.5.6Module 6: Model Improvement PAGEREF _Toc224007697 \h 18
+2.5.7Module 7: Visualization PAGEREF _Toc224007698 \h 18
+2.5.8Module 8: Service Manager PAGEREF _Toc224007699 \h 18
+3Requirement Analysis PAGEREF _Toc224007700 \h 19
+3.1User classes and characteristics PAGEREF _Toc224007702 \h 19
+3.2Requirement Identifying Technique PAGEREF _Toc224007703 \h 20
+3.2.1Use Cases: PAGEREF _Toc224007704 \h 21
+3.3Functional Requirements PAGEREF _Toc224007707 \h 36
+3.3.1Module 1: Data Collection PAGEREF _Toc224007708 \h 36
+3.3.2Module 2: Data Filtration PAGEREF _Toc224007709 \h 37
+3.3.3Module 3: Translation PAGEREF _Toc224007710 \h 39
+3.3.4Module 4: Sentiment Analysis PAGEREF _Toc224007711 \h 40
+3.3.5Module 5: Model Evaluation PAGEREF _Toc224007712 \h 41
+3.3.6Module 6: Model Improvement PAGEREF _Toc224007713 \h 42
+3.3.7Module 7: Visualization PAGEREF _Toc224007714 \h 43
+3.3.8Module 8: Service Manager PAGEREF _Toc224007715 \h 45
+3.4Non-Functional Requirements PAGEREF _Toc224007716 \h 46
+3.4.1Reliability PAGEREF _Toc224007717 \h 46
+3.4.2Usability PAGEREF _Toc224007718 \h 46
+3.4.3Performance PAGEREF _Toc224007719 \h 46
+3.4.4Security PAGEREF _Toc224007720 \h 47
+3.4.5Maintainability PAGEREF _Toc224007721 \h 47
+3.4.6Scalability PAGEREF _Toc224007722 \h 47
+3.4.7Compliance PAGEREF _Toc224007723 \h 47
+3.4.8Data Integrity PAGEREF _Toc224007724 \h 48
+3.4.9Privacy PAGEREF _Toc224007725 \h 48
+3.4.10Interoperability PAGEREF _Toc224007726 \h 48
+3.4.11Resilience PAGEREF _Toc224007727 \h 48
+3.4.12Accessibility PAGEREF _Toc224007728 \h 48
+3.4.13Cost-Effectiveness PAGEREF _Toc224007729 \h 48
+3.4.14Adaptability PAGEREF _Toc224007730 \h 49
+3.4.15Portability PAGEREF _Toc224007731 \h 49
+3.4.16User Satisfaction PAGEREF _Toc224007732 \h 49
+3.5External Interface Requirements PAGEREF _Toc224007733 \h 49
+3.5.1User Interfaces Requirements PAGEREF _Toc224007734 \h 49
+3.5.2Software interfaces PAGEREF _Toc224007735 \h 49
+3.5.3Hardware interfaces PAGEREF _Toc224007736 \h 50
+3.5.4Communications interfaces PAGEREF _Toc224007737 \h 50
+4Design and Architecture PAGEREF _Toc224007738 \h 51
+4.1Architectural Design PAGEREF _Toc224007743 \h 51
+4.2Design Models PAGEREF _Toc224007744 \h 53
+4.2.1Process Model PAGEREF _Toc224007745 \h 53
+4.2.2Activity Diagrams PAGEREF _Toc224007746 \h 54
+4.2.3Class Diagram: PAGEREF _Toc224007747 \h 61
+4.2.4DataFlow Diagrams upto level 2 PAGEREF _Toc224007748 \h 62
+4.2.5System Sequence Diagrams: PAGEREF _Toc224007750 \h 64
+4.2.6State Transition Diagrams: PAGEREF _Toc224007751 \h 71
+4.3Data Design PAGEREF _Toc224007752 \h 77
+4.3.1PostgreSQL Schema (Relational Data & Identity) PAGEREF _Toc224007753 \h 77
+4.3.2MongoDB Schema (NoSQL Document & Log Stores) PAGEREF _Toc224007754 \h 79
+4.3.3Redis Schema (Cache Maps & Queues) PAGEREF _Toc224007755 \h 82
+4.3.4Data Dictionary PAGEREF _Toc224007756 \h 83
+4.4Human Interface Design PAGEREF _Toc224007757 \h 84
+4.4.1Screen Images PAGEREF _Toc224007758 \h 84
+4.4.2Screen Objects and Actions PAGEREF _Toc224007759 \h 88
+5Implementation PAGEREF _Toc224007760 \h 91
+5.1Algorithm PAGEREF _Toc224007762 \h 91
+5.2External APIs/SDKs PAGEREF _Toc224007763 \h 95
+5.3User Interface PAGEREF _Toc224007764 \h 96
+5.4Deployment PAGEREF _Toc224007765 \h 107
+5.4.1Hosting and Infrastructure PAGEREF _Toc224007766 \h 107
+5.4.2Application Subsystems PAGEREF _Toc224007767 \h 107
+5.4.3Port Mapping Summary PAGEREF _Toc224007768 \h 110
+5.4.4Deployment Procedure PAGEREF _Toc224007769 \h 110
+5.4.5Build Strategy PAGEREF _Toc224007770 \h 110
+6Testing and Evaluation PAGEREF _Toc224007771 \h 111
+6.1Unit Testing PAGEREF _Toc224007772 \h 111
+6.1.1Objective PAGEREF _Toc224007773 \h 111
+6.1.2Scope PAGEREF _Toc224007774 \h 111
+6.1.3Approach PAGEREF _Toc224007775 \h 111
+6.1.4Representative Unit Test Cases PAGEREF _Toc224007776 \h 111
+6.2Functional Testing PAGEREF _Toc224007777 \h 112
+6.2.1Objective PAGEREF _Toc224007778 \h 112
+6.2.2Scope PAGEREF _Toc224007779 \h 112
+6.2.3Test Design PAGEREF _Toc224007780 \h 112
+6.2.4Representative Functional Test Cases (table format) PAGEREF _Toc224007781 \h 112
+6.3Business Rules Testing PAGEREF _Toc224007782 \h 114
+6.3.1Objective PAGEREF _Toc224007783 \h 114
+6.3.2Scope PAGEREF _Toc224007784 \h 114
+6.3.3Method PAGEREF _Toc224007785 \h 114
+6.3.4Example Decision Table & Test Cases PAGEREF _Toc224007786 \h 114
+6.4Integration Testing PAGEREF _Toc224007787 \h 115
+6.4.1Objective PAGEREF _Toc224007788 \h 115
+6.4.2Scope PAGEREF _Toc224007789 \h 115
+6.4.3Integration Scenarios & Tests PAGEREF _Toc224007790 \h 115
+6.4.4Integration Test Data PAGEREF _Toc224007791 \h 115
+6.5Test Execution Plan PAGEREF _Toc224007792 \h 115
+6.5.1Environments PAGEREF _Toc224007793 \h 115
+6.5.2Schedule PAGEREF _Toc224007794 \h 116
+6.5.3Entry Criteria PAGEREF _Toc224007795 \h 116
+6.5.4Exit Criteria PAGEREF _Toc224007796 \h 116
+6.6Testing Tools and Artifacts PAGEREF _Toc224007797 \h 116
+6.6.1Tools PAGEREF _Toc224007798 \h 116
+6.6.2Artifacts PAGEREF _Toc224007799 \h 116
+6.7Reporting and Acceptance PAGEREF _Toc224007800 \h 116
+6.8Traceability PAGEREF _Toc224007801 \h 117
+7Conclusion and Future Work PAGEREF _Toc224007802 \h 118
+7.1Conclusion PAGEREF _Toc224007803 \h 118
+7.2Future Work PAGEREF _Toc224007804 \h 118
+8.References PAGEREF _Toc224007805 \h 119
+
+
+List of Figures
+ TOC \h \z \c "Figure" Figure 1 Use Case Diagram 01 PAGEREF _Toc230003369 \h 24
+Figure 2 Use Case diagram 2 PAGEREF _Toc230003370 \h 26
+Figure 3 Use Case diagram 3 PAGEREF _Toc230003371 \h 29
+Figure 4 Use Case diagram 4 PAGEREF _Toc230003372 \h 31
+Figure 5 Use Case diagram 5 PAGEREF _Toc230003373 \h 33
+Figure 6 Use Case diagram 6 PAGEREF _Toc230003374 \h 35
+Figure 7 Use Case diagram 7 PAGEREF _Toc230003375 \h 37
+Figure 8Architecture Diagram PAGEREF _Toc230003376 \h 54
+Figure 9 Activity diagram 01 PAGEREF _Toc230003377 \h 56
+Figure 10 Activity diagram 02 PAGEREF _Toc230003378 \h 57
+Figure 11 Activity diagram 03 PAGEREF _Toc230003379 \h 58
+Figure 12 Activity diagram 04 PAGEREF _Toc230003380 \h 59
+Figure 13 Activity diagram 05 PAGEREF _Toc230003381 \h 60
+Figure 14 Activity diagram 06 PAGEREF _Toc230003382 \h 61
+Figure 15 Activity diagram 07 PAGEREF _Toc230003383 \h 62
+Figure 16 Class Diagram PAGEREF _Toc230003384 \h 63
+Figure 17 Entity Relation Diagram PAGEREF _Toc230003385 \h 64
+Figure 18 DFD level 0 PAGEREF _Toc230003386 \h 65
+Figure 19 DFD level 01 PAGEREF _Toc230003387 \h 65
+Figure 20 DFD level 02 PAGEREF _Toc230003388 \h 66
+Figure 21 System Sequence 01 PAGEREF _Toc230003389 \h 67
+Figure 22 System Sequence 02 PAGEREF _Toc230003390 \h 68
+Figure 23 System Sequence 03 PAGEREF _Toc230003391 \h 69
+Figure 24 System Sequence 04 PAGEREF _Toc230003392 \h 70
+Figure 25 System Sequence 05 PAGEREF _Toc230003393 \h 71
+Figure 26 System Sequence 06 PAGEREF _Toc230003394 \h 72
+Figure 27 System Sequence 07 PAGEREF _Toc230003395 \h 73
+Figure 28 State Transition 01 PAGEREF _Toc230003396 \h 74
+Figure 29 State Transition 02 PAGEREF _Toc230003397 \h 75
+Figure 30 State Transition 04 PAGEREF _Toc230003398 \h 76
+Figure 31 State Transition 05 PAGEREF _Toc230003399 \h 77
+Figure 32 State Transition 06 PAGEREF _Toc230003400 \h 78
+Figure 33 State Transition 07 PAGEREF _Toc230003401 \h 79
+Figure 34 Home Page HID PAGEREF _Toc230003402 \h 87
+Figure 35 Main Dashboard HID PAGEREF _Toc230003403 \h 88
+Figure 36 Analysis and chart HID PAGEREF _Toc230003404 \h 88
+Figure 37 Result Screen HID PAGEREF _Toc230003405 \h 89
+Figure 38 Translation Screen HID PAGEREF _Toc230003406 \h 89
+Figure 39 Pricing Screen HID PAGEREF _Toc230003407 \h 90
+Figure 40 About Screen HID PAGEREF _Toc230003408 \h 90
+
+
+Introduction
+This chapter provides an overview of the PakSentiment project. It introduces the vision of the system, analyzes existing related systems, and identifies the project deliverables and limitations. The purpose of this chapter is to present the motivation behind the development of the system and outline its intended capabilities and constraints.
+Vision Statement
+For policymakers, researchers, NGOs, and analysts in Pakistan who need reliable insights into public opinion across multiple languages and online platform. The PakSentiment System Is an AI-powered multilingual sentiment analysis platform that collects public data from social media and digital sources, analyzes sentiment using advanced NLP and machine learning models, and provides interactive dashboards and reports for better decision-making. Unlike traditional survey methods and manual monitoring processes that are slow, fragmented, and limited in scale. Our product provides real-time multilingual sentiment intelligence, automated analysis, and visual insights that help stakeholders understand public opinion efficiently and respond quickly to emerging social trends.
+Related System Analysis/Literature Review
+ Brandwatch
+Brandwatch is a social media monitoring and analytics platform that analyzes public opinion and brand sentiment across various online platforms. It uses artificial intelligence to detect trends and insights from large volumes of online data. However, it primarily focuses on global markets and English language analysis. Its limited support for regional languages makes it less effective for analyzing multilingual discourse in Pakistan.
+ Hootsuite Insights
+Hootsuite Insights is a social media analytics tool that tracks online conversations and sentiment across different platforms. It helps organizations understand public perception and monitor brand reputation in real time. However, the platform is mainly designed for marketing and brand monitoring rather than governance or public policy analysis. It also lacks specialized support for South Asian languages.
+ Google Cloud Natural Language API
+Google Cloud Natural Language API provides powerful sentiment analysis and entity recognition features through machine learning models. It is widely used for analyzing textual data and extracting insights. However, the system is not specifically designed for large-scale public sentiment monitoring in a multilingual context. Additionally, reliance on external cloud APIs can create cost and privacy concerns.
+IBM Watson Natural Language Understanding
+IBM Watson NLU provides advanced text analysis capabilities including sentiment detection, emotion analysis, and entity extraction. It is used by businesses for customer feedback analysis and content understanding. Despite its powerful capabilities, the platform requires extensive configuration and subscription costs, making it less accessible for academic or research projects.
+Table  SEQ Table \* ARABIC 1   Related System Analysis with proposed project solution
+
+
+Application Name
+Weakness
+Proposed Project Solution
+Brandwatch
+Limited support for Pakistani regional languages and focuses on marketing analytics.
+PakSentiment supports Urdu, Pashto, Punjabi, and English for better regional analysis.
+Hootsuite Insights
+Designed mainly for brand monitoring rather than governance or research insights.
+PakSentiment focuses on public sentiment analysis related to social issues and governance.
+Google Cloud Natural Language API
+Requires cloud dependency and subscription costs.
+PakSentiment uses locally hosted AI models to reduce cost and increase data control.
+IBM Watson NLU
+Complex setup and expensive enterprise-level solution.
+PakSentiment provides a lightweight and customizable academic solution tailored for Pakistan.
+Project Deliverables
+The main deliverables of the PakSentiment project include:
+A multilingual sentiment analysis system capable of analyzing public opinion from multiple online sources.
+A data ingestion and preprocessing pipeline for collecting social media data.
+An AI-based sentiment analysis module for classifying text into positive, negative, and neutral sentiments.
+A translation module for converting regional languages into English for consistent analysis.
+A web-based dashboard for visualizing sentiment trends and insights.
+Automated reporting tools that allow users to export data in formats such as CSV and PDF.
+Documentation, including Software Requirements Specification (SRS), Software Design Document (SDD), and user manuals.
+System Limitations/Constraints
+LI-1: The system relies on publicly available data from social media platforms, and access may be limited due to API restrictions or rate limits imposed by these platforms.
+LI-2: Sentiment analysis accuracy may vary depending on the complexity of language, slang, sarcasm, or mixed-language content used in social media posts.
+LI-3: The system requires stable internet connectivity to collect real-time data from online platforms.
+LI-4: Processing large volumes of multilingual data may require significant computational time and resources, especially when using large language models.
+LI-5: The system focuses primarily on sentiment analysis and may not fully capture deeper contextual meanings such as political nuance or cultural interpretation.
+Tools and Technologies
+Mention all the hardware/software tools and technologies with version number.
+Table  SEQ Table \* ARABIC 2 Tools and Technologies for Proposed Project
+Tools
+And
+Technologies
+Tools 
+Version
+Rationale
+VS Code
+2024+
+Primary IDE for TypeScript, Python, and Go development.
+Docker Desktop
+4.x
+Containerization for Nitter proxies and local database services.
+PostgreSQL
+16.x
+Relational DBMS for users, authentication, and structured metadata.
+MongoDB
+7.x
+NoSQL Document store for high-volume scraped data and analytics.
+Redis
+6.2
+Fast in-memory caching for scraping results and Nitter sessions.
+Postman
+Latest
+API testing for NestJS, FastAPI, and Go sidecar endpoints.
+Technologies
+Version
+Rationale
+Next.js
+15.5
+Frontend Framework for SSR/SSG and high-performance React rendering.
+NestJS
+11.0
+Backend Orchestrator providing modular and scalable architecture.
+FastAPI
+0.119
+High-performance Python gateway for social media scraping and AI services.
+Go (Golang)
+1.25
+Concurrent scraping engine (Colly) for high-speed HTML extraction.
+TypeScript
+5.7
+Type-safe development across Frontend and Main Server.
+Python
+3.12
+Used for Data Science, NLP, and Scrapling integration in the Gateway.
+React JS
+19.x
+UI library for building the PakSentiment dashboard and visualizations.
+Tailwind CSS
+3.4+
+Utility-first CSS framework for rapid and responsive UI design.
+MUI (Material UI)
+7.3
+Component library for professional enterprise-grade UI elements.
+LLaMA 3.1 (Groq)
+8B/70B
+Primary AI model for high-throughput sentiment classification.
+Ollama (Phi-3)
+Mini
+Local-first LLM inference for cost-effective sentiment analysis.
+Relevance to Course Modules
+The PakSentiment project integrates knowledge and skills acquired from multiple courses studied during the Bachelor of Science in Software Engineering (BSSE) program. The project mainly focuses on sentiment analysis of Pakistani social media data and therefore applies concepts from software development, data processing, and artificial intelligence.
+Programming Fundamentals / Object-Oriented Programming: These courses provide the core programming skills required to implement the system modules such as data collection, preprocessing, and sentiment analysis.
+Data Structures and Algorithms: Efficient data handling, filtering, and processing of large social media datasets rely on concepts learned in these courses.
+Database Systems: The project requires structured storage and management of collected data, analysis results, and user information using database design principles.
+Software Engineering: Concepts such as requirement analysis, system design, documentation (SRS, SDS), and software development lifecycle are applied throughout the project.
+Artificial Intelligence / Machine Learning / Data Mining: These courses are directly related to the sentiment analysis model used to classify opinions from social media text.
+Web Development / Human Computer Interaction: These courses contribute to designing the user interface and dashboard used for visualization of sentiment trends and analytical results.
+Software Testing and Quality Assurance: Testing techniques ensure the reliability, performance, and correctness of the developed system.
+Thus, the PakSentiment project serves as a practical implementation of theoretical and technical knowledge gained from different (BSSE) course modules, combining software engineering practices with modern AI-based sentiment analysis techniques.
+Problem Definition
+
+
+This chapter describes the main problem that the developed system aims to solve. It explains the current issues in analyzing public opinion from Pakistani social media platforms and highlights how the proposed system will address these problems. The chapter also presents the solution, objectives, scope, and modules of the proposed system.
+Problem Statement
+In recent years, social media platforms such as Twitter, Facebook, and online forums have become major sources of public opinion in Pakistan. Millions of users express their views about politics, social issues, government policies, brands, and public events through online posts and comments. However, analyzing this massive amount of data manually is extremely difficult and time-consuming. Organizations, researchers, and policymakers often struggle to understand the public sentiment related to different national issues. Currently, there is no centralized system specifically designed to analyze Pakistani social media sentiments in a structured and automated way. Most available tools are either global solutions or do not properly support local languages such as Urdu and Roman Urdu. As a result, a large portion of Pakistani online opinion remains unstructured and underutilized. Businesses and government institutions cannot effectively measure public reactions to their decisions or products. Researchers also face challenges in collecting, filtering, and analyzing large datasets from social media platforms. Furthermore, the lack of proper visualization tools makes it difficult to interpret sentiment trends over time. Without automated analysis, identifying positive, negative, or neutral opinions becomes inefficient. This problem highlights the need for a specialized sentiment analysis system tailored to Pakistani social media content. Therefore, the development of the PakSentiment system aims to collect, process, analyze, and visualize public sentiment from Pakistani social media data in an efficient and automated manner.
+Problem Solution
+The proposed system, (PakSentiment) is designed to automatically collect and analyze public opinions from social media platforms related to Pakistani topics and issues. The system will gather textual data from online sources using automated data collection techniques. After collecting the data, the system will filter irrelevant or noisy information to ensure accurate analysis. Since many social media posts are written in Urdu or Roman Urdu, the system will include translation and preprocessing mechanisms to standardize the text. Machine learning and natural language processing techniques will then be applied to classify the sentiment of each post as positive, negative, or neutral. The system will also evaluate the performance of the sentiment analysis model to ensure reliability and accuracy. Model improvement techniques will be applied to enhance prediction performance over time. The analyzed data will be presented through visual dashboards that allow users to easily understand public sentiment trends. These visualizations will include graphs, charts, and summaries of public opinion. The system will help researchers, organizations, and policymakers understand public perception regarding different issues. Businesses will be able to analyze customer opinions about products or services. Government institutions can evaluate public responses to policies or announcements. The system will reduce manual effort in data analysis and increase the efficiency of sentiment monitoring. Overall, PakSentiment will provide a centralized platform for analyzing Pakistani social media sentiment using automated and intelligent techniques.
+Objectives of the Proposed System
+BO-1: Develop an automated system to collect social media data related to Pakistani public opinion.
+BO-2: Classify social media posts into positive, negative, and neutral sentiments using machine learning techniques.
+BO-3: Improve the accuracy of sentiment analysis models through evaluation and model improvement techniques.
+BO-4: Provide graphical visualizations and dashboards to display sentiment trends.
+BO-5: Reduce manual effort required to analyze large amounts of social media data.
+BO-6: Provide insights that help researchers, organizations, and policymakers understand public opinion.
+Scope
+The PakSentiment system focuses on analyzing sentiments from Pakistani social media data to understand public opinion trends. The system will collect textual data from social media platforms and store it in a structured database. After data collection, the system will perform filtration to remove irrelevant or duplicate data. The filtered data will then undergo preprocessing and translation processes to handle multiple languages including Urdu and Roman Urdu. The system will apply machine learning algorithms to classify sentiments of social media posts into positive, negative, or neutral categories. Model evaluation techniques will be used to measure the performance of the sentiment classification models. If necessary, the system will apply model improvement methods to enhance prediction accuracy. The processed data and sentiment results will be presented through an interactive visualization dashboard. Users will be able to view sentiment statistics, trends, and graphical summaries. The system will mainly be used for research, analytical, and monitoring purposes. It will allow users to observe how public opinion changes over time regarding specific topics or events. The project focuses on sentiment analysis of textual data rather than multimedia content such as images or videos. The system will operate as a web-based platform accessible to authorized users. PakSentiment will help transform large amounts of unstructured social media data into meaningful insights for decision-making.
+Modules
+The PakSentiment system consists of several modules responsible for performing different tasks in the sentiment analysis pipeline.
+Module 1: Data Collection
+FE-1: Collect textual data from social media platforms.FE-2: Store collected data in the system database.FE-3: Schedule automated data collection tasks.
+
+
+
+
+Module 2: Data Filtration
+FE-1: Remove duplicate posts and irrelevant data.FE-2: Filter spam or non-informative content.FE-3: Prepare clean data for further processing.
+
+
+
+
+Module 3: Translation
+FE-1: Translate Urdu or Roman Urdu text into standardized language format.FE-2: Normalize textual content for analysis.FE-3: Prepare translated text for sentiment analysis.
+
+
+
+
+Module 4: Sentiment Analysis
+FE-1: Apply machine learning models for sentiment classification.FE-2: Categorize text into positive, negative, or neutral sentiments.FE-3: Store analysis results in the database.
+
+
+
+
+Module 5: Model Evaluation
+FE-1: Measure model accuracy and performance.FE-2: Generate evaluation metrics such as precision, recall, and F1-score.
+
+
+Module 6: Model Improvement
+FE-1: Improve model performance through retraining techniques.FE-2: Optimize parameters for better sentiment classification results.
+
+
+Module 7: Visualization
+FE-1: Display sentiment trends using charts and graphs.FE-2: Provide dashboards for analyzing sentiment distribution.FE-3: Allow users to view summarized analytical reports.
+
+
+
+
+Module 8: Service Manager
+FE-1: Manage system services and processes.FE-2: Monitor system performance and task execution.FE-3: Control data processing workflows.
+
+
+
+
+
+
+Requirement Analysis
+This chapter describes the requirements of the proposed PakSentiment system. It identifies the different types of users who will interact with the system and explains the techniques used to gather system requirements. The chapter also presents the functional and non-functional requirements that define how the system should operate and the quality standards it must satisfy. Additionally, it describes the external interfaces required for communication between the system, users, and other software components.
+ User classes and characteristics
+Identify the various user classes that you anticipate will use this product, and describe their pertinent characteristics. See Appendix A for an example of how to present user classes and characteristics.
+User class
+Description
+Administrator
+The Administrator manages and controls the overall PakSentiment system. This user is responsible for maintaining the system, monitoring system performance, managing datasets, and supervising the data collection process. The Administrator can also manage user accounts, control system services, and ensure that the sentiment analysis modules are functioning correctly. Only a limited number of administrators (usually 1–2) will have full system access. Administrators are expected to have strong technical knowledge and experience with system management and data processing tools.
+Policy Makers/
+Researcher /
+ Analyst
+A Researcher or Analyst is a user who studies public opinion trends using the PakSentiment system. These users analyze social media sentiment data and view analytical reports and visual dashboards generated by the system. Researchers may use the system to study political opinions, social trends, or public responses to events and policies. They primarily interact with the visualization dashboard, sentiment results, and analytical reports. These users typically have moderate technical knowledge and may belong to academic institutions or research organizations.
+Organization 
+/ Business User
+Organization or Business Users access the system to understand customer opinions about products, services, or marketing campaigns. These users use the sentiment analysis reports and visual dashboards to identify trends and evaluate public reactions. Businesses can use this information to improve decision-making, marketing strategies, and customer engagement. These users generally have basic technical knowledge and primarily interact with system reports and visual summaries rather than technical system modules.
+ Requirement Identifying Technique
+The Use Case technique is used to identify and analyze the functional requirements of the PakSentiment system. Use cases help describe how different users interact with the system to accomplish specific tasks.
+The use case approach is suitable for this project because PakSentiment is an interactive application that involves user interactions with dashboards, data processing modules, and analytical tools. The use case model identifies the system actors such as Administrator, Researcher, and Business User, and describes the activities they perform within the system.
+Through this technique, major system functionalities such as data collection, data filtration, translation, sentiment analysis, model evaluation, visualization, and system management were identified. Each use case represents a specific interaction between the user and the system, which helps in defining detailed functional requirements.
+
+
+Use Cases: 
+Use Case 1: Collect and Analyze Social Media Sentiment
+Use Case ID:
+UC-1
+UC Name:
+Collect and Analyze Social Media Sentiment
+Actors:
+Policymakers, NGOs, Researchers (Users), Twitter API
+Description:
+A user accesses the PakSentiment system to collect tweets on a specific social issue (e.g., healthcare), translates them from Pashto and Punjabi to Urdu, and analyzes the sentiment to identify public opinion trends.
+Trigger:
+A user indicates a desire to analyze sentiment on a social issue by entering keywords or hashtags.
+Preconditions:
+PRE-1. User is logged into the PakSentiment system. 
+PRE-2. Twitter API is accessible and configured.
+Postconditions:
+POST-1. Collected tweets are stored with translated text and sentiment labels. 
+POST-2. Sentiment analysis results are available for visualization.
+Normal Flow:
+User enters keywords or hashtags (e.g., #HealthcarePK) and selects languages (Pashto, Punjabi, Urdu). 
+System collects tweets via Twitter API. 
+System filters and translates tweets from Pashto and Punjabi to Urdu. 
+System performs sentiment analysis, classifying text as positive, negative, or neutral.
+System displays sentiment trends on the dashboard. 
+User confirms the analysis or requests a report.
+Alternative Flows:
+1.1 Insufficient Data 
+If fewer than 10 tweets are collected, the system notifies the user and suggests adjusting keywords. 
+Return to step 1. 
+1.2 Real-Time Failure 
+If Twitter API is unavailable, the system uses cached data. 
+Return to step 4.
+Exceptions:
+E1-Twitter API Rate Limit Exceeded 
+System informs user of rate limit and pauses collection. 
+If user cancels, the system terminates the use case. 
+Else if user waits, the system resumes after the limit resets. 
+E2-Translation Failure 
+System flags untranslated text and notifies user. 
+ User reviews and corrects manually or skips to step 5.
+Business Rules:
+BR-1. Tweets must be in Pashto, Punjabi, Urdu, or English. 
+BR-2. Sentiment analysis must complete within 24 hours of data collection.
+Assumptions:
+1. Assume at least 50% of collected tweets are in Pashto or Punjabi (Source: Initial data survey).
+Figure  SEQ Figure \* ARABIC 1 Use Case Diagram 01
+Use Case 2: Generate and Export Sentiment Report
+Use Case ID:
+UC-2
+UC Name:
+Generate and Export Sentiment Report
+Actors:
+Policymakers, NGOs, Researchers (Users)
+Description:
+A user generates a detailed report of sentiment analysis results for a specific social issue and exports it in PDF or CSV format for further use.
+Trigger:
+A user requests a sentiment report after viewing trends on the dashboard.
+Preconditions:
+PRE-1. User is logged into the PakSentiment system. 
+PRE-2. Sentiment analysis data is available.
+Postconditions:
+POST-1. A report containing sentiment trends is generated. 
+POST-2. Report is exported and stored in the system.
+Normal Flow:
+User selects a social issue and date range on the dashboard. 
+System filters sentiment data based on user input. 
+System generates a report with visualized trends and summary  statistics. 
+User chooses export format (PDF or CSV). 
+System exports the report and sends a confirmation email.  
+System stores the report for future access.
+Alternative Flows:
+2.1 No Data Available 
+If no data exists for the selected range, the system notifies the user. 
+User adjusts date range or cancels. 
+2.2 Multiple Issues 
+User selects multiple social issues. 
+System generates a consolidated report. 
+3. Return to step 
+Exceptions:
+E1- Export Failure 
+System notifies user of export error (e.g., file size limit). 
+If user retries, the system attempts export again. 
+Else if user cancels, the system terminates the use case. 
+E2- Email Failure 
+System logs the error and stores the report without sending email. 
+User retrieves report manually.
+Business Rules:
+BR-1. Reports must include interactive visualizations. 
+BR-2. Export must be completed within 5 minutes.
+Assumptions:
+1. Assume users prefer PDF format for 70% of exports (Source: User survey).
+Figure  SEQ Figure \* ARABIC 2 Use Case diagram 2
+
+
+Use Case 3: Evaluate and Improve Translation Model
+Use Case ID:
+UC-3
+UC Name:
+Evaluate and Improve Translation Model
+Actors:
+Administrators, Linguistic Experts, Data Scientists
+Description:
+An administrator evaluates the performance of the translation model and collaborates with linguistic experts to improve its accuracy.
+Trigger:
+An administrator initiates a model evaluation after a scheduled interval or performance drop.
+Preconditions:
+PRE-1. Administrator is logged into the PakSentiment system. 
+PRE-2. Translation model is trained with initial data.
+Postconditions:
+POST-1. Model evaluation results are recorded. 
+POST-2. Improved model is deployed if performance meets thresholds.
+Normal Flow:
+Administrator triggers evaluation using automated metrics (e.g., BLEU, TER). 
+System sends translated text samples to linguistic experts for review. 
+Experts provide feedback on fluency and adequacy. 
+Administrator analyzes results and identifies improvement areas. 
+System refines the model with additional data or hyperparameter tuning. 
+ Improved model is tested and deployed.
+Alternative Flows:
+3.1 Expert Unavailable 
+If no feedback is received within 48 hours, the system proceeds with automated metrics. 
+Return to step 4. 
+3.2 Minor Improvements 
+If improvements are below threshold, the system schedules a follow-up evaluation. 
+Return to step 1.
+Exceptions:
+E1- Model Evaluation Failure 
+System notifies administrator of metric calculation error. 
+If administrator retries, the system reattempts evaluation. 
+Else if administrator cancels, the use case terminates. 
+E2- Data Insufficiency 
+System alerts administrator of insufficient data. 
+Administrator adds data and returns to step 1.
+Business Rules:
+BR-1. Evaluation must occur monthly. 
+BR-2. Improvement must achieve at least a 5% accuracy increase.
+Assumptions:
+1. Assume 80% of translation errors are due to data quality (Source: Initial model analysis).
+Figure  SEQ Figure \* ARABIC 3 Use Case diagram 3
+Use Case 4: Monitor Real-Time Data Collection
+
+
+Use Case ID:
+UC-4
+UC Name:
+Monitor Real-Time Data Collection
+Actors:
+Administrators, Twitter API, Internet Data Sources
+Description:
+An administrator monitors the real-time collection of social media and internet data to ensure continuous operation and data availability.
+Trigger:
+An administrator initiates monitoring or the system detects a data collection event.
+Preconditions:
+PRE-1. Administrator is logged into the PakSentiment system. 
+PRE-2. Data collection services are active.
+Postconditions:
+POST-1. Collected data is stored and flagged for processing. 
+POST-2. Monitoring logs are updated.
+Normal Flow:
+Administrator activates real-time monitoring. 
+System collects tweets via Twitter API and internet data. 
+System filters data by language (Pashto, Punjabi, Urdu). 
+System stores data and updates monitoring logs. 
+5. Administrator reviews logs for anomalies.
+Alternative Flows:
+2.1 Partial Data Collection 
+If internet data is unavailable, the system relies on Twitter data. 
+Return to step 3. 
+2.2 Manual Override 
+Administrator pauses collection to adjust settings. 
+Return to step 1.
+Exceptions:
+E1- API Disconnection 
+System notifies administrator of Twitter API failure. 
+If administrator reconnects, the system resumes. 
+Else if administrator switches to cached data, the use case continues. 
+E2- Storage Limit 
+System alerts administrator of storage overflow. 
+Administrator clears old data and returns to step 4.
+Business Rules:
+BR-1. Monitoring must run continuously. 
+BR-2. Data collection must process at least 100 items per hour.
+Assumptions:
+1. Assume 90% of data is collected via Twitter (Source: Initial deployment data).
+Figure  SEQ Figure \* ARABIC 4 Use Case diagram 4
+Use Case 5: Manage User Accounts
+Use Case ID:
+UC-5
+UC Name:
+Manage User Accounts
+Actors:
+Administrators, Users (Policymakers, NGOs, Researchers)
+Description:
+An administrator creates, updates, or deletes user accounts to control access to the PakSentiment system, ensuring only authorized users can analyze sentiment data.
+Trigger:
+An administrator needs to manage user accounts (e.g., onboard a new researcher or update access levels).
+Preconditions:
+PRE-1. Administrator is logged into the system with administrative privileges. 
+PRE-2. User management module is accessible.
+Postconditions:
+POST-1. User accounts are created, updated, or deleted as per the administrator's actions. 
+POST-2. System logs reflect the changes for audit purposes.
+Normal Flow:
+Administrator navigates to the user management section. 
+Administrator selects an option: create, update, or delete a user account. 
+For creation: Administrator enters user details (name, email, role) and assigns access level (e.g., viewer, analyst). 
+For update: Administrator selects an existing user, modifies details or access level, and saves changes. 
+For deletion: Administrator selects a user and confirms deletion.
+System updates the user database and logs the action.
+Alternative Flows:
+- Bulk User Creation: Administrator uploads a CSV file with multiple user details; system validates and creates accounts. 
+- Soft Delete: Instead of deletion, the system deactivates the user account.
+Exceptions:
+E1- Duplicate User: System detects an existing user with the same email; administrator can override or cancel.
+E2- Invalid Role: System detects an invalid role assignment; administrator corrects and retries.
+Business Rules:
+BR-1. All user accounts must be verified via email within 24 hours of creation. 
+BR-2. Access levels must be assigned based on predefined roles (viewer, analyst, admin) with no custom roles allowed. 
+BR-3. User deletion must be logged with a reason provided by the administrator.
+Assumptions:
+Assume 90% of users will be onboarded within the first month of deployment (Source: Projected user growth). 
+Assume administrators will manage an average of 10 user accounts per week (Source: Initial administrative load estimate).
+Figure  SEQ Figure \* ARABIC 5 Use Case diagram 5
+Use Case 6: Analyze Sentiment Over Time
+Use Case ID:
+UC-6
+UC Name:
+Analyze Sentiment Over Time
+Actors:
+Policymakers, NGOs, Researchers (Users)
+Description:
+A user analyzes how public sentiment on a specific social issue (e.g., education) has evolved over a selected time period, using visualizations to identify trends.
+Trigger:
+A user wants to observe sentiment trends for decision-making or research purposes.
+Preconditions:
+PRE-1. User is logged into the system. 
+PRE-2. Sentiment data for the selected social issue is available for the chosen time period.
+Postconditions:
+POST-1. Sentiment trends are displayed in a time-series graph. 
+POST-2. User can interact with the graph (e.g., zoom, filter).
+Normal Flow:
+User selects a social issue (e.g., education) from the dashboard. 
+User specifies a time period (e.g., last 6 months). 
+System retrieves sentiment data for the selected issue and time frame. 
+System displays a line graph showing sentiment (positive, negative, neutral) over time. 
+User interacts with the graph to zoom in on specific periods or view detailed data points. 
+User saves the graph or exports the data for further analysis.
+Alternative Flows:
+- Compare Multiple Issues: User selects multiple social issues (e.g., education and healthcare); system displays a comparative graph. 
+- Change Graph Type: User switches from line graph to bar chart for better visualization.
+Exceptions:
+E1- No Data for Time Period: System informs user no data is available; user adjusts the time period or cancels. 
+E2- Visualization Error: System fails to render the graph due to data overload; user reduces the time period and retries.
+Business Rules:
+BR-1. The system must render the time-series graph within 10 seconds of user request. 
+BR-2. The maximum time period for analysis is limited to 12 months to ensure performance. 
+BR-3. Exported data must include metadata (e.g., date, social issue) for traceability.
+Assumptions:
+Assume 60% of users will analyze sentiment over a 3-month period (Source: User preference survey). 
+Assume historical data completeness is at least 80% for the past 6 months (Source: Initial data collection rate).
+Figure  SEQ Figure \* ARABIC 6 Use Case diagram 6
+Use Case 7: Handle Translation Errors
+Use Case ID:
+UC-7
+UC Name:
+Handle Translation Errors
+Actors:
+Administrators, Linguistic Experts
+Description:
+An administrator identifies and manages translation errors by sending erroneous translations to linguistic experts for correction, ensuring the quality of sentiment analysis.
+Trigger:
+An administrator detects translation errors during routine checks or user feedback.
+Preconditions:
+PRE-1. Administrator is logged into the system. 
+PRE-2. Translation errors are flagged in the system.
+Postconditions:
+POST-1. Erroneous translations are corrected and updated in the system. 
+POST-2. Model is retrained with corrected data if necessary.
+Normal Flow:
+Administrator navigates to the translation error management section. 
+Administrator reviews flagged translations. 
+Administrator selects erroneous translations and sends them to linguistic experts for correction. 
+Linguistic experts correct the translations and provide feedback. 
+Administrator reviews corrections and applies them to the system. 
+ System updates the translated text and retrains the translation model if corrections exceed a threshold.
+Alternative Flows:
+- Expert Feedback Delay: If experts don’t respond within 48 hours, the system escalates the request. 
+- Partial Corrections: Administrator applies corrections to only a subset of translations.
+Exceptions:
+E1- No Experts Available: System notifies administrator; administrator assigns to another expert or skips. 
+E2- Invalid Corrections: System detects invalid corrections (e.g., non-Urdu text); administrator reassigns the task.
+Business Rules:
+BR-1. Translation errors must be reviewed and corrected within 72 hours of detection. 
+BR-2. The system must flag at least 95% of translation errors automatically. 
+BR-3. Model retraining must occur only if more than 10% of translations are corrected.
+Assumptions:
+Assume 15% of translations will require manual correction initially (Source: Initial model accuracy test). 
+Assume linguistic experts are available for at least 80% of error correction requests (Source: Expert availability estimate).
+Figure  SEQ Figure \* ARABIC 7 Use Case diagram 7
+
+
+Functional Requirements
+Module 1: Data Collection 
+FR-1: Collect Tweets
+Table 1: Description of FR-1
+Identifier
+FR-1
+Title
+Collect Tweets
+Requirement
+The system shall collect tweets using the Twitter API based on specific keywords and hashtags.
+Source
+Use Case 1 and event response table.
+Rationale 
+To gather relevant social media data for sentiment analysis.
+Business Rule (if required)
+Tweets must be in Pashto, Punjabi, Urdu, or English.
+Dependencies
+None
+Priority
+High
+FR-2: Collect Internet Data
+Table 2: Description of FR-2
+Identifier
+FR-2
+Title
+Collect Internet Data
+Requirement
+The system shall collect text data from various internet sources in the required languages.
+Source
+Use Case 1
+Rationale
+To enhance the dataset with diverse text sources.
+Business Rule
+Data must be text-based and in specified languages.
+Dependencies
+None
+Priority
+Medium
+FR-3: Collect Literature Data
+Table 3: Description of FR-3
+Identifier
+FR-3
+Title
+Collect Literature Data
+Requirement
+The system shall collect text data from books in Pashto, Punjabi, and Urdu to reveal script nuances.
+Source
+Use Case 1 and Use Case 2.
+Rationale
+To improve translation model accuracy with linguistic diversity.
+Business Rule
+Data must be from published literature.
+Dependencies
+None
+Priority
+Low
+Module 2: Data Filtration 
+FR-4: Filter Tweets by Language
+Table 4: Description of FR-4
+Identifier
+FR-4
+Title
+Filter Tweets by Language
+Requirement
+The system shall filter tweets to retain only those in Pashto, Punjabi, and Urdu.
+Source
+Event response table and Use Case 2
+Rationale
+To focus analysis on relevant languages.
+Business Rule
+Non-specified languages shall be discarded.
+Dependencies
+FR-1
+Priority
+High
+FR-5: Shape Internet Data
+Table 5: Description of FR-5
+Identifier
+FR-5
+Title
+Shape Internet Data
+Requirement
+The system shall format internet-collected data into sentences.
+Source
+Use Case 3.
+Rationale
+To prepare data for translation and analysis.
+Business Rule
+Formatting must preserve original meaning.
+Dependencies
+FR-2
+Priority
+Medium
+FR-6: Filter Shaped Internet Data
+Table 6: Description of FR-6
+Identifier
+FR-6
+Title
+Filter Shaped Internet Data
+Requirement
+The system shall filter shaped internet data to retain only Pashto, Punjabi, and Urdu content.
+Source
+Use Case 3 and Use Case 4.
+Rationale
+To ensure data relevance for analysis.
+Business Rule
+Non-specified languages shall be discarded.
+Dependencies
+FR-5
+Priority
+Medium
+FR-7: Shape Literature Data
+Table 7: Description of FR-7
+Identifier
+FR-7
+Title
+Shape Literature Data
+Requirement
+The system shall format literature data into sentences.
+Source
+Use Case 3 and Use Case 4.
+Rationale
+To prepare data for model training.
+Business Rule
+Formatting must preserve original meaning.
+Dependencies
+FR-3
+Priority
+Low
+Module 3: Translation 
+FR-8: Clean and Preprocess Text
+Table 8: Description of FR-8
+Identifier
+FR-8
+Title
+Clean and Preprocess Text
+Requirement
+The system shall clean and preprocess text data by removing emojis and URIs.
+Source
+Use Case 4 and Use Case 6.
+Rationale
+To ensure text is suitable for translation.
+Business Rule
+Preprocessing must not alter semantic content.
+Dependencies
+FR-4, FR-6, FR-7
+Priority
+High
+FR-9: Translate Text
+Table 9: Description of FR-9
+Identifier
+FR-9
+Title
+Translate Text
+Requirement
+The system shall translate Pashto and Punjabi text to Urdu using an NMT model.
+Source
+Use Case 5 and Use Case 6
+Rationale
+To standardize text for sentiment analysis.
+Business Rule
+Translation must maintain contextual accuracy.
+Dependencies
+FR-8
+Priority
+High
+FR-10: Manage Translation Quality
+Table 10: Description of FR-10
+Identifier
+FR-10
+Title
+Manage Translation Quality
+Requirement
+The system shall verify translation quality with linguistic experts.
+Source
+Use Case 7 and Event response table.
+Rationale
+To ensure high translation accuracy.
+Business Rule
+Quality must meet predefined standards.
+Dependencies
+FR-9
+Priority
+High
+Module 4: Sentiment Analysis 
+FR-12: Preprocess Translated Text
+Table 12: Description of FR-12
+Identifier
+FR-12
+Title
+Preprocess Translated Text
+Requirement
+The system shall preprocess translated Urdu text for sentiment classification.
+Source
+Use Case 4.
+Rationale
+To prepare text for accurate sentiment analysis.
+Business Rule
+Preprocessing must preserve sentiment indicators.
+Dependencies
+FR-9
+Priority
+High
+FR-13: Classify Sentiment
+Table 13: Description of FR-13
+Identifier
+FR-13
+Title
+Classify Sentiment
+Requirement
+The system shall classify Urdu text as positive, negative, or neutral using a sentiment analysis model.
+Source
+Event response table and Use Case 4.
+Rationale
+To identify public sentiment trends.
+Business Rule
+Classification must account for Urdu linguistic nuances.
+Dependencies
+FR-12
+Priority
+High
+FR-14: Store Sentiment Labels
+Table 14: Description of FR-14
+Identifier
+FR-14
+Title
+Store Sentiment Labels
+Requirement
+The system shall store sentiment labels with original and translated text.
+Source
+Use Case 5.
+Rationale
+To maintain records for analysis and reporting.
+Business Rule
+Storage must be secure and efficient.
+Dependencies
+FR-13
+Priority
+High
+Module 5: Model Evaluation 
+FR-15: Evaluate Translation Model
+Table 15: Description of FR-15
+Identifier
+FR-15
+Title
+Evaluate Translation Model
+Requirement
+The system shall evaluate the translation model using automated metrics named BLEU and TER.
+Source
+Use Case 2.
+Rationale
+To assess translation quality.
+Business Rule
+Evaluations must be periodic.
+Dependencies
+FR-9
+Priority
+Medium
+FR-16: Human Evaluation
+Table 16: Description of FR-16
+Identifier
+FR-16
+Title
+Human Evaluation
+Requirement
+The system shall support human evaluation of translation fluency and adequacy.
+Source
+Use Case 2.
+Rationale
+To complement automated metrics.
+Business Rule
+Evaluations must involve linguistic experts.
+Dependencies
+FR-9
+Priority
+Medium
+Module 6: Model Improvement 
+FR-17: Improve Training Data
+Table 17: Description of FR-17
+Identifier
+FR-17
+Title
+Improve Training Data
+Requirement
+The system shall enhance training data quality.
+Source
+Use Case 2.
+Rationale
+To improve model performance.
+Business Rule
+Data must meet quality standards.
+Dependencies
+FR-15, FR-16
+Priority
+Medium
+FR-18: Increase Data Volume
+Table 18: Description of FR-18
+Identifier
+FR-18
+Title
+Increase Data Volume
+Requirement
+The system shall expand data volume to improve model accuracy.
+Source
+Event Response Table and Use Case 6.
+Rationale
+To enhance model generalization.
+Business Rule
+Data must be relevant and diverse.
+Dependencies
+FR-17
+Priority
+Medium
+FR-19: Experiment with Pretrained Models
+Table 19: Description of FR-19
+Identifier
+FR-19
+Title
+Experiment with Pretrained Models
+Requirement
+The system shall test various pretrained models to optimize performance.
+Source
+Use Case 7.
+Rationale
+To select the best model.
+Business Rule
+Models must be compatible with system architecture.
+Dependencies
+FR-15, FR-16
+Priority
+Medium
+FR-20: Optimize Training Process
+Table 20: Description of FR-20
+Identifier
+FR-20
+Title
+Optimize Training Process
+Requirement
+The system shall optimize training through hyperparameter tuning and curriculum learning.
+Source
+Use Case 3.
+Rationale
+To enhance model efficiency.
+Business Rule
+Training must be resource-efficient.
+Dependencies
+FR-17, FR-18, FR-19
+Priority
+Medium
+Module 7: Visualization 
+FR-21: Dashboard for Sentiment Trends
+Table 21: Description of FR-21
+Identifier
+FR-21
+Title
+Dashboard for Sentiment Trends
+Requirement
+The system shall provide a dashboard to visualize sentiment trends over time.
+Source
+Event response table and use Case 4.
+Rationale
+To enable users to interpret sentiment data easily.
+Business Rule
+Dashboard must be interactive.
+Dependencies
+FR-14
+Priority
+High
+FR-22: Filtering Options
+Table 22: Description of FR-22
+Identifier
+FR-22
+Title
+Filtering Options
+Requirement
+The system shall allow filtering by social issue, language, and date range.
+Source
+Use case 1.
+Rationale
+To provide targeted insights.
+Business Rule
+Filters must be responsive.
+Dependencies
+FR-21
+Priority
+High
+FR-23: Export Reports
+Table 23: Description of FR-23
+Identifier
+FR-23
+Title
+Export Reports
+Requirement
+The system shall enable report export in PDF or CSV format.
+Source
+Use Case 2.
+Rationale
+To facilitate data sharing.
+Business Rule
+Reports must be professionally formatted.
+Dependencies
+FR-21
+Priority
+High
+Module 8: Service Manager 
+FR-24: Monitor Data
+Table 24: Description of FR-24
+Identifier
+FR-24
+Title
+Monitor Data
+Requirement
+The system shall monitor and collect data in real-time.
+Source
+Use Case 4.
+Rationale
+To ensure up-to-date analysis.
+Business Rule
+Monitoring must be efficient.
+Dependencies
+FR-1, FR-2, FR-3
+Priority
+High
+FR-25: Manage User Data
+Table 25: Description of FR-25
+Identifier
+FR-25
+Title
+Manage User Data
+Requirement
+The system shall securely store and manage user data and sessions.
+Source
+Use Case 5.
+Rationale
+To protect user privacy.
+Business Rule
+Must comply with data protection regulations.
+Dependencies
+None
+Priority
+High
+FR-26: Store Reports
+Table 26: Description of FR-26
+Identifier
+FR-26
+Title
+Store Reports
+Requirement
+The system shall store generated reports for future access.
+Source
+Use Case 5 and event response table.
+Rationale
+To allow retrieval of historical data.
+Business Rule
+Reports must be organized and accessible.
+Dependencies
+FR-23
+Priority
+Medium
+Non-Functional Requirements
+This section specifies nonfunctional requirements other than constraints, which are recorded in section 2.3, and external interface requirements, which will appear in section 7. 
+Reliability 
+REL-1
+The system shall have a mean time between failures (MTBF) of at least 30 days.
+REL-2
+The system shall automatically recover from network failures within 1 minute.
+REL-3
+The system shall perform daily backups of all data.
+REL-4
+The system shall have an uptime of at least 99.5%.
+REL-5
+The system shall implement automated health checks every 15 minutes to detect and resolve issues proactively.
+Usability
+USE-1
+The system shall provide a user interface that allows new users to perform basic tasks without training.
+USE-2
+The system shall display error messages in plain language, suggesting corrective actions.
+USE-3
+The system shall support accessibility features compliant with WCAG 2.1 Level AA.
+USE-4
+The system shall support user interfaces in English and Urdu.
+USE-5
+The system shall provide comprehensive user documentation and help guides in both English and Urdu.
+.
+Performance
+PER-1
+The system shall process a batch of 100 tweets, including translation and sentiment analysis, in under 5 minutes.
+PER-2
+The dashboard shall load within 3 seconds for users with a standard internet connection.
+PER-3
+The system shall support up to 50 concurrent users without degradation in performance.
+PER-4
+The system shall be designed to scale horizontally to handle increased data loads.
+PER-5
+The system shall respond to user queries (e.g., filtering sentiment data) within 2 seconds.
+.
+Security 
+SEC-1
+The system shall encrypt all data in transit using TLS 1.2 or higher.
+SEC-2
+The system shall encrypt sensitive data at rest using AES-256 encryption.
+SEC-3
+The system shall require two-factor authentication for all user logins.
+SEC-4
+The system shall implement role-based access control (RBAC) to restrict data access based on user roles.
+SEC-5
+The system shall comply with relevant data protection regulations, including Pakistan's data privacy laws.
+Maintainability
+MAIN-1
+The system shall be designed with a modular architecture to facilitate updates to individual components (e.g., translation model, sentiment analysis).
+MAIN-2
+The system shall include comprehensive technical documentation, including API specifications and code comments.
+MAIN-3
+The system shall support automated testing for at least 80% of its codebase.
+MAIN-4
+The system shall allow for model updates (e.g., retraining the translation model) without downtime.
+Scalability
+SCAL-1
+The system shall support horizontal scaling to accommodate up to 10,000 tweets per hour.
+SCAL-2
+The system shall utilize load balancing to distribute processing across multiple servers.
+SCAL-3
+The system shall be capable of scaling storage capacity by at least 50% without service interruption.
+Compliance
+COMP-1
+The system shall comply with Pakistan's Electronic Transactions Ordinance for data handling.
+COMP-2
+The system shall adhere to ethical guidelines for AI and data usage, ensuring unbiased sentiment analysis.
+COMP-3
+The system shall provide audit logs for all data access and modifications.
+Data Integrity
+INTG-1
+The system shall validate all incoming data for completeness and format consistency.
+INTG-2
+The system shall implement checksums or hashes to detect data corruption during storage and transmission.
+INTG-3
+The system shall maintain data versioning for all updates to translation and sentiment models.
+Privacy
+PRIV-1
+The system shall not store any personally identifiable information (PII) from social media data beyond what is necessary for analysis.
+PRIV-2
+The system shall provide users with the ability to delete their account and associated data upon request.
+PRIV-3
+The system shall inform users of data usage policies through a clear privacy notice.
+ Interoperability
+INTER-1
+The system shall provide APIs for exporting sentiment data in JSON or CSV formats.
+INTER-2
+The system shall support integration with common data analysis tools (e.g., Excel, Tableau).
+INTER-3
+The system shall be compatible with standard authentication protocols (e.g., OAuth 2.0).
+ Resilience
+RES-1
+The system shall implement failover mechanisms to switch to backup servers within 30 seconds of a failure.
+RES-2
+The system shall support data replication across multiple geographic locations.
+RES-3
+The system shall have a disaster recovery plan with a recovery time objective (RTO) of 4 hours.
+ Accessibility
+ACC-1
+The system shall support screen readers and keyboard navigation for visually impaired users.
+ACC-2
+The system shall be accessible from regions with low bandwidth (e.g., by optimizing data usage).
+ACC-3
+The system shall provide offline access to previously generated reports.
+ Cost-Effectiveness
+COST-1
+The system shall utilize open-source technologies where possible to minimize licensing costs.
+COST-2
+The system shall be designed to optimize cloud resource usage, reducing operational costs.
+COST-3
+The system shall provide cost monitoring tools for administrators to track resource consumption.
+Adaptability
+ADAPT-1
+The system shall support the integration of new sentiment analysis algorithms within 2 weeks of development completion.
+ADAPT-2
+The system shall allow configuration of data sources (e.g., adding new social media platforms) without code changes.
+ADAPT-3
+The system shall provide a plugin framework for extending visualization capabilities.
+Portability
+PORT-1
+The system shall be deployable on any major cloud provider (e.g., AWS, Azure, Google Cloud) with minimal configuration changes.
+PORT-2
+The system shall support containerization using Docker for consistent deployment across environments.
+PORT-3
+The system shall be compatible with both Linux and Windows server environments.
+User Satisfaction
+USAT-1
+The system shall achieve a user satisfaction score of at least 85% in post-deployment surveys.
+USAT-2
+The system shall provide customizable dashboard layouts to meet individual user preferences.
+USAT-3
+The system shall offer real-time feedback mechanisms (e.g., tooltips, progress indicators) during data processing.
+External Interface Requirements
+This section provides information to ensure that the system will communicate properly with users and with external hardware or software elements. A complex system with multiple subcomponents should create a separate interface specification or system architecture specification. The interface documentation could incorporate material from other documents by reference. For instance, it could point to a hardware device manual that lists the error codes that the device could send to the software. 
+User Interfaces Requirements
+The system shall provide a web interface compatible with major browsers.
+The system shall offer a mobile interface for iOS and Android.
+Interfaces shall adhere to a consistent design with standardized fonts and navigation.
+Software interfaces
+SI-1: The system shall interface with the Twitter API for data collection.
+SI-2: The system shall connect to MongoDB for data storage.
+Hardware interfaces
+Not applicable, as PakSentiment is a software-only system.
+Communications interfaces
+State the requirements for any communication functions the product will use, including email, web browser, network protocols, and electronic forms.
+Example:
+CI-1: The system shall use HTTPS for secure data transmission.
+CI-2: The system shall support email notifications for report availability.
+
+
+Design and Architecture
+This chapter describes the overall system architecture and design of the PakSentiment system. It explains how the system is divided into modules and how these modules interact with each other to achieve the required functionality. The chapter also presents the design models used in system development, the data design of the system, and the human interface design that describes how users interact with the system.
+Architectural Design
+This architecture represents a high-performance, modular sentiment analysis pipeline:
+Presentation Layer (Next.js/React): The user-facing dashboard where requests are initiated and results are visualized. It communicates exclusively with the main backend via REST APIs.
+Application Layer (Nest.js): Acts as the "Brain" or API Gateway. It manages user authentication, business logic, and orchestrates the other two specialized backend services.
+Sidecar Scraper Layer (Go): A high-speed, parallelized service designed for real-time news and web scraping. It uses Go’s concurrency and the Colly framework for maximum throughput, caching raw results in Redis to avoid redundant network calls.
+Ingestion & Processing Layer (FastAPI): Specialized for Social Media (Nitter/Twitter/Reddit) and heavy data transformation. This layer handles the preprocessing, Urdu/English translation pipelines, and secondary sentiment classification.
+Data Layer (MongoDB/Postgres): The persistent storage where both the Go and Python services write their analyzed results ("ScrapedDocuments") so that the Nest.js server can aggregate them into reports for the user.
+Figure  SEQ Figure \* ARABIC 8Architecture Diagram
+Design Models
+The system uses a combination of two methodologies, based on the function of each subsystem:
+Object-Oriented Programming (OOP): Used in the system's core, including the Nest.js Backend, FastAPI Ingestion Server, and Data Scraping Modules.
+Justification: Supports modularity, reusability, and scalability.
+Applicable Models: Class Diagram, System Sequence Diagrams (SSD), and Activity Diagrams.
+Procedural Programming : Used primarily for the Frontend (React components) where UI rendering is functional and event-driven.
+Justification: Aligns with React's functional approach for cleaner component logic, predictable behavior, and easier state management.
+Applicable Models: Data Flow Diagram and Activity Diagram 
+Process Model
+The project follows the Incremental Process Model.
+Description: The system is developed in functional segments (increments), where each segment adds new capabilities.
+Justification: This model is ideal because the project consists of multiple independent modules (scraping, sentiment model, dashboard) with varying dependencies. It allows for early delivery of working subsystems and supports incremental testing and validation at every stage, reducing overall project risk.
+Activity Diagrams
+Figure  SEQ Figure \* ARABIC 9 Activity diagram 01
+Figure  SEQ Figure \* ARABIC 10 Activity diagram 02
+Figure  SEQ Figure \* ARABIC 11 Activity diagram 03
+Figure  SEQ Figure \* ARABIC 12 Activity diagram 04
+Figure  SEQ Figure \* ARABIC 13 Activity diagram 05
+Figure  SEQ Figure \* ARABIC 14 Activity diagram 06
+Figure  SEQ Figure \* ARABIC 15 Activity diagram 07
+Class Diagram:
+Figure  SEQ Figure \* ARABIC 16 Class Diagram
+ Entity Relation Diagram:
+Figure  SEQ Figure \* ARABIC 17 Entity Relation Diagram
+DataFlow Diagrams upto level 2
+Level 0 (context Level):
+Figure  SEQ Figure \* ARABIC 18 DFD level 0
+Level 1 (Overview Diagram):
+Figure  SEQ Figure \* ARABIC 19 DFD level 01
+Level 1 (Detailed component Diagram):
+Figure  SEQ Figure \* ARABIC 20 DFD level 02
+System Sequence Diagrams:
+Figure  SEQ Figure \* ARABIC 21 System Sequence 01
+Figure  SEQ Figure \* ARABIC 22 System Sequence 02
+Figure  SEQ Figure \* ARABIC 23 System Sequence 03
+Figure  SEQ Figure \* ARABIC 24 System Sequence 04
+Figure  SEQ Figure \* ARABIC 25 System Sequence 05
+Figure  SEQ Figure \* ARABIC 26 System Sequence 06
+Figure  SEQ Figure \* ARABIC 27 System Sequence 07
+State Transition Diagrams:
+Figure  SEQ Figure \* ARABIC 28 State Transition 01
+Figure  SEQ Figure \* ARABIC 29 State Transition 02
+Figure  SEQ Figure \* ARABIC 30 State Transition 04
+Figure  SEQ Figure \* ARABIC 31 State Transition 05
+Figure  SEQ Figure \* ARABIC 32 State Transition 06
+Figure  SEQ Figure \* ARABIC 33 State Transition 07
+Data Design
+This document outlines the schema design for all database technologies (PostgreSQL, MongoDB, and Redis) used in the PakSentiment Data Gateway framework.
+ PostgreSQL Schema (Relational Data & Identity)
+ UserEntity (in users)
+Description: Core user identity and subscription management table.
+Attribute
+Type
+Description
+id
+Integer
+Primary key, auto-incremented.
+full_name
+Varchar(100)
+Full name of the user.
+email
+Varchar
+Unique email address.
+password_hash
+Varchar
+Optional. Encrypted password hash (null for OAuth users).
+is_active
+Boolean
+Account status (default: true).
+role
+Enum
+Access role: ‘free’, ‘premium’, ‘admin’.
+subscription_tier
+Enum
+Billing tier: ‘free’, ‘premium’, ‘super_premium’.
+created_at
+Timestamp
+Account creation timestamp.
+updated_at
+Timestamp
+Last user modification timestamp.
+IdentityEntity (in identities)
+Description: Maps third-party OAuth providers (Google, GitHub) to a registered user.
+Attribute
+Type
+Description
+id
+Integer
+Primary key.
+provider
+Varchar(50)
+OAuth provider name (e.g., ‘google’, ‘github’, ‘local’).
+provider_id
+Varchar
+Unique identifier returned by the third-party provider.
+user_id
+Integer
+Foreign key linking to the users table.
+created_at
+Timestamp
+Identity linking timestamp.
+updated_at
+Timestamp
+Last update timestamp.
+ApiKeyEntity (in api_keys)
+Description: Stores programmatic access tokens for users to consume the raw data gateway.
+Attribute
+Type
+Description
+id
+Integer
+Primary key.
+user_id
+Integer
+Foreign key linking back to the users table.
+api_key
+Varchar(255)
+The generated securely-hashed programmatic API key block.
+created_at
+Timestamp
+Key generation date.
+expires_at
+Timestamp
+Optional. Time at which the key is no longer valid.
+UserActivityEntity (in user_activities)
+Description: Audit log tracking distinct actions performed by human operators in the system.
+Attribute
+Type
+Description
+id
+Integer
+Primary key.
+user_id
+Integer
+Foreign key linking back to the users table.
+action
+Varchar(50)
+Constrained action string (e.g., ‘LOGIN’, ‘SEARCH_REDDIT’).
+details
+JSON
+Optional. Specific query parameters, footprints, or summaries detailing the context.
+created_at
+Timestamp
+Timestamp indicating when the activity transpired.
+UserPreferenceEntity (in user_preferences)
+Description: Explicit user UI settings and default dashboard parameters.
+Attribute
+Type
+Description
+id
+Integer
+Primary key.
+user_id
+Integer
+Foreign key explicitly linking back to the human user.
+theme
+Varchar(20)
+UI color layout string constraint (e.g., ‘light’/‘dark’).
+default_platform
+Varchar(50)
+Optional. The primary engine they search using (e.g., ‘Web’).
+default_language
+Varchar(10)
+Optional. Primary dashboard translation language string.
+items_per_page
+Integer
+Intrinsic pagination ceiling metric (default: 20).
+SystemConfigEntity (in system_configs)
+Description: Universal system-wide environment variables stored permanently in the SQL database.
+Attribute
+Type
+Description
+id
+Integer
+Primary key.
+config_key
+Varchar(100)
+Unique string-key delineator denoting a toggle configuration block.
+config_value
+Text
+The corresponding variable to the associated system toggle key.
+created_at
+Timestamp
+When the configuration flag was born.
+updated_at
+Timestamp
+When the system configuration flag was last mutated.
+MongoDB Schema (NoSQL Document & Log Stores)
+ScrapedDocumentEntity (in scraped_documents)
+Description: Stores the generic, immutable data retrieved from any source API alongside its processed sentiment analysis and chunk metadata. Replaces the legacy raw_posts and processed_posts separation.
+Attribute
+Type
+Description
+_id
+ObjectId
+Unique identifier for the document.
+jobId
+String
+Optional. The identifier for an associated asynchronous crawl/scrape job.
+url
+String
+The literal URL or unique URI of the fetched document.
+domain
+String
+The root domain or author identifier (e.g., “twitter.com”, “medium.com”).
+sourceEngine
+String
+The underlying engine used for extraction (e.g., ‘colly’, ‘scrapling’, ‘reddit’, ‘twitter’, ‘youtube’).
+contentType
+String
+The classification format of the data (e.g., ‘article’, ‘social_post’, ‘video’).
+title
+String
+Optional. The headline or title of the scraped content.
+cleanText
+String
+The standardized, deeply parsed raw text extracted from the document.
+metadata
+Object (JSON)
+Any platform-specific metadata (e.g., hashtags, likes, retweets, subreddits).
+sentiment
+Object (JSON)
+Optional. The complex AI sentiment block containing inference results.
+sentiment.label
+String
+The classified mood constraint (e.g., ‘Positive’, ‘Negative’, ‘Neutral’).
+sentiment.score
+Number
+The confidence baseline score float (0.0 to 1.0).
+sentiment.summary
+String
+A concise 3-4 sentence AI-generated snapshot of the document’s core context.
+sentiment.analyzedAt
+Date
+Internal system timestamp indicating when the LLM executed the evaluation.
+createdAt
+Date
+Auto-generated timestamp reflecting when the document was initially crawled.
+updatedAt
+Date
+System timestamp recorded when the document is re-crawled or re-analyzed.
+AnalysisSessionEntity (in analysis_sessions)
+Description: Manages the relational mapping between a human user’s direct Smart Search query and the massive list of dynamically aggregated scraped_documents.
+Attribute
+Type
+Description
+_id
+ObjectId
+Primary key and unique identifier for the session document.
+sessionId
+String (UUID)
+A cryptographically unique UUID tracking the distinct web application search event.
+userId
+Number
+Foreign Key linking back to the distinct human (Maps to PostgreSQL User ID).
+query
+String
+The literal web crawler search query typed by the user (e.g., “Go vs Java”).
+source
+String
+The target search vector (e.g., ‘web_search’, ‘twitter_search’, ‘reddit_search’).
+postIds
+Array [String]
+An array of stringified _id references mapping directly to documents stored inside scraped_documents.
+createdAt
+Date
+System timestamp accurately indicating when the original Smart Search was triggered by the user.
+CrawlJobEntity (in crawl_jobs)
+Description: Tracks the execution status and telemetry for asynchronous, multi-page deep crawl jobs primarily executed by the Go Colly sidecar.
+Attribute
+Type
+Description
+_id
+ObjectId
+Primary MongoDB generated key.
+sessionId
+String (UUID)
+The relational UUID tying the job map block back to a specific analysis_session.
+url
+String
+Seed URL or string query metric initiated as the starting point.
+status
+String
+Execution state machine status constraint: ‘pending’, ‘running’, ‘completed’, ‘failed’.
+engine
+String
+Origin scraping engine footprint: ‘colly’, ‘scrapling’.
+pagesScraped
+Number
+Real-time accumulator showing how wide the crawler reached inside the domain block.
+results
+Array [Object]
+Deep hierarchical execution tracking array metric housing exact sub-page routing information.
+createdAt
+Date
+Job invocation timestamp.
+completedAt
+Date
+Job shutdown timestamp mapping to state machine completion or failure bounds.
+AnalyticsCacheEntity (in analytics_cache)
+Description: Stores pre-calculated, aggregated time-series metric blocks to reduce aggregate runtime computation overhead during intense Dashboard loads.
+Attribute
+Type
+Description
+_id
+ObjectId
+Primary key constraint tag.
+date
+Date
+The daily baseline marker associated with this bucket block metric cluster.
+totalPosts
+Number
+Accrued total summation of analyzed documents for this daily slice logic block.
+positive
+Number
+Integer counter indexing entirely Positive categorized results.
+negative
+Number
+Integer counter indexing entirely Negative categorized results.
+neutral
+Number
+Integer counter indexing entirely Neutral categorized results.
+topKeywords
+Array [String]
+An array constraint mapping textual keyword metric evaluations isolated for string map rendering on charts.
+generatedAt
+Date
+Reflected computation execution limit block describing precise caching completion metrics.
+SystemLogEntity (in system_logs)
+Description: Persistent structured log routing destination mapping out non-destructive error handling architectures.
+Attribute
+Type
+Description
+_id
+ObjectId
+Main primary key.
+level
+String
+Standard logging tier representation (e.g., ‘info’, ‘warn’, ‘error’).
+message
+String
+Complete string metric defining internal logging exception parameters natively.
+timestamp
+Date
+Execution time tracking variables defining precise metric constraint footprints.
+component
+String
+Architectural constraint delineator tracking error origin maps (e.g., ‘NestJS’, ‘Sidecar’).
+Redis Schema (Cache Maps & Queues)
+Description: Standardized low-latency, ephemeral in-memory storage structure. Keys strictly use standard Redis namespaces delimited by a single colon :.
+Keystore Paradigm Namespace
+Structure Type
+Description / Expiration Rules
+scrape:page:[MD5_HASH_OF_URL]
+String (HTML text)
+A fully cached, unparsed HTML copy of a crawled page preventing duplicate scrapes of the same exact target domain URI over the system session. Expired dynamically based on Go configuration parameters.
+scrape:lock:[MD5_HASH_OF_URL]
+String
+Atomic mutual exclusion lock string representation dictating hard multi-thread barriers during concurrent parallel Colly execution blocks, persisting entirely for exactly 5 minutes explicitly mapped in Golang code.
+scrape:stats:hits
+Integer Counter
+An incrementing integer tracking raw metrics for successfully resolved HTML Redis deduplications.
+scrape:stats:misses
+Integer Counter
+An incrementing integer tracking raw metrics for newly routed external HTTP requests generated by misses on the cache node hierarchy.
+Data Dictionary
+This dictionary centralizes key data fields used across the system.
+Attribute
+Description
+Data Type
+Format / Allowed Values
+platform
+Platform source identifier
+String
+"twitter", "reddit", "youtube"
+content
+Original text from post
+String
+UTF-8 text
+clean_text
+Cleaned version of the text
+String
+UTF-8 text
+language
+Detected language
+String
+"en", "ur", "ps", "sd", etc.
+sentiment
+Sentiment classification
+String
+"positive", "negative", "neutral"
+confidence
+Model confidence score
+Number
+0.0–1.0
+timestamp
+Original post date
+Date
+ISO 8601
+processed_at
+System processing timestamp
+Date
+ISO 8601
+config_key
+System setting name
+String
+"enable_translation", "max_posts_per_request"
+Data Validation Rules:
+Text fields intended for processing must be sanitized to remove scripts, HTML, and other non-text artifacts.
+Sentiment labels must conform to the predefined set ("positive", "negative", "neutral").
+Confidence scores must be validated to be within the range [0.0, 1.0].
+Timestamps must adhere to the ISO 8601 standard.
+Foreign key constraints in PostgreSQL are enforced at the database level.
+Human Interface Design
+Describe the functionality of the system from the user’s perspective. Explain how the user will be able to use our system to complete all the expected features and the feedback information that will be displayed for the user.
+Screen Images 
+Figure  SEQ Figure \* ARABIC 34 Home Page HID
+Figure  SEQ Figure \* ARABIC 35 Main Dashboard HID
+Figure  SEQ Figure \* ARABIC 36 Analysis and chart HID
+Figure  SEQ Figure \* ARABIC 37 Result Screen HID
+Figure  SEQ Figure \* ARABIC 38 Translation Screen HID
+Figure  SEQ Figure \* ARABIC 39 Pricing Screen HID
+Figure  SEQ Figure \* ARABIC 40 About Screen HID
+Screen Objects and Actions
+ Home Page
+Object: Persistent Navigation Bar (Nav Bar)
+Objects: PakSentiment Logo, Home, About, Dashboard, Chat, Pricing.
+Action: User clicks on any navigation link.
+Feedback: The system navigates to the corresponding page. The clicked link becomes highlighted to indicate the active page.
+Object: Persistent Authentication Buttons
+Objects: Sign In Button, Sign Up Button.
+Action: User clicks Sign In or Sign Up.
+Feedback: The system displays the Login or Registration page, prompting the user for their credentials.
+Object: Hero Section CTA
+Objects: “Get Started” Button.
+Action: User clicks the button.
+Feedback: Redirects the user to the Registration page or Dashboard if already logged in.
+ Login Screen
+Object: Credential Input Fields
+Objects: Email field, Password field, “Remember Me” checkbox.
+Action: User enters credentials and clicks “SIGN IN”.
+Feedback: Sign In (Algorithm 8): If successful, user is redirected to the Main Dashboard. If invalid, a red text error message (“Invalid credentials”) is displayed.
+Object: Password Visibility Toggle
+Objects: Eye icon in Password field.
+Action: User clicks the icon.
+Feedback: Toggles the password field text between masked (dots) and visible characters.
+Object: Help Links
+Objects: “Forgot Password?” link, “Sign up” link.
+Action: User clicks to navigate.
+Feedback: Redirects to the Forgot Password or Registration screen respectively.
+Registration Screen
+Object: Account Details Form
+Objects: Full Name, Email, Password, Confirm Password fields.
+Action: User fills details and clicks “CREATE ACCOUNT”.
+Feedback: System validates input; if successful, creates account and redirects to Login or Dashboard.
+Object: Terms Agreement
+Objects: “Terms of Service” checkbox.
+Action: User clicks to check.
+Feedback: Enables the “CREATE ACCOUNT” button.
+Main Dashboard
+Object: Quick Analysis Tools
+Objects: Text Analysis, Audio Analysis, Topic Creation, Translation tiles.
+Action: User clicks a tool tile.
+Feedback: Redirects the user to the relevant detailed analysis screen (e.g., Chat Screen or Translation form).
+Object: Analytics Mini-Charts
+Objects: Sentiment Distribution Pie Chart, Recent Activity Line Chart.
+Action: Read-only (Algorithm 4).
+Feedback: Reflects the latest cached state of analyzed data and system health.
+Object: Search & Analysis Bar
+Objects: Input field, “Start Analysis” button.
+Action: User enters a topic/URL and clicks button.
+Feedback: Triggers ingestion (Algorithms 1, 3). Shows “Processing…” loader.
+ Result / Analytics Screen
+Object: Platform Metric Cards
+Objects: Total Posts, Reddit Count, Twitter Count, News Count.
+Feedback: Read-only numerical summaries of the query data.
+Object: Sentiment Visualization
+Objects: Overall Sentiment Bar Chart, Net Positive Score gauge.
+Feedback: Provides visual breakdown of sentiment percentages derived from analytics_cache.
+Object: Action Tools
+Objects: “Export Report” Button, “Deep Dive” Button.
+Action: User clicks “Export Report”.
+Feedback: Triggers Report Generation (Algorithm 6) and initiates PDF/CSV download.
+ Analysis and Chat Screen
+Object: Conversation Interface
+Objects: Chat History bubbles, Text Input Box, “Send” Button.
+Action: User enters text and clicks “Send”.
+Feedback: Text is processed (Algorithm 1) and classified (Algorithm 3). Sentiment results appear in a new chat bubble.
+Object: Voice Input Tool
+Objects: Microphone “Voice” Icon.
+Action: User clicks and speaks.
+Feedback: Groq API (Whisper v3) converts speech to text and submits it to the pipeline.
+Translation Screen
+Object: Language Selector
+Objects: Source Language (Pashto/Urdu/English) dropdown, Target Language dropdown.
+Action: User selects languages.
+Feedback: Configures the NMT engine for the specific pair.
+Object: Translation Box
+Objects: Source Text input, “Translate” Button, Target Text output.
+Action: User clicks “Translate”.
+Feedback: Displays translated text using the local NMT model.
+Forgot Password Screen
+Object: Email Recovery
+Objects: Email input field, “Send Reset Link” button.
+Action: User enters email and clicks button.
+Feedback: System sends a recovery email and displays a success notification message.
+Pricing Screen
+Object: Subscription Tiers
+Objects: Basic, Pro, Enterprise cards, “Select Plan” buttons.
+Action: User clicks a plan button.
+Feedback: Redirects to the payment gateway or confirms plan selection.
+About Screen
+Object: Team & Project Info
+Objects: Vision statement, Developer profiles, Documentation links.
+Action: User clicks documentation links.
+Feedback: Opens relevant technical docs or GitHub repository.
+
+
+Implementation
+This chapter will discuss implementation details of the project. You will not put your source code here, however, are required to write the core modules functionalities in pseudocode form (Following sections are required in this chapter). 
+Note: You are required to follow proper coding standard to write your source code. For guidelines, General Coding Standards & Guidelines are provided in Appendix D.
+Algorithm
+Table  SEQ Table \* ARABIC 4 Example of Algorithm
+Algorithm 1 Text Preprocessing
+Input: Raw text raw_text
+Output: Cleaned text clean_text, detected language language_code
+1:   clean_text ← raw_text.lower()
+2:   Remove URLs, mentions, hashtags from clean_text
+3:   Remove emojis, special symbols, and HTML tags
+4:   Replace multiple spaces with single space
+5:   language_code ← detectLanguage(clean_text)
+6:   if length(clean_text) < MIN_LENGTH then
+7:        return (NULL, language_code)
+8:   end if
+9:   return (clean_text, language_code)
+Algorithm 2 Translate to Urdu
+Input: clean_text, language_code
+Output: Boolean value
+1:   if language_code == "ur" then
+2:        return clean_text
+3:   end if
+4:   prompt ← "Translate the following text into Urdu:\n" + clean_text
+5:   model ← loadLLM("llama-3.2")
+6:   response ← model.generate(prompt)
+7:   translated_text ← extractText(response)
+8:   return translated_text
+Algorithm 3 Sentiment Classification
+Input: Text (raw or translated)
+Output: sentiment_label
+1:   prompt ← """
+       Classify the sentiment of the following text as:
+       Positive, Negative, or Neutral.
+       Respond ONLY with one label.
+       Text: """ + text
+2:   request_body ← {
+          "contents": [{ "parts": [{ "text": prompt }] }]
+     }
+3:   response ← HTTP.POST(
+          "gemini-1.5-flash:generateContent",
+          request_body
+     )
+4:   sentiment_label ← extractLabel(response.text)
+5:   confidence_score ← estimateConfidence(response)
+6:   return (sentiment_label, confidence_score)
+Algorithm 4 Analytics Aggregation
+Input: List of processed posts posts[]
+Output: Analytics summary object
+1:   Group posts by date
+2:   For each date group:
+3:        count_positive ← count(sentiment == positive)
+4:        count_negative ← count(sentiment == negative)
+5:        count_neutral  ← count(sentiment == neutral)
+6:        percentages ← computePercentage(counts)
+7:        keywords ← extractTopKeywords(posts)
+8:        top_posts ← selectHighConfidence(posts)
+9:        Save results to analytics_cache
+10:  return analytics_summary
+Algorithm 5 Social Media Post Ingestion
+Input: Platform name, query parameters
+Output: List of raw posts
+1:   Authenticate with platform API
+2:   request ← buildRequest(platform, query_parameters)
+3:   response ← callAPI(request)
+4:   posts ← parseResponse(response)
+5:   For each post in posts:
+6:        Validate required fields
+7:        Insert post into raw_posts
+8:   Handle rate limits using exponential backoff
+9:   return posts
+Algorithm 6 Report Generation
+Input: Date range, filters
+Output: Report file (PDF or CSV)
+1:   posts ← queryProcessedPosts(filters, date_range)
+2:   formatted ← formatDataAsTable(posts)
+3:   charts ← generateCharts(posts)
+4:   report ← renderReportTemplate(formatted, charts)
+5:   Save report to temporary storage
+6:   return report_file
+Algorithm 7 Error Handling
+Input: Error object error, component name
+Output: None
+1:   severity ← classifyError(error)
+2:   Log error message, stack trace, component to system_logs
+3:   if severity == transient then
+4:        Retry operation with exponentialBackoff()
+5:   else if severity == critical then
+6:        Notify system and halt component
+7:   end if
+Algorithm 8: Backend User Authentication
+Input: email, password
+Output: access_token or AuthenticationError
+1:   user ← UserRepository.findByEmail(email)
+2:   if user == NULL then
+3:        return AuthenticationError("User not found")
+4:   end if
+5:   isValid ← bcrypt.compare(password, user.hashed_password)
+6:   if isValid == false then
+7:        return AuthenticationError("Invalid credentials")
+8:   end if
+9:   payload ← { "userId": user.id, "email": user.email }
+10:  access_token ← JWT.sign(payload, SECRET_KEY, expiry=24h)
+11:  return access_token
+Algorithm 8.1: JWTMiddleware
+Input: request, response, next()
+Output: Request allowed or AccessDenied
+1:   token ← request.headers["authorization"]
+2:   if token == NULL then
+3:        return AccessDenied("Missing token")
+4:   end if
+5:   try:
+6:        decoded ← JWT.verify(token, SECRET_KEY)
+7:   catch VerificationFailed:
+8:        return AccessDenied("Invalid or expired token")
+9:   end try
+10:  request.user ← decoded
+11:  next()
+Algorithm 9: CallDataSourceService
+Input: endpoint, payload
+Output: response_data
+1:   requestBody ← JSON.stringify(payload)
+2:   headers ← { "Content-Type": "application/json" }
+3:   try:
+4:        response ← HTTP.post(endpoint, requestBody, headers)
+5:   catch NetworkError:
+6:        return Error("Network failure")
+7:   end try
+8:   if response.status != 200 then
+9:        return Error("Failed at data source")
+10:  end if
+11:  return response.data
+Algorithm 10: SaveToLocalStorage
+Input: key, value
+Output: None
+1:   jsonString ← JSON.stringify(value)
+2:   localStorage.setItem(key, jsonString)
+3:   return
+Algorithm 11: Validate Login Form
+Input: form_data {email, password}
+Output: errors
+1:   errors ← {}
+2:   if form_data.email is empty then
+3:        errors.email ← "Email is required"
+4:   else if not matchRegex(form_data.email, EMAIL_REGEX) then
+5:        errors.email ← "Invalid email format"
+6:   end if
+7:   if form_data.password is empty then
+8:        errors.password ← "Password is required"
+9:   else if length(form_data.password) < 6 then
+10:       errors.password ← "Password must be at least 6 characters"
+11:  end if
+12:  return errors
+Algorithm 12: Display Form Data
+Input: form_data
+Output: Rendered UI elements
+1:   fields ← Object.keys(form_data)
+2:   For each field in fields:
+3:        Create a visual label for field
+4:        Create a value element showing form_data[field]
+5:   Render all elements in a form summary component
+6:   return
+Algorithm 13: useFetchAnalytics
+Input: api_url
+Output: object {data, loading, error}
+1:   Set loading ← true
+2:   Set data ← null
+3:   Set error ← null
+4:   try:
+5:        response ← fetch(api_url)
+6:        json ← response.json()
+7:        data ← json
+8:   catch e:
+9:        error ← e
+10:  end try
+11:  loading ← false
+12:  return {data, loading, error}
+Algorithm 14: Call Backend API
+Input: endpoint, method, body
+Output: response_data or APIError
+1:   headers ← {"Content-Type": "application/json"}
+2:   if access_token exists then
+3:        headers["Authorization"] ← "Bearer " + access_token
+4:   end if
+5:   try:
+6:        response ← fetch(endpoint, {method, headers, body})
+7:   catch NetworkFailure:
+8:        return APIError("Connection failed")
+9:   end try
+10:  if response.status not in [200, 201] then
+11:       return APIError("Backend error")
+12:  end if
+13:  return response.json()
+Algorithm 15: useFormState
+Input: initial_values
+Output: Object{values, handleChange, reset}
+1:   values ← initial_values
+2:   handleChange(field, new_value):
+3:        values[field] ← new_value
+4:   end handleChange
+5:   reset():
+6:        values ← initial_values
+7:   end reset
+8:   return {values, handleChange, reset}
+External APIs/SDKs
+Describe the third-party APIs/SDKs used in the project implementation in the following table. 
+Table  STYLEREF 1 \s 5 Details of APIs used in the project
+Name of API and version
+Description of API
+Purpose of usage
+List down the API endpoint/function/class in which it is used
+Groq API (v1)
+High-speed LLM-based inference engine.
+AI assistant interaction and real-time sentiment extraction.
+PakSentiment-data-gateway/services/sentiment_classifier.py → GroqSentimentClassifier
+YouTube Data API (v3)
+Official YouTube content and comment access API.
+Scrapes videos, comments, and transcripts for video sentiment analysis.
+PakSentiment-data-gateway/services/youtube_service.py → search_videos
+Stripe API (Latest)
+Secure online payment processing platform.
+Manages user subscriptions, payment intents, and billing operations.
+payments.service.ts → createPaymentIntent
+Reddit API (v1)
+Social media platform API for public discussions.
+Fetches Reddit posts and comments to analyze community sentiment.
+PakSentiment-scraper → RedditScraperClient
+Twitter (X) API (v2)
+Real-time social media data stream API.
+Tracks trends, tweets, and public reactions for sentiment analysis.
+PakSentiment-scraper → XScraperClient
+Common Crawl API
+Web archive search and retrieval platform.
+Identifies historical web data for long-term trend analysis.
+PakSentiment-data-gateway/services/commoncrawl_service.py → fetch_records
+FastAPI (v0.100+)
+High-performance Python API framework.
+Provides scraping and sentiment analysis endpoints for backend orchestration.
+PakSentiment-data-gateway/main.py → @app.get("/reddit/sentiment")
+NestJS (v10+)
+Enterprise-grade Node.js backend framework.
+Acts as the main gateway handling authentication and business logic.
+ai.service.ts → chat
+Colly (v2.x)
+Go-based high-speed web scraping library.
+Scrapes static HTML content from news portals and websites.
+crawler.go → HandleScrape
+MongoDB Driver
+Official NoSQL database interface.
+Stores and manages raw scraped data and processed sentiment results.
+mongo.go → mongo.Collection.InsertOne
+User Interface
+
+
+Deployment
+Hosting and Infrastructure
+Aspect
+Details
+Hosting Type
+Self-hosted Linux Server (VPS)
+Containerization
+Docker Engine with Docker Compose
+Architecture
+Microservices (4 application services + 3 databases)
+Orchestration
+docker-compose.yml (version 3.9)
+Network
+Docker internal bridge network with isolated service-to-service communication
+Data Persistence
+Docker named volumes (pgdata, mongodata, redisdata)
+Application Subsystems
+Frontend — Next.js
+Software
+Version
+Runtime
+Node.js 20 (Alpine)
+Framework
+Next.js 15.5.6
+UI Library
+React 19.1.0
+Language
+TypeScript 5.x
+Styling
+SCSS Modules
+Charting
+Recharts
+State Management
+Zustand
+Docker Base Image
+node:20-alpine (multi-stage build)
+Internal Port
+3001
+Host Port
+5001
+Backend API — NestJS
+Software
+Version
+Runtime
+Node.js 20 (Alpine)
+Framework
+NestJS 11.0.1
+Language
+TypeScript 5.7.3
+ORM
+TypeORM 0.3.20
+Authentication
+@nestjs/jwt 11.0.1, bcrypt 6.0.0
+HTTP Client
+Axios 1.7.0 (@nestjs/axios 4.0.1)
+Validation
+class-validator 0.14.2
+API Docs
+@nestjs/swagger 11.2.0
+Docker Base Image
+node:20-alpine (multi-stage build)
+Internal Port
+3000
+Host Port
+5002
+Data Gateway — FastAPI (Python)
+Software
+Version
+Runtime
+Python 3.12
+Framework
+FastAPI ≥0.119.0
+ASGI Server
+Uvicorn (bundled with FastAPI[standard])
+Package Manager
+UV (astral-sh)
+ML Framework
+PyTorch 2.2.2 (CPU-only)
+NLP
+HuggingFace Transformers ≥4.40.0
+Sentiment Model
+Flan-T5-Small (google/flan-t5-small)
+Translation
+Groq API (Llama 3.3 70B)
+Web Scraping
+Scrapling + Camoufox (headless Firefox)
+Config
+Dynaconf ≥3.2.5
+Serialization
+msgspec ≥0.20.0
+Docker Base Image
+python:3.12-slim + GTK3/X11 system libs
+Internal Port
+8000
+Host Port
+5003
+Web Scraping Sidecar — Go (Colly)
+Software
+Version
+Runtime
+Go 1.25.7
+Web Scraping
+Colly v2.3.0
+HTTP Framework
+Gin v1.11.0
+Cache
+go-redis v9.18.0
+Content Extraction
+go-readability v2.1.1
+LLM Integration
+Ollama (phi3:mini via external API)
+Docker Base Image
+golang:1.25-alpine → alpine:3.19 (multi-stage)
+Internal Port
+8081
+Host Port
+5004
+Database Services
+Database
+Image
+Version
+Host Port
+Internal Port
+Volume
+Purpose
+PostgreSQL
+postgres:16-alpine
+16.x
+5005
+5432
+pgdata
+User accounts, auth, preferences, API keys
+MongoDB
+mongo:7
+7.x
+5006
+27017
+mongodata
+Scraped documents, analysis sessions, analytics cache
+Redis
+redis:7-alpine
+7.x
+5007
+6379
+redisdata
+Scraping result caching, rate limiting
+Port Mapping Summary
+Host Port
+Service
+Protocol
+5001
+Next.js Frontend
+HTTP
+5002
+NestJS Backend API
+HTTP
+5003
+FastAPI Data Gateway
+HTTP
+5004
+Go Colly Sidecar
+HTTP
+5005
+PostgreSQL
+TCP
+5006
+MongoDB
+TCP
+5007
+Redis
+TCP
+Deployment Procedure
+             # 1. Clone repository on the server        git clone <repo-url> && cd paksentiment                 # 2. Place secret files        # .env.docker          → project root (JWT, OAuth, DB credentials)        # config/.secrets.toml → new PakSentiment-data-gateway/config/ (API keys)                 # 3. Build and deploy all services        docker compose up --build -d                 # 4. Verify all services are healthy        docker compose ps             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Build Strategy
+All application services use multi-stage Docker builds to minimize final image sizes:
+Service
+Build Stage
+Production Stage
+Benefit
+Frontend
+node:20-alpine (npm ci + build)
+node:20-alpine (only .next + node_modules)
+~70% smaller
+Backend
+node:20-alpine (npm ci + nest build)
+node:20-alpine (only dist + node_modules)
+~60% smaller
+Colly Sidecar
+golang:1.25-alpine (go build)
+alpine:3.19 (single binary)
+~95% smaller
+Data Gateway
+python:3.12-slim (single stage)
+Same (requires runtime deps)
+Includes ML model
+Testing and Evaluation
+This chapter defines the strategy, test items, test cases and acceptance criteria required to verify that PakSentiment meets the requirements defined in the SRS. Testing covers unit, functional, business-rules, and integration testing.
+Unit Testing
+Objective
+Verify correctness of individual modules and components (smallest testable units) in isolation.
+Scope
+Unit tests will cover functions, classes and modules in:
+FastAPI ingestion (scrapers, preprocessors)
+PakSentiment translation service adapters
+Gemini Flash / LLM calling wrappers
+Nest.js services, controllers and repositories
+Utility functions (text cleaning, language detection, tokenization)
+Frontend utility functions and custom hooks
+Approach
+Adopt test-driven development (TDD) where feasible for core modules.
+Each unit test should be deterministic and independent.
+Mock external dependencies (LLM endpoints, social APIs, DB) using test doubles.
+Achieve a target of ≥ 80% unit test coverage for backend services.
+Representative Unit Test Cases
+ID
+Module
+Test Case
+Input
+Expected Result
+Priority
+UT-01
+TextCleaner
+Remove URLs & emojis
+"hi http://x.com 😊"
+"hi"
+High
+UT-02
+LangDetect
+Detect Pashto
+"د پاکۍ خبرې"
+language_code = "ps"
+High
+UT-03
+TranslationAdapter
+Call internal /translate
+Pashto text
+returns translated_text
+High
+UT-04
+SentimentWrapper
+Parse Gemini response
+Gemini raw response
+sentiment ∈ {Positive,Negative,Neutral}
+High
+UT-05
+useFetchAnalytics
+Hook returns data
+mock API response
+data populated, loading false
+Medium
+Tools: PyTest for FastAPI, Jest for Nest.js and React unit tests. 
+Functional Testing
+Objective
+Validate that each functional requirement (as defined in the SRS) is implemented and working as expected when modules are exercised together.
+Scope
+Data collection and filtration workflows (FR-1 → FR-6).
+Translation and translation-quality handling (FR-8 → FR-11).
+Sentiment analysis and label storage (FR-12 → FR-14).
+Reporting, visualization and export features (FR-21 → FR-23).
+Service manager features (monitoring, report storage) (FR-24 → FR-26). 
+Test Design
+Test cases derived directly from each FR in the SRS.
+Positive/negative and edge-case scenarios included.
+Use both automated tests (where stable) and manual acceptance tests (for LLM outputs).
+Representative Functional Test Cases (table format)
+ID
+Requirement Ref
+Scenario
+Test Steps
+Expected Result
+FT-01
+FR-1
+Collect tweets for a keyword
+1. Trigger collection for "#healthPK" 2. Verify storage
+Raw tweets stored in raw_posts
+FT-02
+FR-4
+Language filter
+Feed mixed-language posts → filter
+Only Pashto/Punjabi/Urdu retained
+FT-03
+FR-9
+Translation
+Input Punjabi sentence → translate
+Translated Urdu returned and stored
+FT-04
+FR-13
+Sentiment classification
+Translated Urdu text → classify
+Label ∈ {Positive,Negative,Neutral} and stored
+FT-05
+FR-23
+Export report
+Generate report for date range
+PDF/CSV generated and available for download
+Acceptance Criteria: Functional tests are successful and demonstrate compliance with the SRS requirements.
+
+
+Business Rules Testing
+Objective
+Verify decision logic and business rules defined in the SRS (for example: language constraints, processing thresholds, evaluation and retraining triggers).
+Scope
+Business rules:
+BR-1: Tweets must be in Pashto, Punjabi, Urdu, or English.
+BR-2: Sentiment must be produced within the time limit.
+BR-3: Translation errors flagged and handled per policy.
+Rules for report formatting and export timing.
+Method
+Use decision tables to enumerate condition-action combinations.
+Implement a set of decision-table-driven tests that assert correct actions for each rule permutation.
+Example Decision Table & Test Cases
+Business Rule Example: Flagging small data batches
+Condition
+Action
+Collected tweets < 10
+Notify user & suggest keyword change
+Collected tweets ≥ 10
+Proceed with translation & analysis
+Test Cases
+BRT-01: Collect 5 tweets → Expect notification and recommendation UI state.
+BRT-02: Collect 50 tweets → Expect pipeline to proceed.
+Pass Criteria: For each rule, the system behaves according to the corresponding action in the decision table.
+
+
+ Integration Testing
+Objective
+Confirm that components and subsystems interact correctly. Focus on interfaces and data flow between modules.
+Scope
+FastAPI ↔ Scrapers ↔ Redis Streams integration.
+FastAPI → PakSentiment translation service.
+PakSentiment LLM → Gemini Flash (classification) integration.
+Nest.js backend consumption of processed posts and analytics caching.
+Frontend ↔ Backend REST API contract.
+Integration Scenarios & Tests
+ID
+Integration Scenario
+Steps
+Expected Result
+IT-01
+Scraper → Redis → FastAPI
+1. Scraper pushes raw posts to Redis 2. FastAPI reads & processes
+Processed posts appear in processed_posts
+IT-02
+FastAPI → Translation LLM
+1. FastAPI sends text to /translate 2. LLM returns translation
+Translated text stored and forwarded for classification
+IT-03
+Classification Pipeline
+1. Translated text sent to Gemini 2. Response parsed
+Sentiment label stored with confidence
+IT-04
+Backend ↔ Frontend
+1. User requests analytics 2. Backend returns cached summary
+UI renders charts with expected values
+Integration Test Data
+Use both synthetic (deterministic) datasets and small samples from real collected data for realism.
+Record end-to-end latency numbers for each integration path.
+Test Execution Plan
+Environments
+Dev: Unit tests + local integration tests 
+Staging: Full integration with LLM endpoints (Groq / Gemini / Internal LLM) using limited production-style data
+Production: Smoke tests and scheduled health checks
+
+
+Schedule
+Unit tests: continuous (on PR)
+Integration tests: nightly on staging
+System tests: before major releases
+Regression: after every change to ingestion or LLM pipeline
+Entry Criteria
+Code merged to test branch, CI green for unit tests, test environment up.
+Exit Criteria
+No critical defects open; high-priority defects resolved; performance within targets.
+Testing Tools and Artifacts
+Tools
+PyTest — FastAPI unit & integration tests
+Jest + SuperTest — Nest.js unit & API tests
+React Testing Library — Frontend component tests
+k6 / JMeter — Performance and load testing
+Postman — Manual API verification
+Docker Compose — Reproducible test stacks
+GitHub Actions — CI for automated test runs
+Artifacts
+Test case matrix (CSV / spreadsheet) mapping SRS → test cases
+Test execution logs (per run)
+Defect reports (with severity, steps to reproduce)
+Test coverage reports
+Performance reports and monitoring dashboards
+Reporting and Acceptance
+Test runs will be recorded and summarized in a Test Report document.
+A final Acceptance Test Report will include: test summary, open defects, performance metrics, and a recommendation for release.
+Acceptance requires all high-severity defects resolved and a sign-off from the project supervisor.
+Traceability
+All tests will be traceable to SRS items. A traceability matrix (SRS requirement → Test Case ID → Test Result) will be maintained and updated during test execution to ensure full coverage and to support evaluation committee review. 
+
+
+Conclusion and Future Work
+This chapter concludes the project by summarizing the achievements and highlighting potential future directions for the PakSentiment platform.
+Conclusion
+The PakSentiment project successfully addressed the need for a comprehensive, multi-platform sentiment analysis system tailored to the Pakistani digital landscape. By integrating data from YouTube, Reddit, Twitter (X), and localized news portals through a high-performance scraping architecture (Go-based Colly and Python-based Scrapling), the system provides a holistic view of public opinion across diverse digital mediums.
+The implementation of a hybrid backend—utilizing NestJS for core business logic and FastAPI for specialized AI processing—allowed for a scalable and maintainable environment. The utilization of Large Language Models (LLMs) via Groq and local Ollama instances ensured high-accuracy sentiment classification, capturing linguistic nuances that traditional rule-based methods often miss. Ultimately, the project demonstrates how modern web technologies and AI can be synthesized to provide actionable insights for researchers, businesses, and policymakers interested in the Pakistani socio-political and economic context.
+Future Work
+While the current system provides a robust foundation, several areas for future enhancement have been identified to increase its utility and precision:
+Direct Urdu Language Support: Implementing dedicated LLM fine-tuning or specialized embedding models for Roman Urdu and script-based Urdu to capture nuances in local dialects and slang more accurately.
+Real-Time Dashboarding: Expanding the analytical dashboard with WebSocket integration to allow for live sentiment tracking during major national events, such as elections or breaking news.
+Multimodal Analysis: Incorporating AI models capable of analyzing sentiment within video frames and shared images (memes), which are significant drivers of public opinion in the local digital space.
+Mobile Application Development: Developing a dedicated mobile application (via React Native or Flutter) to provide users with on-the-go access to sentiment alerts and real-time reports.
+Predictive Analytics: Leveraging historical data to build predictive models that can forecast shifts in public sentiment or identify emerging flashpoints before they reach a peak.
+Expanded Data Sources: Integrating additional platforms such as Facebook and Instagram, and expanding news coverage to include more regional and community-based digital newspapers.
+References
+List any documents or other resources to which this SRS refers, if any. These might include user interface style guides, standards, system requirements specifications, interface specifications, or the SRS for a related product. The following are a few examples of different resources.
+Book 
+Author(s). Book title. Location: Publishing company, year, pp. 
+Example: 
+W.K. Chen. Linear Networks and Systems. Belmont, CA: Wadsworth, 1993, pp. 123-35.
+Article in a Journal 
+Author(s). “Article title”. Journal title, vol., pp, date. 
+Example: 
+G. Pevere. “Infrared Nation.” The International Journal of Infrared Design, vol. 33, pp. 56-99, Jan. 1979.
+Articles from Conference Proceedings (published) 
+Author(s). “Article title.” Conference proceedings, year, pp. 
+Example: 
+D.B. Payne and H.G. Gunhold. “Digital sundials and broadband technology,” in Proc. IOOC-ECOC, 1986, pp. 557-998.
+World Wide Web 
+Author(s)*. “Title.” Internet: complete URL, date updated* [date accessed]. 
+M. Duncan. “Engineering Concepts on Ice. Internet: www.iceengg.edu/staff.html, Oct. 25, 2000 [Nov. 29, 2003].
